@@ -33,18 +33,26 @@
 						1 - active, 2 - pending, 3 - inactive/disabled
 					*/
 
-					#insert the user's information into the database
+					#insert the user's information into the table 'users'
 					$stmt_user = $con->prepare("INSERT INTO users (userFN, userLN) VALUES (?, ?)");
 					$stmt_user->bind_param("ss", $inpFN, $inpLN);
 					$stmt_user->execute();
 
-					#get the id of the inserted record
+					#get the id of the record that was just inserted
 					$last_user = $con->insert_id;
 
-					#insert the account/login info w/ the user's id
-					$stmt_account = $con->prepare("INSERT INTO accounts (accountUN, accountPW, accountStatus, userID) VALUES (?, ?, 2, ?)");
-					$stmt_account->bind_param("sss", $inpEmail, $inpPW, $last_user);
+					#hash the password field
+					$hashedpw = password_hash($inpPW, PASSWORD_DEFAULT);
+
+					#insert the account/login info w/ the user's id into the table 'accounts'
+					$stmt_account = $con->prepare("INSERT INTO accounts (accountUN, accountPW, accountStatus, userID) VALUES (?, ?, 1, ?)");
+					$stmt_account->bind_param("sss", $inpEmail, $hashedpw, $last_user);
 					$stmt_account->execute();
+
+					/*
+						To add: 
+						1. Email sending capability for verification of accounts
+					*/
 
 					$msgDisplay = successAlert("<strong>Success!</strong> Please check your email to confirm your account.");
 				}

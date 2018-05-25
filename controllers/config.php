@@ -7,8 +7,8 @@
 
 	#000webhost parameters
 	#$server = "localhost";
-	#$database = "id5114526_prog";
-	#$username = "id5114526_castillomi";
+	#$database = "id5913580_aws_csi";
+	#$username = "id5913580_castillomi";
 	#$password = "damong_talahiban";
 
 	$con = mysqli_connect($server, $username, $password, $database);

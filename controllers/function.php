@@ -10,31 +10,6 @@
 		return $msgError;
 	}
 
-	function successAlert($msgText)
-	{
-		$msgSuccess = "<div class='alert alert-success alert-dismissible fade show'>
-						<button type='button' class='close' data-dismiss='alert'>&times;</button>
-						" . $msgText . "
-						</div>";
-		return $msgSuccess;
-	}
-
-	function warningAlert($msgText)
-	{
-		$msgWarning = "<div class='alert alert-warning alert-dismissible fade show'>
-						<button type='button' class='close' data-dismiss='alert'>&times;</button>
-						" . $msgText . "
-						</div>";
-		return $msgWarning;
-	}
-
-	function removeslashes($inpData)
-	{
-		$inpData = implode("", explode("\\", $inpData));
-		$inpData = implode("", explode("/", $inpData));
-		return $inpData;
-	}
-
 	function inpcheck($inputData)
 	{
 		$inputData = removeslashes($inputData);
@@ -42,6 +17,13 @@
 		$inputData = trim($inputData);
 		$inputData = htmlspecialchars($inputData);
 		return $inputData;
+	}
+
+	function removeslashes($inpData)
+	{
+		$inpData = implode("", explode("\\", $inpData));
+		$inpData = implode("", explode("/", $inpData));
+		return $inpData;
 	}
 
 	# taken from https://screenshotlayer.com/documentation
@@ -71,4 +53,22 @@
 
         return "https://api.screenshotlayer.com/api/capture?access_key=$access_key&secret_key=$secret_key&$query";
     }
+
+	function successAlert($msgText)
+	{
+		$msgSuccess = "<div class='alert alert-success alert-dismissible fade show'>
+						<button type='button' class='close' data-dismiss='alert'>&times;</button>
+						" . $msgText . "
+						</div>";
+		return $msgSuccess;
+	}
+
+	function warningAlert($msgText)
+	{
+		$msgWarning = "<div class='alert alert-warning alert-dismissible fade show'>
+						<button type='button' class='close' data-dismiss='alert'>&times;</button>
+						" . $msgText . "
+						</div>";
+		return $msgWarning;
+	}
 ?>

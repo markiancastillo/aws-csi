@@ -1,3 +1,5 @@
+<?php #$logoutLink = str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . '/controllers/logout.php'); ?>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top" data-toggle="tooltip" data-placement="left" title="Back to Top" style="text-decoration: none">
         <i class="fa fa-angle-up"></i>
@@ -15,7 +17,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="">Logout</a>
+                    <a class="btn btn-primary" href="<?php echo 'controllers/logout.php' ?>">Logout</a>
                 </div>
             </div>
         </div>

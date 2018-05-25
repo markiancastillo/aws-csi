@@ -1,42 +1,5 @@
 <?php
-    include_once str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . '/controllers/function.php');
-    include_once str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . '/controllers/config.php');
-
-    ob_start();
-
-    //change the default timezone for the date/time functions
-    date_default_timezone_set("Asia/Singapore");
-
-    if(isset($_POST['btnScreen']))
-    {
-        #note: imagegrabscreen() only works on windows
-        $im = imagegrabscreen();
-        imagepng($im, "screenshot.png");
-    }
-
-    $coverImg = "https://i.imgur.com/3iJPCfj.png";
-
-    // set optional parameters (leave blank if unused)
-    $params['fullpage']  = '1';    
-    $params['width'] = '';      
-    $params['viewport']  = '';  
-    $params['format'] = '';      
-    $params['css_url'] = '';      
-    $params['delay'] = '';      
-    $params['ttl'] = '';  
-    $params['force']     = '1';     
-    $params['placeholder'] = '';      
-    $params['user_agent'] = '';      
-    $params['accept_lang'] = '';      
-    $params['export'] = '';
-
-    # get the current url of the page to pass into the og:image meta tag
-    $current_uri = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    
-    #call Screenshotlayer's API
-    #$url = "http://castillomi.000webhostapp.com/content/about.php";
-    $imglink = screenshotlayer($current_uri, $params);
-
+    include 'controllers/header_controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,9 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- For IE 9 and below. ICO should be 32x32 pixels in size -->
+    <!--[if IE]><link rel="shortcut icon" href="images/icons/awslogo.png"><![endif]-->
+    <!-- Touch Icons - iOS and Android 2.1+ 180x180 pixels in size. -->
+    <link rel="apple-touch-icon-precomposed" href="images/icons/awslogo.png">
+    <!-- Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. -->
+    <link rel="icon" href="images/icons/awslogo.png">
+
     <meta property="og:url" content="<?php echo $current_uri; ?>">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Cost Savings Initiative - Dashboard">
+    <meta property="og:title" content="AWS Cost Savings Initiative - Dashboard">
     <meta property="og:description" content="View the cost savings initiative dashboard.">
     <meta property="og:image" content="<?php echo $imglink; ?>">
 
@@ -91,7 +61,7 @@
                 <li class="nav-item <?php echo $pageTitle === 'Account' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Account">
                     <a class="nav-link" href="">
                         <i class="fa fa-fw fa-user-circle"></i>
-                        <span class="nav-link-text">Current_User</span>
+                        <span class="nav-link-text"><?php echo $userLN . ", " . $userFN; ?></span>
                     </a>
                 </li>
 				<li class="nav-item <?php echo $pageTitle === 'Dashboard' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Dashboard">

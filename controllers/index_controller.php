@@ -1,5 +1,5 @@
 <?php
-	$pageTitle = "Dashboard";
+	$pageTitle = "Cost Savings Dashboard";
 	include 'includes/header.php';
 
 	error_reporting(0);
