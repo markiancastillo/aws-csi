@@ -3,7 +3,8 @@
 	include_once 'includes/header.php';
 
 	$tomorrowDate = new DateTime(date("Y-m-d"));
-	$tomorrowDate->add(new DateInterval("P1D"));
+	#$tomorrowDate->add(new DateInterval("P1D"));
+
 
 	#get the data for the dropdowns in the add form
 	#data for journey teams ddl

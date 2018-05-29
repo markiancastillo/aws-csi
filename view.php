@@ -173,6 +173,8 @@
             "order": [[ 8, "desc" ]]
         } );
     } );
+
+    document.getElementById('inpDate').valueAsDate = new Date();
 </script>
 <script type="text/javascript">
       $(function() {

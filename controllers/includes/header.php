@@ -58,12 +58,12 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="navAccordion">
-                <li class="nav-item <?php echo $pageTitle === 'Account' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Account">
+                <!--<li class="nav-item <?php #echo $pageTitle === 'Account' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Account">
                     <a class="nav-link" href="">
                         <i class="fa fa-fw fa-user-circle"></i>
-                        <span class="nav-link-text"><?php echo $userLN . ", " . $userFN; ?></span>
+                        <span class="nav-link-text"><?php #echo $userLN . ", " . $userFN; ?></span>
                     </a>
-                </li>
+                </li>-->
 				<li class="nav-item <?php echo $pageTitle === 'Dashboard' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="index.php">
                         <i class="fas fa-fw fa-chart-pie"></i>
@@ -117,9 +117,12 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
                 <form method="POST">
-                    <a href="<?php echo $imglink; ?>" class="btn btn-light" target="_blank" download="screenshot.png">
-                        <span><i class="fa fa-fw fa-camera"></i></span> Save a Screenshot
-                    </a>
+                    <li class="nav-item">
+                        <a href="<?php echo $imglink; ?>" class="nav-link btn btn-basic btn-block" target="_blank" title="Screenshot page">
+                            <span><i class="fa fa-fw fa-camera fa-lg"></i></span> 
+                             Save a Screenshot
+                        </a>
+                    </li>
                 </form>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">
@@ -130,9 +133,11 @@
                         <a class="dropdown-item" href="">Logout</a>
                     </div>
                 </li>-->
+                <div class="dropdown-divider"></div>
 				<li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#logoutModal" title="Logout">
+                    <a class="nav-link btn btn-basic btn-block" data-toggle="modal" data-target="#logoutModal" title="Logout">
                         <i class="fas fa-fw fa-sign-out-alt fa-lg"></i>
+                         Logout
                     </a>
                 </li>
 			</ul>
@@ -143,7 +148,7 @@
 			<!-- Breadcrumbs
         	<ol class="breadcrumb">
         		<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-        		<li class="breadcrumb-item active"><?php echo $pageTitle; ?></li>
+        		<li class="breadcrumb-item active"><?php #echo $pageTitle; ?></li>
         	</ol>-->
         	<div class="row">
         		<div class="col-12">
@@ -168,3 +173,5 @@
                 <script src="lib/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
                 <!-- input masking -->
                 <script src="js/jquery.maskMoney.min.js"></script>
+                <!-- AddThis Share Buttons js -->
+                <script src="http://s7.addthis.com/js/300/addthis_widget.js" type="text/javascript"></script> 

@@ -5,7 +5,7 @@
 	<div class="col-lg-12">
 		<div class="card mb-3">
             <div class="card-header">
-            	<h5>Initiative Summary*</h5>
+            	<h5>Initiative Summary</h5>
             </div>
             <div class="card-body">
             	<div class="card-group">
@@ -13,7 +13,7 @@
             			<div class="card-body text-center">
             				<p class="card-text">
             					This Week's Total
-            					<h4>
+            					<h3>
                                    <span data-html="true" data-toggle="popover" data-trigger="hover" data-content="
                                    <?php echo $percDisplay; ?> 
                                    Compared to last week: <br /> 
@@ -22,19 +22,7 @@
             					       <?php echo number_format((float)$sumSavings, 2, '.', ','); ?>
             					       <?php echo $arrowIcon; ?>
                                    </span>
-            					</h4>
-            				</p>
-            			</div>
-            		</div>
-            		<div class="card">
-            			<div class="card-body text-center">
-            				<p class="card-text">
-            					Lorem Ipsum
-            					<h4>
-            						<span class="fa fa-fw fa-dollar-sign"></span>
-            						9,999.99
-            						<span class="fa fa-fw fa-arrow-circle-down" style="color: red"></span>
-            					</h4>
+            					</h3>
             				</p>
             			</div>
             		</div>
@@ -42,7 +30,7 @@
             			<div class="card-body text-center">
             				<p class="card-text">
             					Largest Entry
-            					<h4>
+            					<h3>
                                     <span data-html="true" data-toggle="popover" data-trigger="hover" data-content="
                                     <strong>Team: </strong><?php echo $lar_teamName; ?><br /> 
                                     <strong>Technology: </strong><?php echo $lar_techName; ?><br /> 
@@ -53,7 +41,7 @@
                                         <?php echo number_format((float)$lar_csSavings, 2, '.', ','); ?>
                                         <span class="fa fa-fw fa-info-circle" style="color: #0275d8"></span>
                                     </span>
-                                </h4>
+                                </h3>
             				</p>
             			</div>
             		</div>
@@ -113,7 +101,7 @@
 </div>
 <div class="row">
 	<div class="col-lg-6">
-        <div class="card mb-3">
+        <!--<div class="card mb-3">
             <div class="card-header">
             	<h5>Monthly Total</h5>
             </div>
@@ -121,15 +109,18 @@
 				<canvas id="barChart"></canvas>
             </div>
             <div class="card-footer small text-muted">
-                For the year <?php echo date('Y'); ?>
+                For the year <?php #echo date('Y'); ?>
             </div>
-        </div>
+        </div>-->
         <div class="card mb-3">
             <div class="card-header">
-            	<h5>Instance Trend*</h5>
+            	<h5>Savings Total Per Month ($)</h5>
             </div>
             <div class="card-body">
 				<canvas id="lineChart"></canvas>
+            </div>
+            <div class="card-footer small text-muted">
+                For the year <?php echo date('Y'); ?>
             </div>
         </div>
 	</div>
@@ -273,42 +264,42 @@ var myPieType = new Chart(ctxP, {
 });
 
 // bar chart -- for the monthly report div
-var ctxB = document.getElementById("barChart").getContext('2d');
-var myBarChart = new Chart(ctxB, {
-    type: 'bar',
-    data: {
-        //labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        labels: <?php echo $months_list; ?>
-        datasets: [{
-            label: 'Savings Total ($)',
-            //data: [120, 190, 300, 150, 200, 152, 355, 543, 142, 323, 123, 433],
-            data: <?php echo $data_bar; ?>
-            backgroundColor: [
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)',
-                'rgba(2, 117, 216, 1)'
-            ],
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true,
-                }
-            }]
-        }
-    }
-});
+//var ctxB = document.getElementById("barChart").getContext('2d');
+//var myBarChart = new Chart(ctxB, {
+//    type: 'bar',
+//    data: {
+//        //labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+//        labels: <?php echo $months_list; ?>
+//        datasets: [{
+//            label: 'Savings Total ($)',
+//            //data: [120, 190, 300, 150, 200, 152, 355, 543, 142, 323, 123, 433],
+//            data: <?php echo $data_bar; ?>
+//            backgroundColor: [
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)',
+//                'rgba(2, 117, 216, 1)'
+//            ],
+//        }]
+//    },
+//    options: {
+//        scales: {
+//            yAxes: [{
+//                ticks: {
+//                    beginAtZero:true,
+//                }
+//            }]
+//        }
+//    }
+//});
 
 // line chart -- data needed **
 var ctxL = document.getElementById("lineChart").getContext('2d');
@@ -318,32 +309,41 @@ var myLineChart = new Chart(ctxL, {
         //labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         labels: <?php echo $months_list; ?>
         datasets: [
+        //    {
+        //        label: "01",
+        //        backgroundColor: "rgba(46,204,113,0.0)",
+        //        borderColor: "rgba(46,204,113,0.8)",            
+        //        pointBackgroundColor: "rgba(46,204,113,1)",
+        //        pointBorderColor: "rgba(100,100,100,1)",
+        //        lineTension: "0.1",
+        //        data: [65, 40, 80, 81, 56, 52, 91, 76, 20, 32, 72, 23]
+        //    },
+        //    {
+        //        label: "02",
+        //        backgroundColor: "rgba(155,89,182,0.0)",
+        //        borderColor: "rgba(155,89,182,0.8)",
+        //        pointBackgroundColor: "rgba(155,89,182,1)",
+        //        pointBorderColor: "rgba(100,100,100,1)",
+        //        lineTension: "0.1",
+        //        data: [28, 48, 40, 19, 86, 21, 34, 76, 44, 52, 32, 41]
+        //    },
+        //    {
+        //        label: "03",
+        //        backgroundColor: "rgba(2,117,216,0.0)",
+        //        borderColor: "rgba(2,117,216,0.8)",
+        //        pointBackgroundColor: "rgba(2,117,216,1)",
+        //        pointBorderColor: "rgba(100,100,100,1)",
+        //        lineTension: "0.1",
+        //        data: [43, 65, 21, 44, 31, 76, 82, 51, 64, 64, 32, 43]
+        //    }
             {
-                label: "01",
-                backgroundColor: "rgba(46,204,113,0.0)",
-                borderColor: "rgba(46,204,113,0.8)",            
-                pointBackgroundColor: "rgba(46,204,113,1)",
-                pointBorderColor: "rgba(100,100,100,1)",
-                lineTension: "0.1",
-                data: [65, 40, 80, 81, 56, 52, 91, 76, 20, 32, 72, 23]
-            },
-            {
-                label: "02",
-                backgroundColor: "rgba(155,89,182,0.0)",
-                borderColor: "rgba(155,89,182,0.8)",
-                pointBackgroundColor: "rgba(155,89,182,1)",
-                pointBorderColor: "rgba(100,100,100,1)",
-                lineTension: "0.1",
-                data: [28, 48, 40, 19, 86, 21, 34, 76, 44, 52, 32, 41]
-            },
-            {
-                label: "03",
+                label: "Savings Total ($)",
                 backgroundColor: "rgba(2,117,216,0.0)",
                 borderColor: "rgba(2,117,216,0.8)",
                 pointBackgroundColor: "rgba(2,117,216,1)",
                 pointBorderColor: "rgba(100,100,100,1)",
                 lineTension: "0.1",
-                data: [43, 65, 21, 44, 31, 76, 82, 51, 64, 64, 32, 43]
+                data: <?php echo $data_bar; ?>
             }
         ]
     },
