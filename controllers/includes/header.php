@@ -88,7 +88,7 @@
                         <li class="<?php echo $pageTitle === 'Journey Teams' ? 'active' : ''; ?>"><a href="add_jt.php">Journey Teams</a></li>
                     </ul>
                 </li>   
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="New Page">
+				<!--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="New Page">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#navAccordion">
                         <i class="fas fa-fw fa-sitemap"></i>
                         <span class="nav-link-text">Page</span>
@@ -106,7 +106,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li>-->
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
 				<li class="nav-item">

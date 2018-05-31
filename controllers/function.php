@@ -19,26 +19,6 @@
 		return $inputData;
 	}
 
-	function listEnvironments() 
-	{
-
-	}
-
-	function listTeams($con)
-	{
-
-	}
-
-	function listTechnologies()
-	{
-
-	}
-
-	function listTypes() 
-	{
-
-	}
-
 	function removeslashes($inpData)
 	{
 		$inpData = implode("", explode("\\", $inpData));

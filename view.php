@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpTech">Cloud/DevOps Technology</label>
                                 <select class="form-control" name="inpTech" id="inpTech" required="true">
@@ -71,7 +71,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpEnv">Environment</label>
                                 <select class="form-control" name="inpEnv" id="inpEnv" required="true">
@@ -100,13 +100,13 @@
                         <textarea class="form-control" rows="3" name="inpDesc" id="inpDesc" maxlength="500" placeholder="Brief description of the task/action performed..." required="true"></textarea>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
                                 <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." required="true">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpDate">Date Executed</label>
                                 <input class="form-control" type="date" name="inpDate" id="inpDate" min="2018-01-01" max="<?php echo $tomorrowDate->format('Y-m-d'); ?>" required="true">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpType">Cost Savings Type</label>
                                 <select class="form-control" name="inpType" id="inpType" required="true">
@@ -123,7 +123,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpSave">Estimated Monthly Savings</label>
                                 <div class="input-group">
