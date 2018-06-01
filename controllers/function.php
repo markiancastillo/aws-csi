@@ -19,6 +19,74 @@
 		return $inputData;
 	}
 
+	function listEnvironments($con)
+	{
+		$sql_env = "SELECT envID, envName FROM environments";
+		$result_env = $con->query($sql_env) or die(mysqli_error($con));
+	
+		$list_env = "";
+		while($rowv = mysqli_fetch_array($result_env))
+		{
+			$envID = htmlspecialchars($rowv['envID']);
+			$envName = htmlspecialchars($rowv['envName']);
+	
+			$list_env .= "<option value='$envID'>$envName</option>";
+		}
+
+		return $list_env;
+	}
+
+	function listTeams($con)
+	{
+		$sql_teams = "SELECT teamID, teamName FROM journeyteams";
+		$result_teams = $con->query($sql_teams) or die(mysqli_error($con));
+	
+		$list_teams = "";
+		while($rowt = mysqli_fetch_array($result_teams))
+		{
+			$teamID = htmlspecialchars($rowt['teamID']);
+			$teamName = htmlspecialchars($rowt['teamName']);
+	
+			$list_teams .= "<option value='$teamID'>$teamName</option>";
+		}
+
+	    return $list_teams;
+	}
+
+	function listTech($con)
+	{
+		$sql_tech = "SELECT techID, techName FROM technologies";
+		$result_tech = $con->query($sql_tech) or die(mysqli_error($con));
+	
+		$list_tech = "";
+		while($rowh = mysqli_fetch_array($result_tech))
+		{
+			$techID = htmlspecialchars($rowh['techID']);
+			$techName = htmlspecialchars($rowh['techName']);
+	
+			$list_tech .= "<option value='$techID'>$techName</option>";
+		}
+
+		return $list_tech;
+	}
+
+	function listTypes($con)
+	{
+		$sql_type = "SELECT typeID, typeName FROM savingtypes";
+		$result_type = $con->query($sql_type) or die(mysqli_error($con));
+	
+		$list_type = "";
+		while($rowy = mysqli_fetch_array($result_type))
+		{
+			$typeID = htmlspecialchars($rowy['typeID']);
+			$typeName = htmlspecialchars($rowy['typeName']);
+	
+			$list_type .= "<option value='$typeID'>$typeName</option>";
+		}
+
+		return $list_type;
+	}
+
 	function removeslashes($inpData)
 	{
 		$inpData = implode("", explode("\\", $inpData));

@@ -2,66 +2,10 @@
 	$pageTitle = "Cost Savings";
 	include_once 'includes/header.php';
 
-	$tomorrowDate = new DateTime(date("Y-m-d"));
-	#$tomorrowDate->add(new DateInterval("P1D"));
-
-
-	#get the data for the dropdowns in the add form
-	#data for journey teams ddl
-	$sql_teams = "SELECT teamID, teamName FROM journeyteams";
-	$result_teams = $con->query($sql_teams) or die(mysqli_error($con));
-
-	$list_teams = "";
-	while($rowt = mysqli_fetch_array($result_teams))
-	{
-		$teamID = htmlspecialchars($rowt['teamID']);
-		$teamName = htmlspecialchars($rowt['teamName']);
-
-		$list_teams .= "<option value='$teamID'>$teamName</option>";
-	}
-
-	#data for devops technology ddl
-	$sql_tech = "SELECT techID, techName FROM technologies";
-	$result_tech = $con->query($sql_tech) or die(mysqli_error($con));
-
-	$list_tech = "";
-	while($rowh = mysqli_fetch_array($result_tech))
-	{
-		$techID = htmlspecialchars($rowh['techID']);
-		$techName = htmlspecialchars($rowh['techName']);
-
-		$list_tech .= "<option value='$techID'>$techName</option>";
-	}
-
-	#data for environment ddl
-	$sql_env = "SELECT envID, envName FROM environments";
-	$result_env = $con->query($sql_env) or die(mysqli_error($con));
-
-	$list_env = "";
-	while($rowv = mysqli_fetch_array($result_env))
-	{
-		$envID = htmlspecialchars($rowv['envID']);
-		$envName = htmlspecialchars($rowv['envName']);
-
-		$list_env .= "<option value='$envID'>$envName</option>";
-	}
-
-	#data for savings type ddl
-	$sql_type = "SELECT typeID, typeName FROM savingtypes";
-	$result_type = $con->query($sql_type) or die(mysqli_error($con));
-
-	$list_type = "";
-	while($rowy = mysqli_fetch_array($result_type))
-	{
-		$typeID = htmlspecialchars($rowy['typeID']);
-		$typeName = htmlspecialchars($rowy['typeName']);
-
-		$list_type .= "<option value='$typeID'>$typeName</option>";
-	}
+	$dateToday = new DateTime(date("Y-m-d"));
 
 	#get the records for the table
-	# !! image display to be added
-	$sql_list = "SELECT s.csID, s.csDesc, s.csActor, s.csDate, s.csSavings, s.csInitial, s.csFinal, m.teamName, h.techName, e.envName, y.typeName 
+	$sql_list = "SELECT s.csID, s.csCause, s.csSteps, s.csActor, s.csDate, s.csSavings, s.csInitial, s.csFinal, m.teamName, h.techName, e.envName, y.typeName 
 				 FROM costsavings s 
 				 INNER JOIN journeyteams m ON s.teamID = m.teamID 
 				 INNER JOIN technologies h ON s.techID = h.techID 
@@ -70,11 +14,12 @@
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$cs_list = "";
-	$imgModal = "";
+#	$imgModal = ""; -- image uploading removed (06/01/2018)
 	while($row = mysqli_fetch_array($result_list))
 	{
 		$csID = htmlspecialchars($row['csID']);
-		$csDesc = htmlspecialchars($row['csDesc']);
+		$csCause = htmlspecialchars($row['csCause']);
+		$csSteps = htmlspecialchars($row['csSteps']);
 		$csActor = htmlspecialchars($row['csActor']);
 		$csDate = htmlspecialchars($row['csDate']);
 		$displayDate = date('m/d/Y', strtotime($csDate));
@@ -86,8 +31,8 @@
 		$envName = htmlspecialchars($row['envName']);
 		$typeName = htmlspecialchars($row['typeName']);
 
-		$displayInitial = ($csInitial === null || empty($csInitial)) ? "placeholder.jpg" : $csInitial;
-		$displayFinal = ($csFinal === null || empty($csFinal)) ? "placeholder.jpg" : $csFinal;
+#		$displayInitial = ($csInitial === null || empty($csInitial)) ? "placeholder.jpg" : $csInitial;	-- removed (06/01/2018)
+#		$displayFinal = ($csFinal === null || empty($csFinal)) ? "placeholder.jpg" : $csFinal;
 
 		$cs_list .= "
 			<tr>
@@ -95,17 +40,10 @@
                 <td>$techName</td>
                 <td>$envName</td>
                 <td>$typeName</td>
-                <td>
-                	<a role='button' data-toggle='modal' data-target='#imgModal$csID'>
-                		<img src='images/$displayInitial' width='100px'>
-                	</a>
-                </td>
-                <td>
-                	<a role='button' data-toggle='modal' data-target='#imgModal$csID'>
-                		<img src='images/$displayFinal' width='100px'>
-                	</a>
-                </td>
-                <td>$csDesc</td>
+                <td>$csInitial</td>
+                <td>$csCause</td>
+                <td>$csFinal</td>
+                <td>$csSteps</td>
                 <td>$csActor</td>
                 <td>$displayDate</td>
                 <td>
@@ -116,8 +54,8 @@
                 	<a class='btn btn-primary' href='update.php?rid=$csID'>Update</a>
                 </td>
             </tr>";
-
-        $imgModal .= "
+        # Update: as of 06/01/2018, image input is replaced with cost input
+        /*$imgModal .= "
         	<div class='modal fade' tabindex='-1' role='dialog' id='imgModal$csID'>
 			    <div class='modal-dialog modal-lg' role='document'>
 			        <div class='modal-content'>
@@ -158,11 +96,11 @@
 			            </div>
 			        </div>
 			    </div>
-			</div>";
+			</div>";*/
 	}
 
 	#insert the input into the database
-	if(isset($_POST['btnSubmit']))
+	if(isset($_POST['btnAdd']))
 	{
 		#validation: description and name fields must have a valid input
 
@@ -170,22 +108,27 @@
 
 		#retrieve the input data from the form
 		$inpTeam = mysqli_real_escape_string($con, $_POST['inpTeam']);
-		$inpTech = mysqli_real_escape_string($con, $_POST['inpTech']);
 		$inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);
-		#$inpInitial = mysqli_real_escape_string($con, $_POST['inpInitial']); -- to be added
-		$inpDesc = mysqli_real_escape_string($con, $_POST['inpDesc']);
+		$inpTech = mysqli_real_escape_string($con, $_POST['inpTech']);
+		$inpType = mysqli_real_escape_string($con, $_POST['inpType']);
+		#remove the commas from the money input
+		$inpInitial = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpInitial']));
+		$inpFinal = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpFinal']));
+		$totSavings = $inpInitial - $inpFinal;
+
+		$inpCause = mysqli_real_escape_string($con, $_POST['inpCause']);
+		$inpSteps = mysqli_real_escape_string($con, $_POST['inpSteps']);
 		$inpName = mysqli_real_escape_string($con, $_POST['inpName']);
 		$inpDate = mysqli_real_escape_string($con, $_POST['inpDate']);
-		$inpType = mysqli_real_escape_string($con, $_POST['inpType']);
-		$inpSave = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpSave']));
 
+/* 		Update: as of 06/01/2018, image input is replaced with cost input
 		#check the image uploaded
 		if(!isset($_FILES['inpPhoto']) || $_FILES['inpPhoto']['error'])
 		{
 			#there is no input
 			#1 - do not include in the insertion of records (current) || 2 - show an error prompt 
 			#CURRENT: inert 'placeholder.jpg' into the csInitial column
-			$stmt_insert = $con->prepare("INSERT INTO costsavings (csDesc, csActor, csDate, csSavings, csInitial, teamID, techID, envID, typeID) VALUES (?, ?, ?, ?, 'placeholder.jpg', ?, ?, ?, ?)");
+			$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csActor, csDate, csSavings, csInitial, teamID, techID, envID, typeID) VALUES (?, ?, ?, ?, 'placeholder.jpg', ?, ?, ?, ?)");
 			$stmt_insert->bind_param("sssdiiii", $inpDesc, $inpName, $inpDate, $inpSave, $inpTeam, $inpTech, $inpEnv, $inpType);
 		}
 		else
@@ -204,10 +147,13 @@
 			#insert the data into the database
 			#the image itself will not be inserted directly in the database
 			#instead, only the image name will be saved in the db while the file is saved locally
-			$stmt_insert = $con->prepare("INSERT INTO costsavings (csDesc, csActor, csDate, csSavings, csInitial, teamID, techID, envID, typeID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csActor, csDate, csSavings, csInitial, teamID, techID, envID, typeID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$stmt_insert->bind_param("sssdsiiii", $inpDesc, $inpName, $inpDate, $inpSave, $imgNew, $inpTeam, $inpTech, $inpEnv, $inpType);
 		}
+*/
 
+		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt_insert->bind_param("ssssdddiiii", $inpCause, $inpSteps, $inpName, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType);
 		$stmt_insert->execute() or die(mysqli_error($con));
 
 		$msgDisplay = successAlert("Successfully inserted a new record.");

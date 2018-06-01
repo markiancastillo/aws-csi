@@ -57,7 +57,9 @@
 	<div class="col-lg-12">
 		<div class="card mb-3">
 			<div class="card-header">
-				<h5>Cost Savings Breakdown</h5>
+                <h5>Cost Savings Breakdown
+                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#filterModal">Filter Options</button>
+                </h5>
 			</div>
 			<div class="card-group">
 				<div class="card">
@@ -162,6 +164,45 @@
         </div>
 	</div>
 </div>
+
+
+
+<!-- Modal for creating a new team -->
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Filter by Journey Team</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <select class="form-control" name="filTeam" id="filTeam" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" name="btnFilter" id="btnFilter">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <!-- Share button/s using AddThis -->
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b0220ddd0e5d139"></script> 
 <script>
