@@ -10,7 +10,8 @@
 				 INNER JOIN journeyteams m ON s.teamID = m.teamID 
 				 INNER JOIN technologies h ON s.techID = h.techID 
 				 INNER JOIN environments e ON s.envID = e.envID 
-				 INNER JOIN savingtypes y ON s.typeID = y.typeID";
+				 INNER JOIN savingtypes y ON s.typeID = y.typeID
+				 ORDER BY s.csDate DESC";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$cs_list = "";
@@ -36,22 +37,19 @@
 
 		$cs_list .= "
 			<tr>
+				<td>$displayDate</td>
                 <td>$teamName</td>
                 <td>$techName</td>
                 <td>$envName</td>
                 <td>$typeName</td>
-                <td>$csInitial</td>
-                <td>$csCause</td>
-                <td>$csFinal</td>
-                <td>$csSteps</td>
                 <td>$csActor</td>
-                <td>$displayDate</td>
+                <td>$csSteps</td>
                 <td>
                     <span class='float-left'>$</span>
                     <span class='float-right'>$csSavings</span>
                 </td>
                 <td>
-                	<a class='btn btn-primary' href='update.php?rid=$csID'>Update</a>
+                	<a class='btn btn-primary' href='update.php?rid=$csID'>Details</a>
                 </td>
             </tr>";
         # Update: as of 06/01/2018, image input is replaced with cost input

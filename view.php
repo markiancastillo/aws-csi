@@ -13,19 +13,16 @@
             </div>
             <div class="card-body">
                 <div class="table table-responsive">
-                    <table class="table-bordered" id="savingsTable" width="100%" cellspacing="0">
+                    <table class="table-bordered display pageResize" id="savingsTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th class="text-center">Date</th>
                                 <th class="text-center">Journey Team</th>
                                 <th class="text-center">Cloud/DevOps Technology</th>
                                 <th class="text-center">Environment</th>
                                 <th class="text-center">Type</th>
-                                <th class="text-center">Initial Cost</th>
-                                <th class="text-center">Root Cause</th>
-                                <th class="text-center">Final Cost</th>
-                                <th class="text-center">Solution/s Implemented</th>
                                 <th class="text-center">Executed By</th>
-                                <th class="text-center">Date</th>
+                                <th class="text-center">Solution/s Implemented</th>
                                 <th class="text-center">Total Savings</th>
                                 <th class="text-center"></th>
                             </tr>
@@ -33,6 +30,19 @@
                         <tbody>
                             <?php echo $cs_list; ?>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">Journey Team</th>
+                                <th class="text-center">Cloud/DevOps Technology</th>
+                                <th class="text-center">Environment</th>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Executed By</th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -133,7 +143,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
-                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="Mark Castillo" required="true">
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="Mark Castillo*" required="true">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
@@ -146,7 +156,7 @@
             	</div>
             	<div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                	<button class="btn btn-primary" name="btnAdd" id="btnAdd">Add Record</button>
+                	<button type="submit" class="btn btn-primary" name="btnAdd" id="btnAdd">Add Record</button>
             	</div>
             </form>
         </div>
@@ -174,18 +184,52 @@ Modal for the image zoom on click
 </div> -->
 
 <?php #echo $imgModal; ?>
-
 <script type="text/javascript">
 //for the page-level data-table
     $(document).ready(function() {
         $('#savingsTable').DataTable( {
-            "order": [[ 8, "desc" ]]
+            "order": [[ 0, "desc" ]],
+            pageResize: true,
+            scrollY:        '50vh',
+            scrollX:        '100%',
+            scrollCollapse: true,
+            paging:         false,
+            initComplete: function () {
+                this.api().columns([1,2,3,4,5]).every( function () {
+                    var column = this;
+                    var title = $(this).text();
+                    var select = $('<select class="form-control"><option value="">Show All</option></select>')
+                        .appendTo( $(column.footer()).empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+     
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                        } );
+     
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
         } );
     } );
+
+$(document).ready(function () {             
+  $('.dataTables_filter input[type="search"]').
+  attr('placeholder','Enter a keyword...').
+  css({'width':'350px','display':'inline-block'}
+  );
+});
+
 //set the default value of the date input to today's date
     document.getElementById('inpDate').valueAsDate = new Date();
 </script>
 <script type="text/javascript">
+//input masking for the money input
     $(function() {
         $('#inpInitial').maskMoney({allowZero: true});
     });

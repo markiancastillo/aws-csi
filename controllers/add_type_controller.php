@@ -3,7 +3,7 @@
 	include_once 'includes/header.php';
 
 	#query to display records
-	$sql_list = "SELECT typeName FROM savingtypes";
+	$sql_list = "SELECT typeID, typeName FROM savingtypes";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$list_types = "";
@@ -15,11 +15,12 @@
 	{
 		while($row = mysqli_fetch_array($result_list))
 		{
+			$typeID = $row['typeID'];
 			$typeName = htmlspecialchars($row['typeName']);
 
 			$list_types .= "
 				<tr>
-					<td>$typeName</td>
+					<td>$typeName <a href='edit_type.php?id=$typeID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
 				</tr>";
 		}
 	}

@@ -60,7 +60,7 @@
 					else
 					{
 						#the password is invalid
-						$msgDisplay = errorAlert("Invalid PW");
+						$msgDisplay = errorAlert("The input username and/or password is incorrect. Please check your input and try again.");
 					}
 				}
 			}

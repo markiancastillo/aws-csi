@@ -52,7 +52,7 @@
 </script>
 <!-- Navigation bar -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-		<a class="navbar-brand" href="index.php">AWS Cost Savings Knowledge Base</a>
+		<a class="navbar-brand" href="">AWS Cost Savings Knowledge Base</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -65,7 +65,7 @@
                     </a>
                 </li>-->
 				<li class="nav-item <?php echo $pageTitle === 'Dashboard' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-fw fa-chart-pie"></i>
                         <span class="nav-link-text">Dashboard</span>
                     </a>
@@ -118,9 +118,9 @@
 			<ul class="navbar-nav ml-auto">
                 <form method="POST">
                     <li class="nav-item">
-                        <a href="<?php echo $imglink; ?>" class="nav-link btn btn-basic btn-block" target="_blank" title="Screenshot page">
+                        <a href="<?php #echo $imglink; ?>" class="nav-link btn btn-basic btn-block" target="_blank" title="Screenshot page">
                             <span><i class="fa fa-fw fa-camera fa-lg"></i></span> 
-                             Save a Screenshot
+                             Save a Screenshot (X)
                         </a>
                     </li>
                 </form>
@@ -165,6 +165,7 @@
 				<!-- Data Tables js -->
 				<script src="lib/datatables/jquery.dataTables.js"></script>
 				<script src="lib/datatables/dataTables.bootstrap4.js"></script>
+                <script src="lib/datatables/dataTables.pageResize.min.js"></script>
 				<!-- sb-admin template js -->
 				<script src="js/sb-admin.min.js"></script>
 				<script src="js/sb-admin-datatables.min.js"></script>
@@ -174,4 +175,4 @@
                 <!-- input masking -->
                 <script src="js/jquery.maskMoney.min.js"></script>
                 <!-- AddThis Share Buttons js -->
-                <script src="http://s7.addthis.com/js/300/addthis_widget.js" type="text/javascript"></script> 
+                <script src="http://s7.addthis.com/js/300/addthis_widget.js" type="text/javascript"></script>

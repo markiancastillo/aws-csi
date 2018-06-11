@@ -3,7 +3,7 @@
 	include_once 'includes/header.php';
 
 	#query to get the records
-	$sql_list = "SELECT techName FROM technologies";
+	$sql_list = "SELECT techID, techName FROM technologies";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$list_tech = "";
@@ -15,15 +15,16 @@
 	{
 		while($row = mysqli_fetch_array($result_list))
 		{
+			$techID = $row['techID'];
 			$techName = htmlspecialchars($row['techName']);
 
 			$list_tech .= "
 				<tr>
-					<td>$techName</td>
+					<td>$techName <a href='edit_tech.php?id=$techID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
 				</tr>";
 		}
 	}
-
+	
 	if(isset($_POST['btnAdd']))
 	{
 		$inpName = inpcheck($_POST['inpName']);

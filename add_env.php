@@ -43,12 +43,12 @@
               	<div class="modal-body">
                 	<div class="form-group">
                 		<label for="inpName">Environment Name</label>
-                		<input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Environment name" required="true">
+                		<input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" required="true">
                 	</div>
             	</div>
             	<div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                	<button class="btn btn-primary" name="btnAdd" id="btnAdd">Submit</button>
+                	<button class="btn btn-primary" name="btnAdd" id="btnAdd">Add</button>
             	</div>
             </form>
         </div>

@@ -3,7 +3,7 @@
 	include_once 'includes/header.php';
 
 	#query for displaying the existing journey teams
-	$sql_list = "SELECT teamName FROM journeyteams";
+	$sql_list = "SELECT teamID, teamName FROM journeyteams";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$list_teams = "";
@@ -16,11 +16,12 @@
 	{
 		while($teams = mysqli_fetch_array($result_list))
 		{
+			$teamID = $teams['teamID'];
 			$teamName = htmlspecialchars($teams['teamName']);
 	
 			$list_teams .= "
 				<tr>
-					<td>$teamName</td>
+					<td>$teamName <a href='edit_jt.php?id=$teamID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
 				</tr>";
 		}
 	}

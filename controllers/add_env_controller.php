@@ -3,7 +3,7 @@
 	include 'includes/header.php';
 
 	#query for displaying the records
-	$sql_list = "SELECT envName FROM environments";
+	$sql_list = "SELECT envID, envName FROM environments";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
 	$list_env = "";
@@ -18,11 +18,12 @@
 	{
 		while($row = mysqli_fetch_array($result_list))
 		{
+			$envID = $row['envID'];
 			$envName = htmlspecialchars($row['envName']);
 
 			$list_env .= "
 				<tr>
-					<td>$envName</td>
+					<td>$envName <a href='edit_env.php?id=$envID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
 				</tr>";
 		}
 	}

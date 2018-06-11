@@ -1,5 +1,5 @@
 <?php
-	$pageTitle = "Cost Savings Dashboard";
+	$pageTitle = "Dashboard";
 	include 'includes/header.php';
 
 	error_reporting(0);
@@ -71,7 +71,7 @@
 	}
 
 	#query for: largest data entry for the month
-	$sql_largest = "SELECT m.teamName, h.techName, y.typeName, v.envName, c.csDesc, c.csSavings, c.csActor 
+	$sql_largest = "SELECT m.teamName, h.techName, y.typeName, v.envName, c.csCause, c.csSteps, c.csSavings, c.csActor 
 					FROM costsavings c 
 					INNER JOIN journeyteams m ON c.teamID = m.teamID 
 					INNER JOIN technologies h ON c.techID = h.techID 
@@ -88,7 +88,8 @@
 		$lar_techName = "-";
 		$lar_typeName = "-";
 		$lar_envName = "-";
-		$lar_csDesc = "No data available";
+		$lar_csCause = "No data available";
+		$lar_csSteps = "No data available";
 		$lar_csSavings = "-";
 		$lar_csActor = "";
 	}
@@ -100,7 +101,8 @@
 			$lar_techName = $row_largest['techName'];
 			$lar_typeName = $row_largest['typeName'];
 			$lar_envName = $row_largest['envName'];
-			$lar_csDesc = $row_largest['csDesc'];
+			$lar_csCause = $row_largest['csCause'];
+			$lar_csSteps = $row_largest['csSteps'];
 			$lar_csSavings = $row_largest['csSavings'];
 			$lar_csActor = $row_largest['csActor'];
 		}

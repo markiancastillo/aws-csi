@@ -1,5 +1,5 @@
 <?php 
-	include('controllers/index_controller.php');
+	include('controllers/dashboard_controller.php');
 ?>
 <div class="row">
 	<div class="col-lg-12">
@@ -103,17 +103,6 @@
 </div>
 <div class="row">
 	<div class="col-lg-6">
-        <!--<div class="card mb-3">
-            <div class="card-header">
-            	<h5>Monthly Total</h5>
-            </div>
-            <div class="card-body">
-				<canvas id="barChart"></canvas>
-            </div>
-            <div class="card-footer small text-muted">
-                For the year <?php #echo date('Y'); ?>
-            </div>
-        </div>-->
         <div class="card mb-3">
             <div class="card-header">
             	<h5>Savings Total Per Month ($)</h5>
@@ -227,7 +216,7 @@ document.getElementById('btnShare').onclick = function() {
 // pie chart -- journey teams
 var ctxP = document.getElementById("pieTeam").getContext('2d');
 var mypieTeam = new Chart(ctxP, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: <?php echo $teams_list; ?>
         datasets: [
@@ -243,6 +232,9 @@ var mypieTeam = new Chart(ctxP, {
         ]
     },
     options: {
+        legend: {
+            position: 'right'
+        },
         responsive: true
     }    
 });
@@ -250,7 +242,7 @@ var mypieTeam = new Chart(ctxP, {
 // pie chart -- environments
 var ctxP = document.getElementById("pieEnv").getContext('2d');
 var myPieEnv = new Chart(ctxP, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: <?php echo $env_list; ?>
         datasets: [
@@ -269,7 +261,7 @@ var myPieEnv = new Chart(ctxP, {
 // pie chart -- technologies
 var ctxP = document.getElementById("pieTech").getContext('2d');
 var myPieTech = new Chart(ctxP, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: <?php echo $tech_list; ?>
         datasets: [
@@ -288,7 +280,7 @@ var myPieTech = new Chart(ctxP, {
 // pie chart -- types
 var ctxP = document.getElementById("pieType").getContext('2d');
 var myPieType = new Chart(ctxP, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: <?php echo $type_list; ?>
         datasets: [

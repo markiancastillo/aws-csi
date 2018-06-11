@@ -19,13 +19,17 @@
 		}
 		else
 		{
+			#validation: only the owner of the record can make changes to it -- to be added
+
+
 			#query: get the values for the fields with the requested ID
-			$sql_values = "SELECT csDesc, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID FROM costsavings WHERE csID = $requestedID";
+			$sql_values = "SELECT csID, csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID FROM costsavings WHERE csID = $requestedID";
 			$result_values = $con->query($sql_values) or die(mysqli_error($con));
 	
 			while($row = mysqli_fetch_array($result_values))
 			{
-				$csDesc = $row['csDesc'];
+				$csCause = $row['csCause'];
+				$csSteps = $row['csSteps'];
 				$csActor = $row['csActor'];
 				$csDate = $row['csDate'];
 				$csSavings = $row['csSavings'];
@@ -36,6 +40,8 @@
 				$selEnv = $row['envID'];
 				$selType = $row['typeID'];
 			}
+
+			$displayDate = new DateTime(date('Y-m-d', strtotime($csDate)));
 	
 			#data for journey teams ddl
 			$sql_teams = "SELECT teamID, teamName FROM journeyteams";
@@ -96,31 +102,7 @@
 
 			if(isset($_POST['btnSubmit']))
 			{
-				if(!isset($_FILES['inpPhoto']) || $_FILES['inpPhoto']['error'])
-				{
-					#image is not set in the form
-					#display an error
-				}
-				else
-				{
-					#validate the image (file must be an image file type)
-					#accepted files: ???
-					
-					$imgName = $_FILES['inpPhoto']['name'];
-					$imgDir = $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . "/images/";
-					$imgNew = date('YmdHis') . "_" . basename($imgName);
-					$imgFile = $imgDir . $imgNew;
-	
-					move_uploaded_file($_FILES['inpPhoto']['tmp_name'], $imgFile);
-		
-					#update the data of the record
-					$stmt_update = $con->prepare("UPDATE costsavings SET csFinal = ? WHERE csID = ?");
-					$stmt_update->bind_param("si", $imgNew, $requestedID);
-	
-					$stmt_update->execute() or die(mysqli_error($con));
-	
-					header('location: view.php');
-				}
+				#validation: only the user who owns the record can update the data
 			}
 		}
 	}

@@ -19,6 +19,34 @@
 		return $inputData;
 	}
 
+	function getDiff($sumLast, $sumSavings)
+	{
+		#formula to get the % difference for the current week vs. previous week
+		$percDiff = ($sumLast == 0) ? '--' : number_format((float)(($sumSavings-$sumLast) / $sumLast)*100, 2, '.', '');
+
+		return $percDiff;
+	}
+
+	function getArrowIcon($sumLast, $sumSavings)
+	{
+		$percDiff = getDiff($sumLast, $sumSavings);
+		#conditional statements to determine which icon to display
+		if($percDiff < 0)
+		{
+			$arrowIcon = "<span class='fa fa-fw fa-arrow-circle-down' style='color: red'></span>";
+		}
+		else if($percDiff > 0)
+		{
+			$arrowIcon = "<span class='fa fa-fw fa-arrow-circle-up' style='color: green'></span>";
+		}
+		else 
+		{
+			$arrowIcon = "<span class='fa fa-fw fa-minus-circle' style='color: grey'></span>";
+		}
+
+		return $arrowIcon;
+	}
+
 	function listEnvironments($con)
 	{
 		$sql_env = "SELECT envID, envName FROM environments";
