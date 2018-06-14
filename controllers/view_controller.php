@@ -49,7 +49,7 @@
                     <span class='float-right'>$csSavings</span>
                 </td>
                 <td>
-                	<a class='btn btn-primary' href='update.php?rid=$csID'>Details</a>
+                	<a class='btn btn-primary' href='details.php?rid=$csID'><small>View Details</small></a>
                 </td>
             </tr>";
         # Update: as of 06/01/2018, image input is replaced with cost input

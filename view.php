@@ -143,7 +143,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
-                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="Mark Castillo*" required="true">
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="<?php echo $userFN . ' ' . $userLN; ?>" required="true">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">

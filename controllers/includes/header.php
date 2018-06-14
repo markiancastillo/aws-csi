@@ -175,4 +175,4 @@
                 <!-- input masking -->
                 <script src="js/jquery.maskMoney.min.js"></script>
                 <!-- AddThis Share Buttons js -->
-                <script src="http://s7.addthis.com/js/300/addthis_widget.js" type="text/javascript"></script>
+                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b0220ddd0e5d139"></script>
