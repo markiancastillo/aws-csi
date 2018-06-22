@@ -5,7 +5,6 @@
 	<div class="col-md-12">
 		<div class="card mb-3">
 			<div class="card-header">
-				
 				 Row Details
 			</div>
 			<form class="form-horizontal" method="POST" enctype="multipart/form-data">

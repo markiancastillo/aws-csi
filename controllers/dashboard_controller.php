@@ -1,11 +1,18 @@
 <?php
 	$pageTitle = "Dashboard";
-	include 'includes/header.php';
 
-	#error_reporting(0);
-	#ini_set('display_errors', 0);
+	# if 'viewonly' is set in the url, 
+	# it loads the page with the same css and js but without the header/navbar
+	if(isset($_GET['viewonly']))
+	{
+		include 'controllers/includes/header_viewonly.php';
+	}
+	else
+	{
+		include 'includes/header.php';
+	}
 	
-	#query: get the list of teams for the filter
+# SQL query to get the list of teams for the filter dropdown
 	$sql_listTeams = "SELECT teamID, teamName FROM journeyteams";
 	$result_listTeams = $con->query($sql_listTeams) or die(mysqli_error($con));
 
@@ -13,8 +20,9 @@
 	while($rt = mysqli_fetch_array($result_listTeams))
 	{
 		$teamID = $rt['teamID'];
-		$teamName = $rt['teamName'];
+		$teamName = htmlspecialchars($rt['teamName']);
 
+		# Determine which of the options should have the 'active' attribute when the records are filtered
 		if(isset($_GET['filter']) && $teamID == $_GET['filter'])
 		{
 			$isActive = "selected='true'";
@@ -27,7 +35,8 @@
 		$list_teams .= "<option value='?filter=$teamID' $isActive>$teamName</option>";
 	}
 
-#SQL - for doughnut chart (breakdown by teams)
+# These queries are used for both the filtered and non-filtered outputs
+# SQL - for the doughnut chart (breakdown by team)
 	$sql_team = "SELECT j.teamName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c
 				INNER JOIN journeyteams j ON c.teamID = j.teamID 
 				WHERE MONTH(c.csDate) = MONTH(CURRENT_DATE())";
@@ -35,7 +44,7 @@
 	$teamArray = array();
 	$tsavingsArray = array();
 
-#SQL - for doughnut chart (breakdown by environment)
+# SQL - for doughnut chart (breakdown by environment)
 	$sql_env = "SELECT v.envName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c
 				INNER JOIN environments v ON c.envID = v.envID
 				WHERE MONTH(c.csDate) = MONTH(CURRENT_DATE())";
@@ -43,14 +52,14 @@
 	$envArray = array();
 	$esavingsArray = array();
 
-#SQL - for doughnut chart (breakdown by Technology)
+# SQL - for doughnut chart (breakdown by Technology)
 	$sql_tech = "SELECT h.techName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c
 				INNER JOIN technologies h ON c.techID = h.techID
 				WHERE MONTH(c.csDate) = MONTH(CURRENT_DATE())";
 	$techArray = array();
 	$hsavingsArray = array();
 
-#SQL - for doughnut chart (breakdown by savings type)
+# SQL - for doughnut chart (breakdown by savings type)
 	$sql_type = "SELECT y.typeName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c 
 				 INNER JOIN savingtypes y ON c.typeID = y.typeID 
 				 WHERE MONTH(c.csDate) = MONTH(CURRENT_DATE())";
@@ -58,19 +67,21 @@
 	$typeArray = array();
 	$ysavingsArray = array();
 
-#SQL - for the 10 latest initiatives
-	$sql_latest = "SELECT c.csDate, j.teamName, h.techName, v.envName, y.typeName, c.csSavings FROM costsavings c 
+# SQL - for the 10 latest initiatives
+	$sql_latest = "SELECT c.csID, c.csDate, j.teamName, h.techName, v.envName, y.typeName, c.csSavings 
+				   FROM costsavings c 
 				   INNER JOIN journeyteams j ON c.teamID = j.teamID 
 				   INNER JOIN technologies h ON c.techID = h.techID
 				   INNER JOIN environments v ON c.envID = v.envID
 				   INNER JOIN savingtypes y ON c.typeID = y.typeID";
 
-#Values for bar chart
-		$valMonth = date('n'); #numeric month without leading zeros
-		$data_bar = "[";
-		$bar_cs = 0;
+# Initialization of the values for the bar chart
+# This is shared by the filtered and non-filtered outputs
+	$valMonth = date('n'); 		# numeric month without leading zeros
+	$data_bar = "[";			# start of the variable to be passed to the js
+	$bar_cs = 0;				# holds the total for the month; defaulted to 0 in case of empty result sets
 
-#misc. variables 
+# Mics. variables (this is used mostly for muted text/card footers)
 		$thisMon = date('Y-m-d', strtotime("monday this week"));
 		$thisFri = date('Y-m-d', strtotime("sunday this week"));
 		$lastMon = date('Y-m-d', strtotime("monday last week"));
@@ -81,25 +92,26 @@
 		$mon = date_create($thisMon); $fri = date_create($thisFri);
 		$cstotalDate = date_format($mon, 'F d') . ' - ' . date_format($fri, 'd, Y');
 
-# ----- 
+# -------- 
 
-	if(isset($_GET['filter'])) #check if the filter value is set
+	# Check if the filter value is set...
+	if(isset($_GET['filter']))
 	{
-		#bind filter values to variable/s
+		# Bind the value to a variable 
 		$valFilter = $_GET['filter'];
 
-		#validation: check if the requested record exists
+		# SQL query to validate if the record being requested by the filter exists
 		$sql_validate = $con->prepare("SELECT csID FROM costsavings WHERE teamID = ?");
 		$sql_validate->bind_param("i", $valFilter);
 		$sql_validate->execute();
 
 		$result_validate = $sql_validate->get_result();
 
+		# if the validation query returns more than 0 rows (i.e. the record exists)
 		if(mysqli_num_rows($result_validate) > 0)
 		{
 
-#display header/change the text when applying a filter
-
+		# Display a header/label and change the text of one of the graphs when the data is filtered
 			$sql_label = $con->prepare("SELECT teamName FROM journeyteams WHERE teamID = ?");
 			$sql_label->bind_param("i", $valFilter);
 			$sql_label->execute();
@@ -108,14 +120,13 @@
 
 			while($rl = mysqli_fetch_array($result_label))
 			{
-				$labelTeam = $rl['teamName'];
+				$labelTeam = htmlspecialchars($rl['teamName']);
 			}
 
-			$headerDisplay = "Team " . $labelTeam;
-			$pieDisplay = "Team " . $labelTeam;
+			$headerDisplay = "Team " . $labelTeam;		# adds a header that displays the current filtered team
+			$pieDisplay = "Team " . $labelTeam;			# changes the display of the team doughnut chart
 
-#filtered weekly total (w/ percentages)
-			#current week total
+		# Filtered values - weekly total (current and prev. week, including percentage values)
 			$sql_total = $con->prepare("SELECT SUM(csSavings) AS 'sumSavings' FROM costsavings 
 										WHERE teamID = ? AND csDate >= ? AND csDate <= ?");
 			$sql_total->bind_param("iss", $valFilter, $thisMon, $thisFri);
@@ -129,10 +140,10 @@
 
 			if(empty($sumSavings))
 			{
-				$sumSavings = '0.00';
+				$sumSavings = '0.00';	# a default value for when there are no records yet
 			}
 
-			#previous week total (for comparison)
+			# we get the data for the previous week for comparison
 			$sql_last = $con->prepare("SELECT SUM(csSavings) AS 'sumLast' FROM costsavings 
 									   WHERE teamID = ? AND csDate >= ? AND csDate <= ?");
 			$sql_last->bind_param("iss", $valFilter, $lastMon, $lastFri);
@@ -146,10 +157,10 @@
 			
 			if(empty($sumLast))
 			{
-				$sumLast = 0;
+				$sumLast = '0.00';
 			}
 
-#filtered largest input for the week
+		# Filtered values - largest input for the current week 
 			$sql_largest_filtered = $con->prepare("SELECT m.teamName, h.techName, y.typeName, v.envName, c.csCause, c.csSteps, c.csSavings, c.csActor, c.csDate
 					FROM costsavings c 
 					INNER JOIN journeyteams m ON c.teamID = m.teamID 
@@ -165,6 +176,7 @@
 			$result_largest = $sql_largest_filtered->get_result();
 			if(mysqli_num_rows($result_largest) == 0)
 			{
+				# Setting the default values for when there are no existing records for the current week
 				$lar_teamName = "-";
 				$lar_techName = "-";
 				$lar_typeName = "-";
@@ -179,23 +191,22 @@
 			{
 				while($row_largest = mysqli_fetch_array($result_largest))
 				{
-					$lar_teamName = $row_largest['teamName'];
-					$lar_techName = $row_largest['techName'];
-					$lar_typeName = $row_largest['typeName'];
-					$lar_envName = $row_largest['envName'];
-					$lar_csCause = $row_largest['csCause'];
-					$lar_csSteps = $row_largest['csSteps'];
-					$lar_csSavings = $row_largest['csSavings'];
-					$lar_csActor = $row_largest['csActor'];
-					$lar_csDate = $row_largest['csDate'];
+					$lar_teamName = htmlspecialchars($row_largest['teamName']);
+					$lar_techName = htmlspecialchars($row_largest['techName']);
+					$lar_typeName = htmlspecialchars($row_largest['typeName']);
+					$lar_envName = htmlspecialchars($row_largest['envName']);
+					$lar_csCause = htmlspecialchars($row_largest['csCause']);
+					$lar_csSteps = htmlspecialchars($row_largest['csSteps']);
+					$lar_csSavings = htmlspecialchars($row_largest['csSavings']);
+					$lar_csActor = htmlspecialchars($row_largest['csActor']);
+					$lar_csDate = htmlspecialchars($row_largest['csDate']);
 				}
 			}
 
-#filtered monthly total
+		# Filtered values - total savings per month
 			for($i = 1; $i <= $valMonth; $i++)
 			{
-				#$monthName = date('F', mktime(null, null, null, $i, 1));
-				#loop the sql statements for the monthly data
+				# The SQL queries are looped to get the data for each month
 				$sql_barData = "SELECT SUM(csSavings) AS 'totSavings' FROM costsavings 
 								WHERE MONTH(csDate) = $i AND teamID = $valFilter 
 								GROUP BY MONTH(csDate)";
@@ -217,8 +228,8 @@
 			}
 			$data_bar .= "],";
 
-#filtered doughnut charts (filtered by team)
-		#for the breakdown by team
+		# Filtered values - doughnut charts
+		# Filtered breakdown by team
 			$sql_team_filtered = $sql_team . " AND c.teamID = $valFilter GROUP BY c.teamID";
 			$result_team = $con->query($sql_team_filtered) or die(mysqli_error($con));
 	
@@ -227,11 +238,12 @@
 				$teamArray[] = $row['teamName'];
 				$tsavingsArray[] = $row['totSavings'];
 			}
-		
-			$tsavings_list = '[' . implode(', ', $tsavingsArray) . '],';
-			$teams_list = '["' . implode('", "', $teamArray) . '"],';
+			
+			# These variables will be passed to the js of the pie chart as their data set
+			$tsavings_list = '[' . implode(', ', $tsavingsArray) . '],';	# Output: [val1, val2, ...],
+			$teams_list = '["' . implode('", "', $teamArray) . '"],';		# Output: ['team1', 'team2', ...],
 
-		#for the breakdown by environment
+		# Filtered breakdown by environment
 			$sql_env_filtered = $sql_env . " AND c.teamID = $valFilter GROUP BY c.envID";
 			$result_env = $con->query($sql_env_filtered) or die(mysqli_error($con));
 	
@@ -240,11 +252,12 @@
 				$envArray[] = $e_row['envName'];
 				$esavingsArray[] = $e_row['totSavings'];
 			}
-		
+			
+			# Variables for the environments chart
 			$esavings_list = '[' . implode(', ', $esavingsArray) . '],';
 			$env_list = '["' . implode('", "', $envArray) . '"],';
 
-		#for the breakdown by technology
+		# Filtered breakdown by technology
 			$sql_tech_filtered = $sql_tech . " AND c.teamID = $valFilter GROUP BY c.techID";
 			$result_tech = $con->query($sql_tech_filtered) or die(mysqli_error($con));
 	
@@ -253,11 +266,12 @@
 				$techArray[] = $h_row['techName'];
 				$hsavingsArray[] = $h_row['totSavings'];
 			}
-		
+
+			# Variables for the technology chart
 			$hsavings_list = '[' . implode(', ', $hsavingsArray) . '],';
 			$tech_list = '["' . implode('", "', $techArray) . '"],';
 
-		#for the breakdown by savings type
+		# Filtered breakdown by savings type
 			$sql_type_filtered = $sql_type . " AND c.teamID = $valFilter GROUP BY c.typeID";
 			$result_type = $con->query($sql_type_filtered) or die(mysqli_error($con));
 		
@@ -266,17 +280,22 @@
 				$typeArray[] = $y_row['typeName'];
 				$ysavingsArray[] = $y_row['totSavings'];
 			}
-		
+			
+			# Variables for the savings type chart
 			$ysavings_list = '[' . implode(', ', $ysavingsArray) . '],';
 			$type_list = '["' . implode('", "', $typeArray) . '"],';
 
-#filtered recent initiatives
-			$sql_latest_filtered = $sql_latest . " WHERE c.teamID = $valFilter ORDER BY csDate DESC LIMIT 10";
-			$result_latest = $con->query($sql_latest_filtered) or die(mysqli_error($con));
+		# Filtered values - latest initiavies/entries
+			$sql_latest_filtered = $con->prepare($sql_latest . " WHERE c.teamID = ? ORDER BY csDate DESC LIMIT 10");
+			$sql_latest_filtered->bind_param("i", $valFilter);
+			$sql_latest_filtered->execute();
+
+			$result_latest = $sql_latest_filtered->get_result();
 	
 			$list_latest = "";
 			while($l_row = mysqli_fetch_array($result_latest))
 			{
+				$csID = $l_row['csID'];
 				$csDate = htmlspecialchars($l_row['csDate']);
 				$teamName = htmlspecialchars($l_row['teamName']);
 				$techName = htmlspecialchars($l_row['techName']);
@@ -284,11 +303,13 @@
 				$envName = htmlspecialchars($l_row['envName']);
 				$csSavings = htmlspecialchars($l_row['csSavings']);
 	
-				#display the date without the year
+				# Display the date on the table without the year
 				$displayDate = date_format(date_create($csDate), 'm/d');
-		
+				
+				# Class .clickable-row allows the table row to act as a button/hyperlink
+				# that opens the details page for the selected record
 				$list_latest .= "
-					<tr>
+					<tr class='clickable-row' data-href='details.php?rid=$csID' style='cursor: pointer;'>
 		            	<td>$displayDate</td>
 		            	<td>$teamName</td>
 		            	<td>$techName</td>
@@ -300,17 +321,17 @@
 		            	</td>
 		            </tr>";
 			}
-
 		}
 		else 
 		{
-			#record does not exist; display an error message
+			# The validation query returned 0 rows (no records match)
+			# Display (redirect to) an error page
 			header('location: error.php');
 		}
 	}
-	else #this will display the "default" values for the dashboard (show all)
+	else 	#...display the "default"/unfiltered values (show all)
 	{
-#default for weekly total (w/ percentages)
+	# Default values - weekly total (current and prev. week w/ percentages)
 		$sql_total = $con->prepare("SELECT SUM(csSavings) AS 'sumSavings' FROM costsavings WHERE csDate >= ? AND csDate <= ?");
 		$sql_total->bind_param("ss", $thisMon, $thisFri);
 		$sql_total->execute();
@@ -326,7 +347,6 @@
 			$sumSavings = '0.00';
 		}
 
-		#query to get the total value for the previous week
 		$sql_last = $con->prepare("SELECT SUM(csSavings) AS 'sumLast' FROM costsavings WHERE csDate >= ? AND csDate <= ?");
 		$sql_last->bind_param("ss", $lastMon, $lastFri);
 		$sql_last->execute();
@@ -342,7 +362,7 @@
 			$sumLast = 0;
 		}
 
-#default for largest input for the week
+	# Default values - largest input for the current week
 		$sql_largest = $con->prepare("SELECT m.teamName, h.techName, y.typeName, v.envName, c.csCause, c.csSteps, c.csSavings, c.csActor, c.csDate 
 					FROM costsavings c 
 					INNER JOIN journeyteams m ON c.teamID = m.teamID 
@@ -358,6 +378,7 @@
 		$result_largest = $sql_largest->get_result();
 		if(mysqli_num_rows($result_largest) == 0)
 		{
+			# Default values in case there are no records yet
 			$lar_teamName = "-";
 			$lar_techName = "-";
 			$lar_typeName = "-";
@@ -372,23 +393,22 @@
 		{
 			while($row_largest = mysqli_fetch_array($result_largest))
 			{
-				$lar_teamName = $row_largest['teamName'];
-				$lar_techName = $row_largest['techName'];
-				$lar_typeName = $row_largest['typeName'];
-				$lar_envName = $row_largest['envName'];
-				$lar_csCause = $row_largest['csCause'];
-				$lar_csSteps = $row_largest['csSteps'];
-				$lar_csSavings = $row_largest['csSavings'];
-				$lar_csActor = $row_largest['csActor'];
-				$lar_csDate = $row_largest['csDate'];
+				$lar_teamName = htmlspecialchars($row_largest['teamName']);
+				$lar_techName = htmlspecialchars($row_largest['techName']);
+				$lar_typeName = htmlspecialchars($row_largest['typeName']);
+				$lar_envName = htmlspecialchars($row_largest['envName']);
+				$lar_csCause = htmlspecialchars($row_largest['csCause']);
+				$lar_csSteps = htmlspecialchars($row_largest['csSteps']);
+				$lar_csSavings = htmlspecialchars($row_largest['csSavings']);
+				$lar_csActor = htmlspecialchars($row_largest['csActor']);
+				$lar_csDate = htmlspecialchars($row_largest['csDate']);
 			}
 		}
 
-#default monthly total (bar graph)
+	# Default values - total savings per month
 		for($i = 1; $i <= $valMonth; $i++)
 		{
-			#$monthName = date('F', mktime(null, null, null, $i, 1));
-			#loop the sql statements for the monthly data
+			#Loop the SQL statement to get the monthly values
 			$sql_barData = "SELECT SUM(csSavings) AS 'totSavings' FROM costsavings 
 							WHERE MONTH(csDate) = $i
 							GROUP BY MONTH(csDate)";
@@ -410,8 +430,8 @@
 		}
 		$data_bar .= "],";
 
-#default pie/doughnut charts
-	#cost savings per team
+	# Default values - doughnut charts
+	# Default breakdown per team
 		$sql_team_default = $sql_team . " GROUP BY c.teamID";
 		$result_team = $con->query($sql_team_default) or die(mysqli_error($con));
 	
@@ -420,11 +440,12 @@
 			$teamArray[] = $row['teamName'];
 			$tsavingsArray[] = $row['totSavings'];
 		}
-	
-		$tsavings_list = '[' . implode(', ', $tsavingsArray) . '],';
-		$teams_list = '["' . implode('", "', $teamArray) . '"],';
+		
+		# Variables that will be passed to the doughnut chart js
+		$tsavings_list = '[' . implode(', ', $tsavingsArray) . '],';	# Output: [num1, num2, ...],
+		$teams_list = '["' . implode('", "', $teamArray) . '"],';		# Output: ["team1", "team2", ...],
 
-	#cost savings per environment
+	# Default breakdown per environment
 		$sql_env_default = $sql_env . " GROUP BY c.envID";
 		$result_env = $con->query($sql_env_default) or die(mysqli_error($con));
 	
@@ -433,11 +454,11 @@
 			$envArray[] = $e_row['envName'];
 			$esavingsArray[] = $e_row['totSavings'];
 		}
-	
+		
 		$esavings_list = '[' . implode(', ', $esavingsArray) . '],';
 		$env_list = '["' . implode('", "', $envArray) . '"],';
 
-	#cost savings per technology
+	# Default breakdown per technology
 		$sql_tech_default = $sql_tech . " GROUP BY c.techID";
 		$result_tech = $con->query($sql_tech_default) or die(mysqli_error($con));
 	
@@ -450,7 +471,7 @@
 		$hsavings_list = '[' . implode(', ', $hsavingsArray) . '],';
 		$tech_list = '["' . implode('", "', $techArray) . '"],';
 
-	#cost savings per savings type
+	# Default breakdown per savings type
 		$sql_type_default = $sql_type . " GROUP BY c.typeID";
 		$result_type = $con->query($sql_type_default) or die(mysqli_error($con));
 	
@@ -463,13 +484,14 @@
 		$ysavings_list = '[' . implode(', ', $ysavingsArray) . '],';
 		$type_list = '["' . implode('", "', $typeArray) . '"],';
 
-#default 10 latest initiative input
+	# Default values - latest initiatives/entries
 		$sql_latest_default = $sql_latest . " ORDER BY csDate DESC LIMIT 10";
 		$result_latest = $con->query($sql_latest_default) or die(mysqli_error($con));
 	
 		$list_latest = "";
 		while($l_row = mysqli_fetch_array($result_latest))
 		{
+			$csID = $l_row['csID'];
 			$csDate = htmlspecialchars($l_row['csDate']);
 			$teamName = htmlspecialchars($l_row['teamName']);
 			$techName = htmlspecialchars($l_row['techName']);
@@ -481,7 +503,7 @@
 			$displayDate = date_format(date_create($csDate), 'm/d');
 	
 			$list_latest .= "
-				<tr>
+				<tr class='clickable-row' data-href='details.php?rid=$csID' style='cursor: pointer;'>
 	            	<td>$displayDate</td>
 	            	<td>$teamName</td>
 	            	<td>$techName</td>
@@ -495,13 +517,13 @@
 		}
 	}
 
-	#code for when the filter button is pressed
+	# When the filter button is pressed...
 	if(isset($_POST['btnFilter']))
 	{
-		#get the value from the selected item in the dropdown list
+		# Get the value of the selected item in the filter dropdown
 		$filterTeam = $_POST['filterTeam'];
 
-		#redirect to a specific link based on the value
+		# Redirect to self with the filter parameter
 		header('location: ' . $_SERVER['PHP_SELF'] . $filterTeam);
 	}
 ?>

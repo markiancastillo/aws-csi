@@ -2,7 +2,7 @@
 	$pageTitle = "Environments";
 	include 'includes/header.php';
 
-	#query for displaying the records
+	# Query for displaying the records
 	$sql_list = "SELECT envID, envName FROM environments";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
@@ -40,7 +40,7 @@
 		{
 			$tName = strtoupper($inpName);
 
-			#validate that the record being added doesnt already exist
+			# Validate that the record being added doesnt already exist
 			$sql_validate = "SELECT envName FROM environments WHERE UPPER(envName) = '$tName'";
 			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 

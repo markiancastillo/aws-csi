@@ -12,14 +12,14 @@
 		$inpEmail = inpcheck($_POST['inpEmail']);
 		$inpPassword = inpcheck($_POST['inpPassword']);
 
-		#validate the input
+		# Validate the input: email and password fields must not be empty
 		if(empty($inpEmail) || empty($inpPassword))
 		{
 			$msgDisplay = errorAlert("Please make sure that the entries are valid.");
 		}
 		else
 		{
-			#select accounts with matching credentials and active status
+			# Query accounts with matching credentials and active status
 			$sql_validate = "SELECT accountID, accountPW, accountStatus FROM accounts WHERE accountUN = '$inpEmail'";
 			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 
@@ -35,11 +35,11 @@
 					$accountPW = $row['accountPW'];
 					$accountStatus = $row['accountStatus'];
 
-					#validate the password
+					# Check the validity of the password
 					if(password_verify($inpPassword, $accountPW))
 					{
-						#the password is valid
-						#validation: if the status is 0 or 2, display a message
+						# The input password is valid...
+						# If the status is 0 or 2 (inactive/pending), display a message
 						if($accountStatus == 1)
 						{
 							session_start();
@@ -49,17 +49,17 @@
 						}
 						else if($accountStatus == 2)
 						{
-							#pending account
+							# Account status is 'pending'
 							$msgDisplay = warningAlert("Please check your email and verify your account before logging in.");
 						}
 						else if($accountStatus == 0)
 						{
-							#inactive/disabled account
+							# Account status is 'inactive/disabled'
 						}
 					}
 					else
 					{
-						#the password is invalid
+						# The password is invalid
 						$msgDisplay = errorAlert("The input username and/or password is incorrect. Please check your input and try again.");
 					}
 				}

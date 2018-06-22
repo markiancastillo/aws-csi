@@ -6,11 +6,11 @@
 		<?php echo $msgDisplay; ?>
 		<div class="card mb-3">
 			<div class="card-header">
-				Cost Savings Types
-				<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTypeModal">
-					<!--<i class="fa fa-fw fa-plus"></i>-->
-					<span>Add a CS Type</span>
-				</button>
+				<h5>Cost Savings Types
+					<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTypeModal">
+						<span>Add a CS Type</span>
+					</button>
+				</h5>
 			</div>
 			<div class="card-body">
 				<div class="table table-responsive">

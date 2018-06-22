@@ -1,7 +1,7 @@
 <?php 
 	include('controllers/dashboard_controller.php');
 ?>
-<div class="row">
+<div class="row" id="formDiv">
 	<div class="col-lg-12">
         <h4 class="display-4"><?php echo $headerDisplay; ?></h4>
 		<div class="card-deck">
@@ -27,7 +27,7 @@
 			</div>
 			<div class="card mb-3">
 				<div class="card-body text-center">
-					<p>Largest Entry</p>
+					<p>Largest Weekly Entry</p>
 					<p class="card-text">
 						<h3>
 							<i class="fa fa-fw fa-dollar-sign fa-sm"></i>
@@ -40,9 +40,11 @@
 					</small>
 				</div>
 			</div>
-			<div class="card mb-3">
-				
-			</div>
+			<!--<div class="card mb-3">
+				<div class='card-header'>
+
+                    </div>
+			</div>-->
             <div class="card mb-3">
                 <div class="card-body">
                     <form method="POST">
@@ -57,6 +59,10 @@
                             <button type="submit" class="btn btn-primary text-center" name="btnFilter" id="btnFilter">Apply Filter</button>
                         </div>
                     </form>
+                    <hr />
+                    <div class="text-center" id="formButtons">
+                        <a href="<?php if(isset($_GET['filter'])) { echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; } else { echo $_SERVER['REQUEST_URI'] . '?viewonly=1'; }; ?>" class="btn btn-warning text-center" target="_blank"><i class="fa fa-fw fa-camera"></i> Take a Screenshot</a>
+                    </div>
                 </div>
             </div>
 		</div>
@@ -64,11 +70,14 @@
 	<div class="col-lg-12">
 		<div class="card mb-3">
 			<div class="card-header">
-				Some graph
+				Total Savings per Month
 			</div>
 			<div class="card-body">
 				<canvas id="barChart" height="90"></canvas>
 			</div>
+            <div class="card-footer text-muted">
+                <small>For the year <?php echo date('Y'); ?></small>
+            </div>
 		</div>
 	</div>
 	<div class="col-lg-12">
@@ -109,7 +118,7 @@
             	<h5>Latest Initiatives</h5>
             </div>
             <div class="card-body">
-            	<div class="table table-responsive">
+            	<div class="table table-responsive table-hover">
                     <table class="table-bordered" id="recentsTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -129,6 +138,7 @@
             </div>
         </div>
 	</div>
+    <!-- DIV for the social media buttons via addThis
     <div class="col-lg-12">
         <div class="card-deck">
             <div class="card mb-3" style="border-color: white;">
@@ -139,10 +149,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <script type="text/javascript">
-//js for the bar chart
+// JS for the bar chart
 	var ctxL = document.getElementById("barChart").getContext('2d');
 	var myBarChart = new Chart(ctxL, {
     type: 'bar',
@@ -173,7 +183,7 @@
     }    
 });
 
-//js for the pie chart (per team data)
+// JS for the pie chart (per team data)
 var ctxP = document.getElementById("pieTeam").getContext('2d');
 var mypieTeam = new Chart(ctxP, {
     type: 'doughnut',
@@ -182,10 +192,6 @@ var mypieTeam = new Chart(ctxP, {
         datasets: [
             {
                 data: <?php echo $tsavings_list; ?>
-                //blue & purple:
-                //backgroundColor: ["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7", "#3f007d", "#54278f", "#6a51a3", "#807dba", "#9e9ac8", "#bcbddc", "#dadaeb"],
-                //multi-color 1
-                //backgroundColor: ["#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd"],
                 backgroundColor: ["#3498db", "#2ecc71", "#9b59b6", "#e67e22", "#1abc9c", "#e74c3c", "#f39c12", "#8e44ad", "#2c3e50", "#2980b9", "#7f8c8d", "#27ae60", "#34495e", "#c0392b", "#d35400"],
                 hoverBackgroundColor: []
             }
@@ -199,7 +205,7 @@ var mypieTeam = new Chart(ctxP, {
     }    
 });
 
-//js for the pie chart (per environment data)
+// JS for the pie chart (per environment data)
 var ctxP = document.getElementById("pieEnv").getContext('2d');
 var myPieEnv = new Chart(ctxP, {
     type: 'doughnut',
@@ -221,7 +227,7 @@ var myPieEnv = new Chart(ctxP, {
     }    
 });
 
-// pie chart -- technologies
+// JS for the pie chart (per technology data)
 var ctxP = document.getElementById("pieTech").getContext('2d');
 var myPieTech = new Chart(ctxP, {
     type: 'doughnut',
@@ -243,7 +249,7 @@ var myPieTech = new Chart(ctxP, {
     }    
 });
 
-// pie chart -- types
+// JS for the pie chart (per cost savings type)
 var ctxP = document.getElementById("pieType").getContext('2d');
 var myPieType = new Chart(ctxP, {
     type: 'doughnut',
@@ -266,17 +272,20 @@ var myPieType = new Chart(ctxP, {
 });
 </script>
 <script type="text/javascript">
-//for the data table (10 most recent entries)
+// JS for the data table (10 most recent entries)
 	$(document).ready(function() {
     	$('#recentsTable').DataTable( {
         	"order": [[ 0, "desc" ]],
-            "paging": false
+            "paging": false,
+            "bFilter": false
     	} );
 	} );
 </script>
 <script type="text/javascript">
-// popover for initiative summary
+// popover for initiative summary -- currently unused
     $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
 });
 </script>
+
+<?php include 'controllers/includes/footer.php'; ?>

@@ -2,7 +2,7 @@
 	$pageTitle = 'Journey Teams';
 	include_once 'includes/header.php';
 
-	#query for displaying the existing journey teams
+	# Query for displaying the existing journey teams
 	$sql_list = "SELECT teamID, teamName FROM journeyteams";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
@@ -28,7 +28,7 @@
 
 	if(isset($_POST['btnAdd']))
 	{
-		#validate that the input is valid
+		# Validate the input
 		$inpName = inpcheck($_POST['inpName']);
 
 		if(empty($inpName))
@@ -39,7 +39,7 @@
 		{
 			$tName = strtoupper($inpName);
 			
-			#validate that the journey team being added is not a duplicate
+			# Validate that the input is not a duplicate
 			$sql_validate = "SELECT teamName FROM journeyteams WHERE UPPER(teamName) = '$tName'";
 			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 

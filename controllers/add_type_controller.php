@@ -2,7 +2,7 @@
 	$pageTitle = "Cost Savings Types";
 	include_once 'includes/header.php';
 
-	#query to display records
+	# Query to display records
 	$sql_list = "SELECT typeID, typeName FROM savingtypes";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
@@ -37,7 +37,7 @@
 		{
 			$tName = strtoupper($inpName);
 
-			#validate duplication of records
+			# Validate duplication of records
 			$sql_validate = "SELECT typeName FROM savingtypes WHERE UPPER(typeName) = '$tName'";
 			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 

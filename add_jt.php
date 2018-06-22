@@ -6,11 +6,11 @@
 		<?php echo $msgDisplay; ?>
 		<div class="card mb-3">
 			<div class="card-header">
-				Journey Teams
-				<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTeamModal">
-					<!--<i class="fa fa-fw fa-plus"></i>-->
-					<span>Add a Journey Team</span>
-				</button>
+				<h5>Journey Teams
+					<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTeamModal">
+						<span>Add a Journey Team</span>
+					</button>
+				</h5>
 			</div>
 			<div class="card-body">
 				<div class="table table-responsive">

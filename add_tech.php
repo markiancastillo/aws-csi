@@ -6,11 +6,11 @@
 		<?php echo $msgDisplay; ?>
 		<div class="card mb-3">
 			<div class="card-header">
-				AWS/DevOps Technologies
-				<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTechModal">
-					<!--<i class="fa fa-fw fa-plus"></i>-->
-					<span>Add a Tech</span>
-				</button>
+				<h5>AWS/DevOps Technologies
+					<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addTechModal">
+						<span>Add a Tech</span>
+					</button>
+				</h5>
 			</div>
 			<div class="card-body">
 				<div class="table table-responsive">

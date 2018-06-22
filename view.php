@@ -6,13 +6,14 @@
         <?php echo $msgDisplay; ?>
         <div class="card mb-3">
             <div class="card-header">
-                Cost Savings Initiatives
+                <h4>Cost Savings Initiatives
                 <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addCSModal">
-                    <span>Add a New Record</span>
+                    Add a New Record
                 </button>
+            </h4>
             </div>
             <div class="card-body">
-                <div class="table table-responsive">
+                <div class="table table-responsive table-hover">
                     <table class="table-bordered display pageResize" id="savingsTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -24,7 +25,6 @@
                                 <th class="text-center">Executed By</th>
                                 <th class="text-center">Solution/s Implemented</th>
                                 <th class="text-center">Total Savings</th>
-                                <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,7 +38,6 @@
                                 <th class="text-center">Environment</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Executed By</th>
-                                <th class="text-center"></th>
                                 <th class="text-center"></th>
                                 <th class="text-center"></th>
                             </tr>

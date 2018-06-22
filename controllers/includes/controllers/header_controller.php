@@ -5,10 +5,11 @@
     ob_start();
     session_start();
 
-    //change the default timezone for the date/time functions
+    # Change the default timezone for the date/time functions
 	date_default_timezone_set("Asia/Singapore");
 
-	// set optional parameters (leave blank if unused)
+	# Parameters for the screenshotlayer API
+	# Set optional parameters (leave blank if unused)
 	$params['fullpage']  = '1';    
 	$params['width'] = '';      
 	$params['viewport']  = '';  
@@ -24,24 +25,17 @@
 	$params['access'] = 'screenshotlayerapi@mail.com';
 	$params['pk'] = 'screenshotlayer';
 
-	# get the current url of the page to pass into the og:image meta tag
+	# Get the current url of the page to pass into the og:image meta tag
 	$current_uri = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     
-	#call Screenshotlayer's API
-	#$url = "http://castillomi.000webhostapp.com/content/about.php";
+	# Call Screenshotlayer's API (assigned to a function)
 	$imglink = screenshotlayer($current_uri, $params);
 
     if(isset($_SESSION['accID']))
     {
     	$accID = $_SESSION['accID'];
 	
-#	    // test URL passing of the login
-#	    $ai = urlencode('screenshotlayerapi@mail.com');
-#	    #$psw = urlencode('$2y$10$tM2fqOHQ/BemNqvTLzaleO2iX.w9x.U7ZhxZgAp4HghB0YjeLI9Oi');
-#	    $psw = 'screenshotlayer';
-#	    $accesslink = 'test.php?access=' . $ai . '&pk=' . $psw;
-	
-	    #query for displaying the current user's name
+	    # SQL query for displaying the current user's name
 	    $sql_name = "SELECT userFN, userLN FROM users WHERE userID = $accID";
 	    $result_name = $con->query($sql_name) or die(mysqli_error($con));
 	
@@ -53,7 +47,8 @@
 	}
 	else if(isset($_GET['access']))
 	{
-		#the session id is not set but login info can still be queried
+		# **Originally used for sceenshotlayer's API; currently unused
+		# The session id is not set but login info can still be queried
 		$ssaccess = $_GET['access'];
 		$sql_su = "SELECT userID FROM accounts WHERE accountEmail = $ssaccess";
 		$result_su = $con->query($sql_su) or die(mysqli_error($con));

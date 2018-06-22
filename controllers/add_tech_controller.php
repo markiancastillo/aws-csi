@@ -2,7 +2,7 @@
 	$pageTitle = "AWS/DevOps Technologies";
 	include_once 'includes/header.php';
 
-	#query to get the records
+	# Query to get the records
 	$sql_list = "SELECT techID, techName FROM technologies";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 

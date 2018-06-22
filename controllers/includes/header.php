@@ -29,6 +29,27 @@
 	<link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 	<link href="css/sb-admin.css" rel="stylesheet">
     <link href="lib/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+        .vertical-center {
+            min-height: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .vertical-center-offset {
+            min-height: 50%;
+            min-height: 50vh;
+
+            max-height: 50%;
+            max-height: 50vh;
+
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body class="fixed-nav bg-dark" id="page-top">
 <script>
@@ -116,6 +137,7 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+                <!-- ** Screenshot button used to call screenshotlayer's API
                 <form method="POST">
                     <li class="nav-item">
                         <a href="<?php #echo $imglink; ?>" class="nav-link btn btn-basic btn-block" target="_blank" title="Screenshot page">
@@ -123,7 +145,7 @@
                              Save a Screenshot (X)
                         </a>
                     </li>
-                </form>
+                </form>-->
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">
                         User
@@ -133,7 +155,6 @@
                         <a class="dropdown-item" href="">Logout</a>
                     </div>
                 </li>-->
-                <div class="dropdown-divider"></div>
 				<li class="nav-item">
                     <a class="nav-link btn btn-basic btn-block" data-toggle="modal" data-target="#logoutModal" title="Logout">
                         <i class="fas fa-fw fa-sign-out-alt fa-lg"></i>
@@ -145,11 +166,6 @@
 	</nav>
 	<div class="content-wrapper">
 		<div class="container-fluid">
-			<!-- Breadcrumbs
-        	<ol class="breadcrumb">
-        		<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-        		<li class="breadcrumb-item active"><?php #echo $pageTitle; ?></li>
-        	</ol>-->
         	<div class="row">
         		<div class="col-12">
 
@@ -176,3 +192,15 @@
                 <script src="js/jquery.maskMoney.min.js"></script>
                 <!-- AddThis Share Buttons js -->
                 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b0220ddd0e5d139"></script>
+                <!-- html2canvas js -->
+                <script type="text/javascript" src="js/html2canvas.min.js"></script>
+
+                <!-- custom scripts -->
+                <script type="text/javascript">
+                    // Clickable table rows
+                    jQuery(document).ready(function($) {
+                        $(".clickable-row").click(function() {
+                            window.location = $(this).data("href");
+                        });
+                    });
+                </script>

@@ -23,3 +23,5 @@
 		</div>
 	</div>
 </div>
+
+<?php include 'controllers/includes/footer.php'; ?>

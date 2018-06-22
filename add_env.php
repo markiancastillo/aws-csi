@@ -6,11 +6,11 @@
 		<?php echo $msgDisplay; ?>
 		<div class="card mb-3">
 			<div class="card-header">
-				Environments
-				<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addEnvModal">
-					<!--<i class="fa fa-fw fa-plus"></i>-->
-					<span>Add an Environment</span>
-				</button>
+				<h5>Environments
+					<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addEnvModal">
+						<span>Add an Environment</span>
+					</button>
+				</h5>
 			</div>
 			<div class="card-body">
 				<div class="table table-responsive">

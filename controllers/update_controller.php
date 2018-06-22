@@ -2,27 +2,24 @@
 	$pageTitle = "Update Record";
 	include 'includes/header.php';
 
-	#validate the record being requested:
-	#if the id doesnt exist, show an error
+	# Validate the record being requested:
+	# If the id doesnt exist, show an error
 	if(isset($_GET['rid']))
 	{
 		$requestedID = $_GET['rid'];
 
-		#query: check that the ID exists
+		# Query: check that the ID exists
 		$sql_validate = "SELECT csID FROM costsavings WHERE csID = $requestedID";
 		$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 	
 		if(mysqli_num_rows($result_validate) == 0)
 		{
-			#requested ID is non-existent; redirect to the error page
+			# Requested ID does not exist; redirect to the error page
 			header('location: error.php');
 		}
 		else
 		{
-			#validation: only the owner of the record can make changes to it -- to be added
-
-
-			#query: get the values for the fields with the requested ID
+			# Query: get the values for the fields with the requested ID
 			$sql_values = "SELECT csID, csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID FROM costsavings WHERE csID = $requestedID";
 			$result_values = $con->query($sql_values) or die(mysqli_error($con));
 	
@@ -43,7 +40,7 @@
 
 			$displayDate = new DateTime(date('Y-m-d', strtotime($csDate)));
 	
-			#data for journey teams ddl
+			# SQL query for the journey teams dropdown list
 			$sql_teams = "SELECT teamID, teamName FROM journeyteams";
 			$result_teams = $con->query($sql_teams) or die(mysqli_error($con));
 		
@@ -57,7 +54,7 @@
 				$list_teams .= "<option value='$teamID' $selectedTeam>$teamName</option>";
 			}
 		
-			#data for devops technology ddl
+			# SQL query for the devops technology dropdown list
 			$sql_tech = "SELECT techID, techName FROM technologies";
 			$result_tech = $con->query($sql_tech) or die(mysqli_error($con));
 		
@@ -71,7 +68,7 @@
 				$list_tech .= "<option value='$techID' $selectedTech>$techName</option>";
 			}
 		
-			#data for environment ddl
+			# SQL query for the environments dropdown list
 			$sql_env = "SELECT envID, envName FROM environments";
 			$result_env = $con->query($sql_env) or die(mysqli_error($con));
 		
@@ -85,7 +82,7 @@
 				$list_env .= "<option value='$envID' $selectedEnv>$envName</option>";
 			}
 		
-			#data for savings type ddl
+			# SQL query for the cost savings type dropdown list
 			$sql_type = "SELECT typeID, typeName FROM savingtypes";
 			$result_type = $con->query($sql_type) or die(mysqli_error($con));
 		
@@ -98,16 +95,11 @@
 				$selectedType = $typeID == $selType ? "selected" : "";
 				$list_type .= "<option value='$typeID' $selectedType>$typeName</option>";
 			}
-
-
-			if(isset($_POST['btnSubmit']))
-			{
-				#validation: only the user who owns the record can update the data
-			}
 		}
 	}
 	else
 	{
+		# The record being requested (via url) does not exist
 		header('location: error.php');
 	}
 ?>

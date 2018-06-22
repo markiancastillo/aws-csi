@@ -4,7 +4,7 @@
 
 	$dateToday = new DateTime(date("Y-m-d"));
 
-	#get the records for the table
+	# Get the records for the table
 	$sql_list = "SELECT s.csID, s.csCause, s.csSteps, s.csActor, s.csDate, s.csSavings, s.csInitial, s.csFinal, m.teamName, h.techName, e.envName, y.typeName 
 				 FROM costsavings s 
 				 INNER JOIN journeyteams m ON s.teamID = m.teamID 
@@ -36,7 +36,7 @@
 #		$displayFinal = ($csFinal === null || empty($csFinal)) ? "placeholder.jpg" : $csFinal;
 
 		$cs_list .= "
-			<tr>
+			<tr class='clickable-row' data-href='details.php?rid=$csID' style='cursor: pointer;'>
 				<td>$displayDate</td>
                 <td>$teamName</td>
                 <td>$techName</td>
@@ -47,9 +47,6 @@
                 <td>
                     <span class='float-left'>$</span>
                     <span class='float-right'>$csSavings</span>
-                </td>
-                <td>
-                	<a class='btn btn-primary' href='details.php?rid=$csID'><small>View Details</small></a>
                 </td>
             </tr>";
         # Update: as of 06/01/2018, image input is replaced with cost input
@@ -97,19 +94,19 @@
 			</div>";*/
 	}
 
-	#insert the input into the database
+	# Insert the input into the database
 	if(isset($_POST['btnAdd']))
 	{
-		#validation: description and name fields must have a valid input
+		# Validation: description and name fields must have a valid input
 
-		#validation: savings (number) input must not be 0.00 or a negative number
+		# Validation: savings (number) input must not be 0.00 or a negative number
 
-		#retrieve the input data from the form
+		# Retrieve the input data from the form
 		$inpTeam = mysqli_real_escape_string($con, $_POST['inpTeam']);
 		$inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);
 		$inpTech = mysqli_real_escape_string($con, $_POST['inpTech']);
 		$inpType = mysqli_real_escape_string($con, $_POST['inpType']);
-		#remove the commas from the money input
+		# Rremove the commas from the money input
 		$inpInitial = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpInitial']));
 		$inpFinal = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpFinal']));
 		$totSavings = $inpInitial - $inpFinal;
@@ -158,5 +155,4 @@
 
 		header('Refresh: 1');
 	}
-
 ?>
