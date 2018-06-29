@@ -4,66 +4,80 @@
 
 	if(isset($_POST['btnLogin']))
 	{
-		/*
-			Account status numbers:
+		/*	Account status numbers:
 			0 - inactive/deactivated, 1 - active, 2 - pending (for confirmation)
 		*/
 
+		# Get the input from the form
 		$inpEmail = inpcheck($_POST['inpEmail']);
 		$inpPassword = inpcheck($_POST['inpPassword']);
 
-		# Validate the input: email and password fields must not be empty
-		if(empty($inpEmail) || empty($inpPassword))
+		# Validate the input: email and password must be valid and not empty
+		if(empty(trim($inpEmail)) || empty(trim($inpPassword)))
 		{
 			$msgDisplay = errorAlert("Please make sure that the entries are valid.");
 		}
 		else
 		{
-			# Query accounts with matching credentials and active status
-			$sql_validate = "SELECT accountID, accountPW, accountStatus FROM accounts WHERE accountUN = '$inpEmail'";
-			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
+			# SELECT statement to get the account records from the database
+			$sql_account = "SELECT accountID, accountUN, accountPW, accountStatus FROM accounts";
+			$result_account = $con->query($sql_account) or die(mysqli_error($con));
 
-			if(mysqli_num_rows($result_validate) == 0)
+			$ucount = 0;
+
+			#Check through the database records
+			while($row = mysqli_fetch_array($result_account))
 			{
-				$msgDisplay = errorAlert("Incorrect email/password. Please check your input and try again.");
+				# Get the information for each row
+				$accountID = $row['accountID'];
+				$accountUN = $row['accountUN'];
+				$accountPW = $row['accountPW'];
+				$accountStatus = $row['accountStatus'];
+
+				# Compare between the input and the stored record (returns boolean)
+				$compAccount = password_verify($inpEmail, $accountUN);
+				$compPass = password_verify($inpPassword, $accountPW);
+
+				# Look for the account and password that match
+				if($compAccount == 1 && $compPass == 1)
+				{
+					# The input match the stored values
+					$ucount = $ucount + 1;
+					# End the loop when a match has been found
+					break;
+				}
+			}
+
+			# If the count is >= 1, a record has been found
+			if($ucount >= 1)
+			{
+				if($accountStatus == 1)
+				{
+					session_start();
+					$_SESSION['accID'] = $accountID;
+	
+					header('location: dashboard.php');
+				}
+				else if($accountStatus == 2)
+				{
+					# Account status is pending...
+					$msgDisplay = warningAlert("Please check your email and verify your account before logging in.");
+				}
+				else if($accountStatus == 0)
+				{
+					# Account status is disabled/inavtive...
+					$msgDisplay = errorAlert("Your account is currently disabled/inactive.");
+				}
 			}
 			else
 			{
-				while($row = mysqli_fetch_array($result_validate))
-				{
-					$accountID = $row['accountID'];
-					$accountPW = $row['accountPW'];
-					$accountStatus = $row['accountStatus'];
-
-					# Check the validity of the password
-					if(password_verify($inpPassword, $accountPW))
-					{
-						# The input password is valid...
-						# If the status is 0 or 2 (inactive/pending), display a message
-						if($accountStatus == 1)
-						{
-							session_start();
-							$_SESSION['accID'] = $accountID;
-		
-							header('location: index.php');
-						}
-						else if($accountStatus == 2)
-						{
-							# Account status is 'pending'
-							$msgDisplay = warningAlert("Please check your email and verify your account before logging in.");
-						}
-						else if($accountStatus == 0)
-						{
-							# Account status is 'inactive/disabled'
-						}
-					}
-					else
-					{
-						# The password is invalid
-						$msgDisplay = errorAlert("The input username and/or password is incorrect. Please check your input and try again.");
-					}
-				}
+				# There are no records that match the input creentials...
+				$msgDisplay = errorAlert("Incorrect email/password. Please check your input and try again.");
 			}
 		}
 	}
+
+	/*	Account status numbers:
+			0 - inactive/deactivated, 1 - active, 2 - pending (for confirmation)
+	*/
 ?>

@@ -49,7 +49,7 @@
                     <span class='float-right'>$csSavings</span>
                 </td>
             </tr>";
-        # Update: as of 06/01/2018, image input is replaced with cost input
+        # Update 06/01/2018: image input is replaced with cost input
         /*$imgModal .= "
         	<div class='modal fade' tabindex='-1' role='dialog' id='imgModal$csID'>
 			    <div class='modal-dialog modal-lg' role='document'>
@@ -97,10 +97,6 @@
 	# Insert the input into the database
 	if(isset($_POST['btnAdd']))
 	{
-		# Validation: description and name fields must have a valid input
-
-		# Validation: savings (number) input must not be 0.00 or a negative number
-
 		# Retrieve the input data from the form
 		$inpTeam = mysqli_real_escape_string($con, $_POST['inpTeam']);
 		$inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);
@@ -116,7 +112,7 @@
 		$inpName = mysqli_real_escape_string($con, $_POST['inpName']);
 		$inpDate = mysqli_real_escape_string($con, $_POST['inpDate']);
 
-/* 		Update: as of 06/01/2018, image input is replaced with cost input
+/* 		Update 06/01/2018: image input is replaced with cost input
 		#check the image uploaded
 		if(!isset($_FILES['inpPhoto']) || $_FILES['inpPhoto']['error'])
 		{
@@ -147,12 +143,9 @@
 		}
 */
 
-		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt_insert->bind_param("ssssdddiiii", $inpCause, $inpSteps, $inpName, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType);
-		$stmt_insert->execute() or die(mysqli_error($con));
+		addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpName, $inpDate);
 
 		$msgDisplay = successAlert("Successfully inserted a new record.");
-
 		header('Refresh: 1');
 	}
 ?>

@@ -42,17 +42,13 @@
 					$last_user = $con->insert_id;
 
 					# Hash the password that was given. PASSWORD_DEFAULT uses bcrypt
+					$hasdedun = password_hash($inpEmail, PASSWORD_DEFAULT);
 					$hashedpw = password_hash($inpPW, PASSWORD_DEFAULT);
 
 					# Insert the account/login info w/ the user's id into the table 'accounts'
 					$stmt_account = $con->prepare("INSERT INTO accounts (accountUN, accountPW, accountStatus, userID) VALUES (?, ?, 1, ?)");
-					$stmt_account->bind_param("sss", $inpEmail, $hashedpw, $last_user);
+					$stmt_account->bind_param("sss", $hasdedun, $hashedpw, $last_user);
 					$stmt_account->execute();
-
-					/*
-						To add: 
-						1. Email sending capability for verification of accounts
-					*/
 
 					$msgDisplay = successAlert("<strong>Success!</strong> Please check your email to confirm your account.");
 				}

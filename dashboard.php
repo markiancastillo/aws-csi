@@ -40,12 +40,7 @@
 					</small>
 				</div>
 			</div>
-			<!--<div class="card mb-3">
-				<div class='card-header'>
-
-                    </div>
-			</div>-->
-            <div class="card mb-3">
+            <div class="card mb-3" id="formButtons">
                 <div class="card-body">
                     <form method="POST">
                         <div class="form-group">
@@ -60,8 +55,8 @@
                         </div>
                     </form>
                     <hr />
-                    <div class="text-center" id="formButtons">
-                        <a href="<?php if(isset($_GET['filter'])) { echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; } else { echo $_SERVER['REQUEST_URI'] . '?viewonly=1'; }; ?>" class="btn btn-warning text-center" target="_blank"><i class="fa fa-fw fa-camera"></i> Take a Screenshot</a>
+                    <div class="text-center">
+                        <a href="<?php if(isset($_GET['filter'])) { echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; } else { echo $_SERVER['REQUEST_URI'] . '?viewonly=1'; }; ?>" class="btn btn-outline-dark text-center" target="_blank"><i class="fa fa-fw fa-camera"></i> Take a Screenshot</a>
                     </div>
                 </div>
             </div>
@@ -164,9 +159,6 @@
                 backgroundColor: "rgba(52, 152, 219,0.8)",
                 borderColor: "rgba(52, 152, 219,0.8)",
                 pointBackgroundColor: "rgba(52, 152, 219,0)",
-                //pointBorderColor: "rgba(100,100,100,1)",
-                //lineTension: "0.1",
-                //data: [100,102,133,102,105,123,142,109,102,120,111,123]
                 data: <?php echo $data_bar; ?>
             }
         ]
@@ -179,6 +171,7 @@
     			}
     		}]
     	},
+        <?php echo $animation; ?>
         responsive: true
     }    
 });
@@ -201,6 +194,7 @@ var mypieTeam = new Chart(ctxP, {
         legend: {
             position: 'right'
         },
+        <?php echo $animation; ?>
         responsive: true
     }    
 });
@@ -223,6 +217,7 @@ var myPieEnv = new Chart(ctxP, {
     	legend: {
             position: 'right'
         },
+        <?php echo $animation; ?>
         responsive: true
     }    
 });
@@ -245,6 +240,7 @@ var myPieTech = new Chart(ctxP, {
     	legend: {
             position: 'right'
         },
+        <?php echo $animation; ?>
         responsive: true
     }    
 });
@@ -267,6 +263,7 @@ var myPieType = new Chart(ctxP, {
     	legend: {
             position: 'right'
         },
+        <?php echo $animation; ?>
         responsive: true
     }    
 });

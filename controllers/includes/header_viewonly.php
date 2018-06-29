@@ -29,7 +29,7 @@
     function takeScreenshot() 
     {
         // Calls the html2canvas API to generate a screenshot
-        // Hide buttons (usually the screenshot button and the back button)
+        // Hide buttons (screenshot button and the back button)
         var bu = document.getElementById('formButtons');
         if (bu.style.display === 'none') {
             bu.style.display = 'block';
@@ -37,7 +37,7 @@
             bu.style.display = 'none';
         }
 
-        // Take screenshot (by calling the API)
+        // Take screenshot
         // (html2canvas generates an image by recreating the elements of the html body)
         html2canvas(document.body).then(function(canvas) {
             document.body.appendChild(canvas);
@@ -51,7 +51,7 @@
             } else {
                 x.style.display = 'none';
             };
-        }, 1500);
+        }, 500);
     }
     </script>
 

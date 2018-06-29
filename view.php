@@ -48,7 +48,7 @@
         </div>
     </div>
 </div>
-<!-- Modal for creating a new team -->
+<!-- Modal for creating a new record -->
 <div class="modal fade" id="addCSModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 	    <div class="modal-content">
@@ -60,6 +60,9 @@
             </div>
             <form class="form-horizontal" method="POST" enctype="multipart/form-data">
               	<div class="modal-body">
+                    <div id="sampledisp">
+                        
+                    </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
@@ -108,7 +111,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true"/>
+                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true" onkeyup="getTotal()" />
                                 </div>
                             </div>
                         </div>
@@ -119,7 +122,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control" type="text" name="inpFinal" id="inpFinal" required="true"/>
+                                    <input class="form-control" type="text" name="inpFinal" id="inpFinal" required="true" onkeyup="getTotal()" />
                                 </div>
                             </div>
                         </div>
@@ -142,7 +145,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
-                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="<?php echo $userFN . ' ' . $userLN; ?>" required="true">
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." required="true">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
@@ -220,7 +223,7 @@ Modal for the image zoom on click
 $(document).ready(function () {             
   $('.dataTables_filter input[type="search"]').
   attr('placeholder','Enter a keyword...').
-  css({'width':'350px','display':'inline-block'}
+  css({'width':'300px','display':'inline-block'}
   );
 });
 
@@ -237,4 +240,15 @@ $(document).ready(function () {
         $('#inpFinal').maskMoney({allowZero: true});
     })
 </script>
+<script type="text/javascript">
+    function getTotal() {
+        var initcost = document.getElementById('inpInitial').value;
+        var finalcost = document.getElementById('inpFinal').value;
+        var diffcost = finalcost - initcost;
+
+        document.getElementById('sampledisp').innerHTML = "Total: "+diffcost;
+
+    }
+</script>
+
 <?php include 'controllers/includes/footer.php'; ?>

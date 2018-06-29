@@ -116,7 +116,7 @@
 						<!--<label for="buttonGroup" class="col-lg-4 col-form-label">Share</label>-->
 						<div class="col-lg-12">							
 							<!--<div class="addthis_inline_share_toolbox">-->
-								<a href="<?php echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; ?>" class="btn btn-warning float-right" target="_blank"><i class="fa fa-fw fa-camera fa-lg"></i> Take a Screenshot</a>
+								<a href="<?php echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; ?>" class="btn btn-outline-dark float-right" target="_blank"><i class="fa fa-fw fa-camera fa-lg"></i> Take a Screenshot</a>
 							</div>
 
 						</div>

@@ -6,10 +6,12 @@
 	if(isset($_GET['viewonly']))
 	{
 		include 'controllers/includes/header_viewonly.php';
+		$animation = "animation: { duration: 0 },";
 	}
 	else
 	{
 		include 'includes/header.php';
+		$animation = "";
 	}
 	
 # SQL query to get the list of teams for the filter dropdown

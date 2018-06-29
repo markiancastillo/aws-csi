@@ -1,5 +1,5 @@
 <?php
-	#include 'controllers/index_controller.php';
+	include 'controllers/index_controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +24,19 @@
 	<title>AWS Cost Savings Knowledge Base</title>
 
 	<style type="text/css">
+		body {
+			position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+			/* background-image: url('images/background.jpg'); */
+    		background-repeat: no-repeat;
+    		background-attachment: fixed;
+    		background-size: 100%;
+    		opacity: 0.9;
+		}
+
 		.vertical-center {
 			min-height: 100%;
 			min-height: 100vh;
@@ -36,16 +49,146 @@
 <body>
 	<div class="jumbotron jumbotron-fluid vertical-center">
 		<div class="container">
-			<h1 class="display-4 text-center">Cost Savings Knowledge Base</h1>
-			<p class="lead text-center">Some description goes here...</p>
-			<hr class="my-4">
+			<h1 class="display-3 text-center"><strong>AWS Cost Savings Knowledge Base</strong></h1>
+			<br class="my-3" />
+			<div class="col-lg-8 offset-lg-2">
 			<p class="lead text-center">
-				<a class="btn btn-primary btn-lg" href="dashboard.php" role="button">Dashboard</a>
-				<a class="btn btn-primary btn-lg" href="view.php" role="button">Cost Savings Table</a>
+				<form class="form-horizontal" method="POST" action="search.php">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+						</div>
+						<input type="text" class="form-control"	placeholder="Enter a keyword..." name="inpSearch" id="inpSearch">
+						<div class="input-group-append">
+							<button class="btn btn-dark" name="btnSearch" id="btnSearch">&emsp; Search &emsp;</button>
+						</div>
+					</div>
+				</form>
 			</p>
+			<p class="lead text-center">
+				<a href="view.php" class="btn btn-outline-dark" class="form-control"><i class="fa fa-fw fa-list-ul"></i> View All Records</a>
+				<button class="btn btn-outline-dark" data-toggle="modal" data-target="#addCSModal" name="btnAdd" id="btnAdd"><i class="fa fa-fw fa-plus"></i> Add New</button>
+			</p>
+			</div>
+			<div class="col-lg-8 offset-lg-2">
+				<?php echo $msgDisplay; ?>
+			</div>
 		</div>
 	</div>
 
+<!-- Modal for creating a new record -->
+<div class="modal fade" id="addCSModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <h5 class="modal-title" id="addModalLabel">New Cost Savings Data</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST">
+            	<div class="modal-body">
+            		<div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <label for="inpTeam">Journey Team</label>
+                                <select class="form-control" name="inpTeam" id="inpTeam" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    <?php echo listTeams($con); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <label for="inpEnv">Environment</label>
+                                <select class="form-control" name="inpEnv" id="inpEnv" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    <?php echo listEnvironments($con); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <label for="inpTech">Cloud/DevOps Technology</label>
+                                <select class="form-control" name="inpTech" id="inpTech" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    <?php echo listTech($con); ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label for="inpType">Cost Savings Type</label>
+                                <select class="form-control" name="inpType" id="inpType" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    <?php echo listTypes($con); ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpInitial">Inital Cost</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpFinal">Final Cost</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input class="form-control" type="text" name="inpFinal" id="inpFinal" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpCause">Root Cause</label>
+                                <textarea class="form-control" rows="10" name="inpCause" id="inpCause" maxlength="800" placeholder="Details of the problem encountered..." required="true"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpSteps">Solution/s Implemented</label>
+                                <textarea class="form-control" rows="10" name="inpSteps" id="inpSteps" maxlength="800" placeholder="Steps taken in order to resolve the issue/s encountered..." required="true"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpName">Action Executed By</label>
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." required="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpDate">Completion Date</label>
+                                <input class="form-control" type="date" name="inpDate" id="inpDate" min="2018-01-01" max="<?php echo $dateToday->format('Y-m-d'); ?>" required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                	    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                		<button type="submit" class="btn btn-primary" name="btnAdd" id="btnAdd">Add Record</button>
+            		</div>
+            	</div>
+            </form>
+        </div>
+    </div>
+</div>
 	<!-- Bootstrap core JavaScript-->
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -55,5 +198,21 @@
 	<script src="js/sb-admin.min.js"></script>
 	<script src="js/sb-admin-datatables.min.js"></script>
 	<script src="js/sb-admin-charts.min.js"></script>
+	<!-- input masking -->
+    <script src="js/jquery.maskMoney.min.js"></script>
+
+	<script type="text/javascript">
+		//set the default value of the date input to today's date
+    	document.getElementById('inpDate').valueAsDate = new Date();
+
+    	//input masking for the money input
+    	$(function() {
+	        $('#inpInitial').maskMoney({allowZero: true});
+	    });
+	
+    	$(function() {
+    	    $('#inpFinal').maskMoney({allowZero: true});
+    	})
+	</script>
 </body>
 </html>

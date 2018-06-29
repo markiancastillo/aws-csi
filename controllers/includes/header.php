@@ -79,12 +79,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="navAccordion">
-                <!--<li class="nav-item <?php #echo $pageTitle === 'Account' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Account">
-                    <a class="nav-link" href="">
-                        <i class="fa fa-fw fa-user-circle"></i>
-                        <span class="nav-link-text"><?php #echo $userLN . ", " . $userFN; ?></span>
-                    </a>
-                </li>-->
 				<li class="nav-item <?php echo $pageTitle === 'Dashboard' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-fw fa-chart-pie"></i>
@@ -109,25 +103,6 @@
                         <li class="<?php echo $pageTitle === 'Journey Teams' ? 'active' : ''; ?>"><a href="add_jt.php">Journey Teams</a></li>
                     </ul>
                 </li>   
-				<!--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="New Page">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#navAccordion">
-                        <i class="fas fa-fw fa-sitemap"></i>
-                        <span class="nav-link-text">Page</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseMulti">
-                        <li><a href="#">Second Level Item</a></li>
-                        <li><a href="#">Second Level Item</a></li>
-                        <li><a href="#">Second Level Item</a></li>
-                        <li>
-                            <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-                            <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                                <li><a href="#">Third Level Item</a></li>
-                                <li><a href="#">Third Level Item</a></li>
-                                <li><a href="#">Third Level Item</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>-->
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
 				<li class="nav-item">

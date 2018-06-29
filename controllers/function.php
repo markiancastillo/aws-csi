@@ -122,9 +122,11 @@
 		return $inpData;
 	}
 
-	# taken from https://screenshotlayer.com/documentation
-	# note: only the free version is used. there is a limitation
-	# of 2 requests per minute and 100 requests per month
+	/* taken from https://screenshotlayer.com/documentation
+	   note: only the free version is used. there is a limitation
+	   of 2 requests per minute and 100 requests per month
+	   ** currently unused **
+	*/
 	function screenshotlayer($url, $args) 
     {
         // set access key
@@ -166,5 +168,16 @@
 						" . $msgText . "
 						</div>";
 		return $msgWarning;
+	}
+
+	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpName, $inpDate)
+	{
+		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt_insert->bind_param("ssssdddiiii", $inpCause, $inpSteps, $inpName, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType);
+		$stmt_insert->execute() or die(mysqli_error($con));
+
+		$msgDisplay = successAlert("Successfully inserted a new record.");
+
+		return $msgDisplay;
 	}
 ?>
