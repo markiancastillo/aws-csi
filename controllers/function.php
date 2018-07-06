@@ -1,6 +1,17 @@
 <?php
 	$msgDisplay = "";
 
+	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID)
+	{
+		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt_insert->bind_param("sssdddiiiii", $inpCause, $inpSteps, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType, $userID);
+		$stmt_insert->execute() or die(mysqli_error($con));
+
+		$msgDisplay = successAlert("Successfully inserted a new record.");
+
+		return $msgDisplay;
+	}
+
 	function errorAlert($msgText)
 	{
 		$msgError = "<div class='alert alert-danger alert-dismissible fade show'>
@@ -45,6 +56,40 @@
 		}
 
 		return $arrowIcon;
+	}
+
+	function getUserID($con, $accID)
+	{
+		$sql_user = $con->prepare("SELECT userID FROM accounts WHERE accountID = ?");
+		$sql_user->bind_param("i", $accID);
+		$sql_user->execute();
+
+		$result_user = $sql_user->get_result();
+
+		while($ru = mysqli_fetch_array($result_user))
+		{
+			$userID = $ru['userID'];
+		}
+
+		return $userID;
+	}
+
+	function getUserName($con, $accID)
+	{
+		$sql_name = $con->prepare("SELECT u.userFN, u.userLN FROM accounts a INNER JOIN users u ON a.userID = u.userID WHERE a.userID = ?");
+		$sql_name->bind_param("i", $accID);
+		$sql_name->execute() or die(mysqli_error($con));
+
+		$result_name = $sql_name->get_result();
+
+		while($row = mysqli_fetch_array($result_name))
+		{
+			$userFN = $row['userFN'];
+			$userLN = $row['userLN'];
+		}
+
+		$userName = $userFN . ' ' . $userLN;
+		return $userName;
 	}
 
 	function listEnvironments($con)
@@ -115,6 +160,14 @@
 		return $list_type;
 	}
 
+	function logEvent($con, $accID, $txtEvent)
+	{
+		$userName = getUserName($con, $accID);
+		$sql_log = $con->prepare("INSERT INTO logs (logDate, logUser, logEvent) VALUES (NOW(), ?, ?)");
+		$sql_log->bind_param("ss", $userName, $txtEvent);
+		$sql_log->execute() or die(msqli_error($con));
+	}
+
 	function removeslashes($inpData)
 	{
 		$inpData = implode("", explode("\\", $inpData));
@@ -170,14 +223,5 @@
 		return $msgWarning;
 	}
 
-	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpName, $inpDate)
-	{
-		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csActor, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt_insert->bind_param("ssssdddiiii", $inpCause, $inpSteps, $inpName, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType);
-		$stmt_insert->execute() or die(mysqli_error($con));
-
-		$msgDisplay = successAlert("Successfully inserted a new record.");
-
-		return $msgDisplay;
-	}
+	
 ?>

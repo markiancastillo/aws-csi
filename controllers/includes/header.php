@@ -17,10 +17,12 @@
 
     <meta property="og:url" content="<?php echo $current_uri; ?>">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="AWS Cost Savings Initiative - Dashboard">
-    <meta property="og:description" content="View the cost savings initiative dashboard.">
-    <meta property="og:image" content="<?php echo $imglink; ?>">
-
+    <meta property="og:title" content="<?php echo $metaTitle; ?>">
+    <meta property="og:description" content="<?php echo $metaDescription; ?>">
+    <!--<meta property="og:description" content="The AWS Cost Savings Knowledge Base is an inventory of all the efforts made by each team and serves as a means for them to share these efforts to others.">-->
+    <!--<meta property="og:image" content="<?php #echo $current_uri . '&viewonly=1'; ?>">-->
+    <meta property="og:image" content="https://i.imgur.com/fgOWFZ4.png">
+    
     <meta name="description" content="">
     <meta name="author" content="">
 	<title><?php echo $pageTitle; ?></title>
@@ -48,6 +50,11 @@
 
             display: flex;
             align-items: center;
+        }
+
+        /* Removes the caret after the dropdown */
+        .nav-link#userDropdown::after {
+            display: none;
         }
     </style>
 </head>
@@ -79,16 +86,22 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="navAccordion">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home Page">
+                    <a class="nav-link" href="index.php">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span class="nav-link-text text-center">Home</span>
+                    </a>
+                </li>
 				<li class="nav-item <?php echo $pageTitle === 'Dashboard' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-fw fa-chart-pie"></i>
-                        <span class="nav-link-text">Dashboard</span>
+                        <span class="nav-link-text text-center">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo $pageTitle === 'Cost Savings' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Cost Savings">
+                <li class="nav-item <?php echo $pageTitle === 'Cost Savings Initiatives' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Cost Savings">
                     <a class="nav-link" href="view.php">
                         <i class="fas fa-fw fa-piggy-bank"></i>
-                        <span class="nav-link-text">Cost Savings</span>
+                        <span class="nav-link-text">Cost Savings Initiatives</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Manage Data">
@@ -130,12 +143,23 @@
                         <a class="dropdown-item" href="">Logout</a>
                     </div>
                 </li>-->
-				<li class="nav-item">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="userDropdown" name="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-fw fa-user-circle fa-lg"></i> 
+                        <?php echo $userFN . ' ' . $userLN; ?> 
+                        <i class="fa fa-fw fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <!--<a class="dropdown-item" href="">My Account</a>-->
+                        <a class="dropdown-item" href="#logoutModal" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt fa-sm"></i> Logout</a>
+                    </div>
+                </li>
+				<!--<li class="nav-item">
                     <a class="nav-link btn btn-basic btn-block" data-toggle="modal" data-target="#logoutModal" title="Logout">
                         <i class="fas fa-fw fa-sign-out-alt fa-lg"></i>
                          Logout
                     </a>
-                </li>
+                </li>-->
 			</ul>
 		</div>
 	</nav>

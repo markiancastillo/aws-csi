@@ -78,17 +78,17 @@
 
 <!-- Modal for creating a new record -->
 <div class="modal fade" id="addCSModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-	    <div class="modal-content">
-	        <div class="modal-header">
-	            <h5 class="modal-title" id="addModalLabel">New Cost Savings Data</h5>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">New Cost Savings Data</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST">
-            	<div class="modal-body">
-            		<div class="row">
+            <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <label for="inpTeam">Journey Team</label>
@@ -136,7 +136,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true"/>
+                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true"  />
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control" type="text" name="inpFinal" id="inpFinal" required="true"/>
+                                    <input class="form-control" type="text" name="inpFinal" id="inpFinal" required="true" onkeyup="getTotal()" />
                                 </div>
                             </div>
                         </div>
@@ -167,10 +167,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-6" style="display: none">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
-                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." required="true">
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="John Doe" required="true">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
@@ -179,12 +179,23 @@
                                 <input class="form-control" type="date" name="inpDate" id="inpDate" min="2018-01-01" max="<?php echo $dateToday->format('Y-m-d'); ?>" required="true">
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpDate">Total Savings</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="sampledisp" name="sampledisp" readonly="true" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                	    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                		<button type="submit" class="btn btn-primary" name="btnAdd" id="btnAdd">Add Record</button>
-            		</div>
-            	</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="btnAdd" id="btnAdd">Add Record</button>
+                </div>
             </form>
         </div>
     </div>
@@ -200,19 +211,7 @@
 	<script src="js/sb-admin-charts.min.js"></script>
 	<!-- input masking -->
     <script src="js/jquery.maskMoney.min.js"></script>
-
-	<script type="text/javascript">
-		//set the default value of the date input to today's date
-    	document.getElementById('inpDate').valueAsDate = new Date();
-
-    	//input masking for the money input
-    	$(function() {
-	        $('#inpInitial').maskMoney({allowZero: true});
-	    });
-	
-    	$(function() {
-    	    $('#inpFinal').maskMoney({allowZero: true});
-    	})
-	</script>
+    <!-- Some custom js for the input masking, default input values, etc. -->
+    <script type="text/javascript" src="js/custom.js"></script>
 </body>
 </html>

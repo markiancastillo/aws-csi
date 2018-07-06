@@ -55,8 +55,12 @@
 				{
 					session_start();
 					$_SESSION['accID'] = $accountID;
+					$accID = $_SESSION['accID'];
+
+					$txtEvent = "Logged in into the system.";
+					logEvent($con, $accID, $txtEvent);
 	
-					header('location: dashboard.php');
+					header('location: index.php');
 				}
 				else if($accountStatus == 2)
 				{

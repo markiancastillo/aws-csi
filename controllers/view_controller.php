@@ -1,16 +1,17 @@
 <?php
-	$pageTitle = "Cost Savings";
+	$pageTitle = "Cost Savings Initiatives";
 	include_once 'includes/header.php';
 
 	$dateToday = new DateTime(date("Y-m-d"));
 
 	# Get the records for the table
-	$sql_list = "SELECT s.csID, s.csCause, s.csSteps, s.csActor, s.csDate, s.csSavings, s.csInitial, s.csFinal, m.teamName, h.techName, e.envName, y.typeName 
+	$sql_list = "SELECT s.csID, s.csCause, s.csSteps, s.csDate, s.csSavings, s.csInitial, s.csFinal, m.teamName, h.techName, e.envName, y.typeName, u.userFN, u.userLN
 				 FROM costsavings s 
 				 INNER JOIN journeyteams m ON s.teamID = m.teamID 
 				 INNER JOIN technologies h ON s.techID = h.techID 
 				 INNER JOIN environments e ON s.envID = e.envID 
 				 INNER JOIN savingtypes y ON s.typeID = y.typeID
+				 INNER JOIN users u ON s.userID = u.userID
 				 ORDER BY s.csDate DESC";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
 
@@ -21,7 +22,6 @@
 		$csID = htmlspecialchars($row['csID']);
 		$csCause = htmlspecialchars($row['csCause']);
 		$csSteps = htmlspecialchars($row['csSteps']);
-		$csActor = htmlspecialchars($row['csActor']);
 		$csDate = htmlspecialchars($row['csDate']);
 		$displayDate = date('m/d/Y', strtotime($csDate));
 		$csSavings = htmlspecialchars($row['csSavings']);
@@ -31,6 +31,7 @@
 		$techName = htmlspecialchars($row['techName']);
 		$envName = htmlspecialchars($row['envName']);
 		$typeName = htmlspecialchars($row['typeName']);
+		$userName = htmlspecialchars($row['userFN']) . ' ' . htmlspecialchars($row['userLN']);
 
 #		$displayInitial = ($csInitial === null || empty($csInitial)) ? "placeholder.jpg" : $csInitial;	-- removed (06/01/2018)
 #		$displayFinal = ($csFinal === null || empty($csFinal)) ? "placeholder.jpg" : $csFinal;
@@ -42,8 +43,16 @@
                 <td>$techName</td>
                 <td>$envName</td>
                 <td>$typeName</td>
-                <td>$csActor</td>
+                <td>$userName</td>
+                <td>
+                    <span class='float-left'>$</span>
+                    <span class='float-right'>$csInitial</span>
+                </td>
                 <td>$csSteps</td>
+                <td>
+                    <span class='float-left'>$</span>
+                    <span class='float-right'>$csFinal</span>
+                </td>
                 <td>
                     <span class='float-left'>$</span>
                     <span class='float-right'>$csSavings</span>
@@ -97,6 +106,9 @@
 	# Insert the input into the database
 	if(isset($_POST['btnAdd']))
 	{
+		# Get the userID value based on the session's accID value
+		$userID = getUserID($con, $accID);
+
 		# Retrieve the input data from the form
 		$inpTeam = mysqli_real_escape_string($con, $_POST['inpTeam']);
 		$inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);
@@ -109,7 +121,7 @@
 
 		$inpCause = mysqli_real_escape_string($con, $_POST['inpCause']);
 		$inpSteps = mysqli_real_escape_string($con, $_POST['inpSteps']);
-		$inpName = mysqli_real_escape_string($con, $_POST['inpName']);
+		#$inpName = mysqli_real_escape_string($con, $_POST['inpName']); -- will be automatically added via session ID
 		$inpDate = mysqli_real_escape_string($con, $_POST['inpDate']);
 
 /* 		Update 06/01/2018: image input is replaced with cost input
@@ -143,7 +155,7 @@
 		}
 */
 
-		addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpName, $inpDate);
+		addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID);
 
 		$msgDisplay = successAlert("Successfully inserted a new record.");
 		header('Refresh: 1');

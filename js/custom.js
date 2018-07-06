@@ -32,8 +32,32 @@
     } );
 
 $(document).ready(function () {             
-  $('.dataTables_filter input[type="search"]').
-  attr('placeholder','Enter a keyword...').
-  css({'width':'300px','display':'inline-block'}
-  );
+    $('.dataTables_filter input[type="search"]').
+    attr('placeholder','Enter a keyword...').
+    css({'width':'300px','display':'inline-block'});
 });
+
+// Automatically display the total when the initial and final values are input
+function getTotal() {
+    var initcost = document.getElementById('inpInitial').value;
+    var finalcost = document.getElementById('inpFinal').value;
+
+    initcost = initcost.replace(/\,/g,'');
+    finalcost = finalcost.replace(/\,/g,'');
+
+    var diffcost = initcost - finalcost;
+
+    document.getElementById('sampledisp').value = diffcost.toFixed(2);
+}
+
+// Set the default value of the date input to today's date
+document.getElementById('inpDate').valueAsDate = new Date();
+
+// Input masking for the money input
+$(function() {
+    $('#inpInitial').maskMoney({allowZero: true});
+});
+
+$(function() {
+    $('#inpFinal').maskMoney({allowZero: true});
+})

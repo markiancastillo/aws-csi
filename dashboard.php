@@ -42,20 +42,23 @@
 			</div>
             <div class="card mb-3" id="formButtons">
                 <div class="card-body">
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="filterTeam"><small class="text-muted">Filter by Team</small></label>
-                            <select class="form-control" name="filterTeam" id="filterTeam">
-                                <option value="" <?php if(!isset($_GET['filter'])) {echo "selected='true'";} else { echo ""; } ?>>Show All</option>
-                                <?php echo $list_teams; ?>
-                            </select>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary text-center" name="btnFilter" id="btnFilter">Apply Filter</button>
+                    <form method="POST" class="form-horizontal">
+                        <label for="filterTeam"><small class="text-muted">Filter by Team</small></label>
+                        <div class="form-row">
+                            <div class="col-lg-8">
+                                <select class="form-control" name="filterTeam" id="filterTeam">
+                                    <option value="" <?php if(!isset($_GET['filter'])) {echo "selected='true'";} else { echo ""; } ?>>Show All</option>
+                                    <?php echo $list_teams; ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <button type="submit" class="btn btn-primary" name="btnFilter" id="btnFilter">Apply</button>
+                            </div>
                         </div>
                     </form>
                     <hr />
                     <div class="text-center">
+                        <div class="addthis_inline_share_toolbox"></div>
                         <a href="<?php if(isset($_GET['filter'])) { echo $_SERVER['REQUEST_URI'] . '&viewonly=1'; } else { echo $_SERVER['REQUEST_URI'] . '?viewonly=1'; }; ?>" class="btn btn-outline-dark text-center" target="_blank"><i class="fa fa-fw fa-camera"></i> Take a Screenshot</a>
                     </div>
                 </div>
@@ -110,7 +113,7 @@
 	<div class="col-lg-12">
 		<div class="card mb-3">
             <div class="card-header">
-            	<h5>Latest Initiatives</h5>
+            	<h5>Latest Initiatives <?php echo $tableDisplay; ?></h5>
             </div>
             <div class="card-body">
             	<div class="table table-responsive table-hover">
@@ -122,7 +125,7 @@
                                 <th class="text-center">Technology</th>
                                 <th class="text-center">Environment</th>
                                 <th class="text-center">Type</th>
-                                <th class="text-center">Amount</th>
+                                <th class="text-center">Savings</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -133,18 +136,6 @@
             </div>
         </div>
 	</div>
-    <!-- DIV for the social media buttons via addThis
-    <div class="col-lg-12">
-        <div class="card-deck">
-            <div class="card mb-3" style="border-color: white;">
-                <div class="card-body">
-                    <div class="float-right">
-                        <div class="addthis_inline_share_toolbox"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
 </div>
 <script type="text/javascript">
 // JS for the bar chart

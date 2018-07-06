@@ -23,7 +23,9 @@
                                 <th class="text-center">Environment</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Executed By</th>
+                                <th class="text-center">Inital Cost</th>
                                 <th class="text-center">Solution/s Implemented</th>
+                                <th class="text-center">Final Cost</th>
                                 <th class="text-center">Total Savings</th>
                             </tr>
                         </thead>
@@ -38,6 +40,8 @@
                                 <th class="text-center">Environment</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Executed By</th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
                                 <th class="text-center"></th>
                                 <th class="text-center"></th>
                             </tr>
@@ -60,9 +64,6 @@
             </div>
             <form class="form-horizontal" method="POST" enctype="multipart/form-data">
               	<div class="modal-body">
-                    <div id="sampledisp">
-                        
-                    </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
@@ -111,7 +112,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true" onkeyup="getTotal()" />
+                                    <input class="form-control" type="text" name="inpInitial" id="inpInitial" required="true"  />
                                 </div>
                             </div>
                         </div>
@@ -142,16 +143,27 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-6" style="display: none">
                             <div class="form-group">
                                 <label for="inpName">Action Executed By</label>
-                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." required="true">
+                                <input class="form-control" type="text" name="inpName" id="inpName" maxlength="50" placeholder="Enter a name..." value="John Doe" required="true">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpDate">Completion Date</label>
                                 <input class="form-control" type="date" name="inpDate" id="inpDate" min="2018-01-01" max="<?php echo $dateToday->format('Y-m-d'); ?>" required="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpDate">Total Savings</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="sampledisp" name="sampledisp" readonly="true" placeholder="0.00">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -186,69 +198,8 @@ Modal for the image zoom on click
 </div> -->
 
 <?php #echo $imgModal; ?>
-<script type="text/javascript">
-//for the page-level data-table
-    $(document).ready(function() {
-        $('#savingsTable').DataTable( {
-            "order": [[ 0, "desc" ]],
-            pageResize: true,
-            scrollY:        '50vh',
-            scrollX:        '100%',
-            scrollCollapse: true,
-            paging:         false,
-            initComplete: function () {
-                this.api().columns([1,2,3,4,5]).every( function () {
-                    var column = this;
-                    var title = $(this).text();
-                    var select = $('<select class="form-control"><option value="">Show All</option></select>')
-                        .appendTo( $(column.footer()).empty() )
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-     
-                            column
-                                .search( val ? '^'+val+'$' : '', true, false )
-                                .draw();
-                        } );
-     
-                    column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option value="'+d+'">'+d+'</option>' )
-                    } );
-                } );
-            }
-        } );
-    } );
 
-$(document).ready(function () {             
-  $('.dataTables_filter input[type="search"]').
-  attr('placeholder','Enter a keyword...').
-  css({'width':'300px','display':'inline-block'}
-  );
-});
-
-//set the default value of the date input to today's date
-    document.getElementById('inpDate').valueAsDate = new Date();
-</script>
-<script type="text/javascript">
-//input masking for the money input
-    $(function() {
-        $('#inpInitial').maskMoney({allowZero: true});
-    });
-
-    $(function() {
-        $('#inpFinal').maskMoney({allowZero: true});
-    })
-</script>
-<script type="text/javascript">
-    function getTotal() {
-        var initcost = document.getElementById('inpInitial').value;
-        var finalcost = document.getElementById('inpFinal').value;
-        var diffcost = finalcost - initcost;
-
-        document.getElementById('sampledisp').innerHTML = "Total: "+diffcost;
-
-    }
-</script>
+<!-- Some custom js for the input masking, default input values, etc. -->
+<script type="text/javascript" src="js/custom.js"></script>
 
 <?php include 'controllers/includes/footer.php'; ?>
