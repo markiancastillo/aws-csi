@@ -2,6 +2,9 @@
 	$pageTitle = "Edit Environment";
 	include_once 'includes/header.php';
 
+	# Echoes a redirect line if the user does not have access to the page
+	accessPage($con, $accID);
+
 	if(isset($_GET['id']))
 	{
 		$requestID = $_GET['id'];
@@ -35,6 +38,9 @@
 				$sql_update = $con->prepare("UPDATE environments SET envName = ? WHERE envID = ?");
 				$sql_update->bind_param("si", $inpName, $requestID);
 				$sql_update->execute();
+
+				$txtEvent = "Updated record #". $requestID . " of environments from '" . $envName . "' to '" . $inpName . "'";
+				logEvent($con, $accID, $txtEvent);
 
 				$msgDisplay = successAlert("Successfully udpated the record!");
 

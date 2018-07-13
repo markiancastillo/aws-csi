@@ -2,6 +2,9 @@
 	$pageTitle = "Search Results";
 	include_once 'controllers/includes/header.php';
 
+	# Initialize/set the default value for the page header
+	$displayHeader = "";
+
 	# Check if a post value was passed
 	if(empty($_POST))
 	{ 
@@ -25,12 +28,17 @@
 		# Check if the input is empty
 		if(empty(trim($searchKey)))
 		{
+			# Header to display if no search key is specified
+			$displayHeader = "Displaying All Records";
+
 			# If the key is blank/empty, display all the records
 	    	$sql_search = $stmt_search . $stmt_order;
 	    	$result_search = $con->query($sql_search) or die(mysqli_error($sql_search));
 		}
 		else 
 		{
+			# Header to display if there is a search key specified
+			$displayHeader = 'Displaying results with "' . $searchKey . '"';
 			#else, filter columns with the key as parameter on the LIKE operator
 	    	$sql_search = $con->prepare($stmt_search . 
 	    				"WHERE csCause LIKE CONCAT ('%', ?, '%') 
@@ -77,7 +85,15 @@
 	                <td>$envName</td>
 	                <td>$typeName</td>
 	                <td>$userName</td>
-	                <td>$csSteps</td>
+	                <td>
+                    <span class='float-left'>$</span>
+                    	<span class='float-right'>$csInitial</span>
+                	</td>
+                	<td>$csSteps</td>
+                	<td>
+                	    <span class='float-left'>$</span>
+                	    <span class='float-right'>$csFinal</span>
+                	</td>
 	                <td>
 	                    <span class='float-left'>$</span>
 	                    <span class='float-right'>$csSavings</span>

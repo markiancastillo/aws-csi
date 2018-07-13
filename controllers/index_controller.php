@@ -32,6 +32,9 @@
     
             addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID);
 
+            $txtEvent = "Added a new cost savings entry dated " . $inpDate . ", with a total savings of $" . $totSavings;
+            logEvent($con, $accID, $txtEvent);
+
             $msgDisplay = successAlert("Successfully added a new record!");
             header('Refresh: 1');
         }

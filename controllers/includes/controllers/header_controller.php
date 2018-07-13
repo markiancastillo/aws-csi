@@ -44,6 +44,9 @@
 	    	$userFN = $row['userFN'];
 	    	$userLN = $row['userLN'];
 	    }
+
+	    # Hide/show certain navbar buttons depending on the user's access level
+		$accessLevel = allowAccess($con, $accID);
 	}
 	else if(isset($_GET['access']))
 	{

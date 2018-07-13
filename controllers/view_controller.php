@@ -2,6 +2,7 @@
 	$pageTitle = "Cost Savings Initiatives";
 	include_once 'includes/header.php';
 
+	# Date to display as the default value in the add record form
 	$dateToday = new DateTime(date("Y-m-d"));
 
 	# Get the records for the table
@@ -33,8 +34,9 @@
 		$typeName = htmlspecialchars($row['typeName']);
 		$userName = htmlspecialchars($row['userFN']) . ' ' . htmlspecialchars($row['userLN']);
 
-#		$displayInitial = ($csInitial === null || empty($csInitial)) ? "placeholder.jpg" : $csInitial;	-- removed (06/01/2018)
+#		$displayInitial = ($csInitial === null || empty($csInitial)) ? "placeholder.jpg" : $csInitial;
 #		$displayFinal = ($csFinal === null || empty($csFinal)) ? "placeholder.jpg" : $csFinal;
+#		-- removed (06/01/2018)
 
 		$cs_list .= "
 			<tr class='clickable-row' data-href='details.php?rid=$csID' style='cursor: pointer;'>
@@ -58,7 +60,7 @@
                     <span class='float-right'>$csSavings</span>
                 </td>
             </tr>";
-        # Update 06/01/2018: image input is replaced with cost input
+# 		Update 06/01/2018 -- image input is replaced with cost (number) input
         /*$imgModal .= "
         	<div class='modal fade' tabindex='-1' role='dialog' id='imgModal$csID'>
 			    <div class='modal-dialog modal-lg' role='document'>
@@ -124,7 +126,7 @@
 		#$inpName = mysqli_real_escape_string($con, $_POST['inpName']); -- will be automatically added via session ID
 		$inpDate = mysqli_real_escape_string($con, $_POST['inpDate']);
 
-/* 		Update 06/01/2018: image input is replaced with cost input
+/* 		Update 06/01/2018 -- image input is replaced with cost (number) input
 		#check the image uploaded
 		if(!isset($_FILES['inpPhoto']) || $_FILES['inpPhoto']['error'])
 		{
@@ -156,6 +158,9 @@
 */
 
 		addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID);
+
+		$txtEvent = "Added a new cost savings entry dated " . $inpDate . ", with a total savings of $" . $totSavings;
+            logEvent($con, $accID, $txtEvent);
 
 		$msgDisplay = successAlert("Successfully inserted a new record.");
 		header('Refresh: 1');

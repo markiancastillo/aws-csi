@@ -2,6 +2,9 @@
 	$pageTitle = "AWS/DevOps Technologies";
 	include_once 'includes/header.php';
 
+	# Echoes a redirect line if the user does not have access to the page
+	accessPage($con, $accID);
+
 	# Query to get the records
 	$sql_list = "SELECT techID, techName FROM technologies";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
@@ -48,6 +51,9 @@
 				$stmt_insert = $con->prepare("INSERT INTO technologies(techName) VALUES (?)");
 				$stmt_insert->bind_param("s", $inpName);
 				$stmt_insert->execute();
+
+				$txtEvent = "Added a new aws/dev ops technology: " . $inpName;
+				logEvent($con, $accID, $txtEvent);
 	
 				$msgDisplay = successAlert("Successfully added a new record.");
 	

@@ -3,7 +3,7 @@
 ?>
 <div class="row">
 	<div class="col-md-12">
-		<h5 class="display-4">Displaying results with "<?php echo $searchKey; ?>"</h5>
+		<h5 class="display-4"><?php echo $displayHeader; ?></h5>
 		<div class="table table-responsive table-hover">
 			<table class="table-bordered display pageResize" id="savingsTable" width="100%" cellspacing="0">
 				<thead>
@@ -14,7 +14,9 @@
                         <th class="text-center">Environment</th>
                         <th class="text-center">Type</th>
                         <th class="text-center">Executed By</th>
+                        <th class="text-center">Inital Cost</th>
                         <th class="text-center">Solution/s Implemented</th>
+                        <th class="text-center">Final Cost</th>
                         <th class="text-center">Total Savings</th>
                     </tr>
                 </thead>
@@ -29,6 +31,8 @@
                         <th class="text-center">Environment</th>
                         <th class="text-center">Type</th>
                         <th class="text-center">Executed By</th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
                         <th class="text-center"></th>
                         <th class="text-center"></th>
                     </tr>

@@ -2,6 +2,9 @@
 	$pageTitle = "Environments";
 	include 'includes/header.php';
 
+	# Echoes a redirect line if the user does not have access to the page
+	accessPage($con, $accID);
+
 	# Query for displaying the records
 	$sql_list = "SELECT envID, envName FROM environments";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
@@ -23,7 +26,11 @@
 
 			$list_env .= "
 				<tr>
-					<td>$envName <a href='edit_env.php?id=$envID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
+					<td>$envName 
+						<a href='edit_env.php?id=$envID' class='btn btn-outline-link btn-sm float-right'>
+							<span class='fa fa-edit fa-fw'></span>
+						</a>
+					</td>
 				</tr>";
 		}
 	}
@@ -53,6 +60,9 @@
 				$stmt_insert = $con->prepare("INSERT INTO environments (envName) VALUES (?)");
 				$stmt_insert->bind_param("s", $inpName);
 				$stmt_insert->execute();
+
+				$txtEvent = "Added a new environment: " . $inpName;
+				logEvent($con, $accID, $txtEvent);
 
 				$msgDisplay = successAlert("Successfully added a new record.");
 

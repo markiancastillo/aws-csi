@@ -1,6 +1,7 @@
 <?php
 	$msgDisplay = "";
 
+	# Used by the view.php and index.php's modal for adding a new record
 	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID)
 	{
 		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -12,6 +13,42 @@
 		return $msgDisplay;
 	}
 
+	# Gets the access value from the database to determine the availability of administrator functions for the user
+	function allowAccess($con, $accID)
+	{
+		$sql_access = $con->prepare("SELECT accountAccess FROM accounts WHERE accountID = ?");
+		$sql_access->bind_param("i", $accID);
+		$sql_access->execute();
+
+		$result_access = $sql_access->get_result();
+
+		while($row = mysqli_fetch_array($result_access))
+		{
+			$accountAccess = $row['accountAccess'];
+		}
+
+		return $accountAccess;
+	}
+
+	# Determines whether the page can be accessed by the user
+	# Used in the Manage Data pages (add/edit teams, tech, savings types, environments)
+	function accessPage($con, $accID)
+	{
+		$accountAccess = allowAccess($con, $accID);
+
+		if($accountAccess == 1 || $accountAccess == 2)
+		{
+			
+		}
+		else
+		{
+			header('location: error.php');
+		}
+
+		return $accessPage;
+	}
+
+	# Used to display an error alert box
 	function errorAlert($msgText)
 	{
 		$msgError = "<div class='alert alert-danger alert-dismissible fade show'>
@@ -21,15 +58,18 @@
 		return $msgError;
 	}
 
+	# Checks the input data by removing slashes and white spaces
 	function inpcheck($inputData)
 	{
 		$inputData = removeslashes($inputData);
 		$inputData = stripslashes($inputData);
 		$inputData = trim($inputData);
 		$inputData = htmlspecialchars($inputData);
+
 		return $inputData;
 	}
 
+	# Gets the percent difference between savings values (used in the dashboard)
 	function getDiff($sumLast, $sumSavings)
 	{
 		#formula to get the % difference for the current week vs. previous week
@@ -38,10 +78,11 @@
 		return $percDiff;
 	}
 
+	# Determines the arrow icon to display based on the increase or decrease of savings (previous vs current)
 	function getArrowIcon($sumLast, $sumSavings)
 	{
 		$percDiff = getDiff($sumLast, $sumSavings);
-		#conditional statements to determine which icon to display
+
 		if($percDiff < 0)
 		{
 			$arrowIcon = "<span class='fa fa-fw fa-arrow-circle-down' style='color: red'></span>";
@@ -58,6 +99,7 @@
 		return $arrowIcon;
 	}
 
+	# 
 	function getUserID($con, $accID)
 	{
 		$sql_user = $con->prepare("SELECT userID FROM accounts WHERE accountID = ?");
@@ -74,6 +116,7 @@
 		return $userID;
 	}
 
+	#
 	function getUserName($con, $accID)
 	{
 		$sql_name = $con->prepare("SELECT u.userFN, u.userLN FROM accounts a INNER JOIN users u ON a.userID = u.userID WHERE a.userID = ?");
@@ -92,6 +135,7 @@
 		return $userName;
 	}
 
+	# Gets the list of environments for the dropdown
 	function listEnvironments($con)
 	{
 		$sql_env = "SELECT envID, envName FROM environments";
@@ -109,6 +153,7 @@
 		return $list_env;
 	}
 
+	# Gets the list of journey teams for the dropdown
 	function listTeams($con)
 	{
 		$sql_teams = "SELECT teamID, teamName FROM journeyteams";
@@ -126,6 +171,7 @@
 	    return $list_teams;
 	}
 
+	# Gets the list of aws/devops technologies for the dropdown
 	function listTech($con)
 	{
 		$sql_tech = "SELECT techID, techName FROM technologies";
@@ -143,6 +189,7 @@
 		return $list_tech;
 	}
 
+	# Gets the list of savings types for the dropdown
 	function listTypes($con)
 	{
 		$sql_type = "SELECT typeID, typeName FROM savingtypes";
@@ -160,14 +207,16 @@
 		return $list_type;
 	}
 
+	# Logs the event/action that was performed on a page as well as the actor of the event
 	function logEvent($con, $accID, $txtEvent)
 	{
 		$userName = getUserName($con, $accID);
 		$sql_log = $con->prepare("INSERT INTO logs (logDate, logUser, logEvent) VALUES (NOW(), ?, ?)");
 		$sql_log->bind_param("ss", $userName, $txtEvent);
-		$sql_log->execute() or die(msqli_error($con));
+		$sql_log->execute() or die(mysqli_error($con));
 	}
 
+	# Removes slashes from input data
 	function removeslashes($inpData)
 	{
 		$inpData = implode("", explode("\\", $inpData));
@@ -205,6 +254,7 @@
         return "https://api.screenshotlayer.com/api/capture?access_key=$access_key&secret_key=$secret_key&$query";
     }
 
+    # Displays a success alert box
 	function successAlert($msgText)
 	{
 		$msgSuccess = "<div class='alert alert-success alert-dismissible fade show'>
@@ -214,6 +264,7 @@
 		return $msgSuccess;
 	}
 
+	# Displays a warning alert box
 	function warningAlert($msgText)
 	{
 		$msgWarning = "<div class='alert alert-warning alert-dismissible fade show'>

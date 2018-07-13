@@ -2,6 +2,9 @@
 	$pageTitle = 'Journey Teams';
 	include_once 'includes/header.php';
 
+	# Echoes a redirect line if the user does not have access to the page
+	accessPage($con, $accID);
+
 	# Query for displaying the existing journey teams
 	$sql_list = "SELECT teamID, teamName FROM journeyteams";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
@@ -52,6 +55,9 @@
 				$stmt_insert = $con->prepare("INSERT INTO journeyteams (teamName) VALUES (?)");
 				$stmt_insert->bind_param("s", $inpName);
 				$stmt_insert->execute();
+
+				$txtEvent = "Added a new journey team: " . $inpName;
+				logEvent($con, $accID, $txtEvent);
 
 				$msgDisplay = successAlert("Successfully added a new team.");
 

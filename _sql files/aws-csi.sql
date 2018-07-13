@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2018 at 08:33 AM
+-- Generation Time: Jul 09, 2018 at 06:07 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 5.6.35
 
@@ -87,7 +87,7 @@ CREATE TABLE `costsavings` (
 
 INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, `csInitial`, `csFinal`, `teamID`, `techID`, `envID`, `typeID`, `userID`) VALUES
 (1, 'lorem', 'ipsum', '2018-07-03', '20.00', '120.00', '100.00', 5, 2, 3, 3, 9),
-(2, 'test input 2', ' ', '2018-07-03', '50.00', '250.00', '200.00', 5, 2, 1, 3, 9),
+(2, 'test input 2', 'test input 2', '2018-07-03', '50.00', '250.00', '200.00', 5, 2, 1, 3, 9),
 (3, 'test ', 'test', '2018-07-03', '80.00', '200.00', '120.00', 2, 1, 2, 2, 9),
 (4, 'hello', 'world', '2018-06-29', '150.00', '1200.00', '1050.00', 4, 2, 1, 2, 9),
 (5, 'test', 'test', '2018-06-26', '20.00', '100.00', '80.00', 4, 1, 2, 4, 9),
@@ -184,7 +184,10 @@ INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, 
 (282, 'lorem ipsum', 'lorem ipsum', '2018-06-21', '100.00', '200.00', '100.00', 3, 2, 1, 3, 3),
 (283, 'lorem ipsum', 'lorem ipsum', '2018-06-25', '40.00', '260.00', '220.00', 2, 2, 1, 1, 3),
 (284, 'lorem ipsum', 'lorem ipsum', '2018-06-26', '20.00', '100.00', '80.00', 4, 2, 1, 1, 1),
-(285, 'lorem ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra augue eu lobortis mattis. Cras vel mi faucibus, gravida est a, facilisis sem.', '2018-07-05', '20.00', '100.00', '80.00', 3, 1, 1, 3, 9);
+(285, 'lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra augue eu lobortis mattis. Cras vel mi faucibus, gravida est a, facilisis sem.', '2018-07-05', '20.00', '100.00', '80.00', 3, 1, 1, 3, 9),
+(286, 'test edit of data', 'test edit of data', '2018-07-08', '70.00', '250.00', '180.00', 4, 1, 1, 4, 9),
+(287, 'test add of data', 'test add of data', '2018-07-09', '60.00', '230.00', '170.00', 5, 2, 1, 3, 9),
+(288, 'test input 2', 'test input 2', '2018-07-09', '20.00', '120.00', '100.00', 5, 2, 1, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -226,7 +229,43 @@ INSERT INTO `journeyteams` (`teamID`, `teamName`) VALUES
 (2, 'DHC'),
 (3, 'Memories'),
 (4, 'Testing'),
-(5, 'My Team');
+(5, 'My Team'),
+(6, 'New Team');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logs`
+--
+
+CREATE TABLE `logs` (
+  `logID` int(11) NOT NULL,
+  `logDate` datetime NOT NULL,
+  `logUser` varchar(100) NOT NULL,
+  `logEvent` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`logID`, `logDate`, `logUser`, `logEvent`) VALUES
+(1, '2018-07-09 09:41:16', 'Mark Castillo', 'Logged in into the system.'),
+(2, '2018-07-09 09:43:40', 'Mark Castillo', 'Logged out of the system.'),
+(3, '2018-07-09 09:43:54', 'Mark Castillo', 'Logged in into the system.'),
+(4, '2018-07-09 10:10:40', 'Mark Castillo', 'Updated the information of record #2'),
+(5, '2018-07-09 11:05:15', 'Mark Castillo', 'Updated record #2 of environments from \'QA\' to \'Quality Assurance\''),
+(6, '2018-07-09 11:08:47', 'Mark Castillo', 'Updated record #2 of environments from \'Quality Assurance\' to \'QA\''),
+(7, '2018-07-09 11:09:24', 'Mark Castillo', 'Updated record #4 of journey teams from \'Testing\' to \'Testing 1\''),
+(8, '2018-07-09 11:09:42', 'Mark Castillo', 'Updated record #4 of journey teams from \'Testing 1\' to \'Testing\''),
+(9, '2018-07-09 11:10:18', 'Mark Castillo', 'Added a new journey team: New Team'),
+(10, '2018-07-09 11:14:54', 'Mark Castillo', 'Updated record #4 of savings types from \'Optimization\' to \'Optimizations\''),
+(11, '2018-07-09 11:15:09', 'Mark Castillo', 'Updated record #4 of savings types from \'Optimizations\' to \'Optimization\''),
+(12, '2018-07-09 11:19:21', 'Mark Castillo', 'Added a new cost savings entry dated: 2018-07-08, with a total savings of $55'),
+(13, '2018-07-09 11:37:20', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-09, with a total savings of $60'),
+(14, '2018-07-09 11:39:52', 'Mark Castillo', 'Updated the information of record #286'),
+(15, '2018-07-09 11:56:43', 'Mark Castillo', 'Updated the information of cost savings record #285'),
+(16, '2018-07-09 12:00:51', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-09, with a total savings of $20');
 
 -- --------------------------------------------------------
 
@@ -338,6 +377,12 @@ ALTER TABLE `journeyteams`
   ADD PRIMARY KEY (`teamID`);
 
 --
+-- Indexes for table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`logID`);
+
+--
 -- Indexes for table `savingtypes`
 --
 ALTER TABLE `savingtypes`
@@ -369,7 +414,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `costsavings`
 --
 ALTER TABLE `costsavings`
-  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
+  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- AUTO_INCREMENT for table `environments`
@@ -381,7 +426,13 @@ ALTER TABLE `environments`
 -- AUTO_INCREMENT for table `journeyteams`
 --
 ALTER TABLE `journeyteams`
-  MODIFY `teamID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `teamID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `savingtypes`

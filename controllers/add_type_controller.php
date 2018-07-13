@@ -2,6 +2,9 @@
 	$pageTitle = "Cost Savings Types";
 	include_once 'includes/header.php';
 
+	# Echoes a redirect line if the user does not have access to the page
+	accessPage($con, $accID);
+
 	# Query to display records
 	$sql_list = "SELECT typeID, typeName FROM savingtypes";
 	$result_list = $con->query($sql_list) or die(mysqli_error($con));
@@ -50,6 +53,9 @@
 				$stmt_insert = $con->prepare("INSERT INTO savingtypes (typeName) VALUES (?)");
 				$stmt_insert->bind_param("s", $inpName);
 				$stmt_insert->execute();
+
+				$txtEvent = "Added a new cost saving type: " . $inpName;
+				logEvent($con, $accID, $txtEvent);
 
 				$msgDisplay = successAlert("Successfully added a new savings type.");
 

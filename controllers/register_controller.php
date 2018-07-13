@@ -46,11 +46,16 @@
 					$hashedpw = password_hash($inpPW, PASSWORD_DEFAULT);
 
 					# Insert the account/login info w/ the user's id into the table 'accounts'
-					$stmt_account = $con->prepare("INSERT INTO accounts (accountUN, accountPW, accountStatus, userID) VALUES (?, ?, 1, ?)");
+					/* Account access levels:
+					   1- Administrator
+					   2- Elevated User
+					   3- User (default access level for newly registered accounts)
+					*/
+					$stmt_account = $con->prepare("INSERT INTO accounts (accountUN, accountPW, accountAccess, accountStatus, userID) VALUES (?, ?, 3, 1, ?)");
 					$stmt_account->bind_param("sss", $hasdedun, $hashedpw, $last_user);
 					$stmt_account->execute();
 
-					$msgDisplay = successAlert("<strong>Success!</strong> Please check your email to confirm your account.");
+					$msgDisplay = successAlert("<strong>Success!</strong> Your account was successfully created.");
 				}
 				else
 				{

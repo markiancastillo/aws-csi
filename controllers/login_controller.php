@@ -57,7 +57,7 @@
 					$_SESSION['accID'] = $accountID;
 					$accID = $_SESSION['accID'];
 
-					$txtEvent = "Logged in into the system.";
+					$txtEvent = "Logged in into the system";
 					logEvent($con, $accID, $txtEvent);
 	
 					header('location: index.php');

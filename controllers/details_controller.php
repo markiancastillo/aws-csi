@@ -1,15 +1,9 @@
 <?php
 	$pageTitle = "Record Details";
-	#ini_set('display_errors', 0);
+	ini_set('display_errors', 0);
+	$readonly = "";
 	$msgDisplay = "";
-
-	if(isset($_GET['viewonly']))
-	{
-		# Loads the css and js but without the navbar
-		include 'controllers/includes/header_viewonly.php';
-	}
-	else 
-	{	
+	
 		# For the ability to make use of the functions as well as connect to the database
 		include_once str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . '/controllers/function.php');
     	include_once str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . '/controllers/config.php');
@@ -41,7 +35,7 @@
 								INNER JOIN users u ON c.userID = u.userID 
 								WHERE csID = ?");
 				$sql_record->bind_param("i", $recordID);
-				$sql_record->execute();
+				$sql_record->execute() or die(mysqli_error($con));
 	
 				$result_record = $sql_record->get_result();
 	
@@ -69,17 +63,21 @@
 				# This is used by Facebook as its default title in the share card/link
 				$metaDescription = $userName . " implemented '" . $csSteps . "' and saved a total of USD " . $csSavings . ". Click the link to view the details.";
 
-				# Load the regular header
-				# This is loaded after the sql statements so data can be properly passed to the meta tags
-				# (used for the default sharing message)
-				include_once 'includes/header.php';
+				if(isset($_GET['viewonly']))
+				{
+					include_once 'includes/header_viewonly.php';
+				}
+				else
+				{
+					# Load the regular header
+					# This is loaded after the sql statements so data can be properly passed to the meta tags
+					# (used for the default sharing message)
+					include_once 'includes/header.php';
+				}	
 	
 				# Get the userID of the record. If it matches the session ID, enable editing
 				if($userID == $accID)
 				{
-					# Enable editing of the record
-					$readonly = "";
-	
 					# Show the update button
 					$showButton = "";
 	
@@ -104,6 +102,9 @@
 							$sql_update = $con->prepare("UPDATE costsavings SET csCause = ?, csSteps = ?, csInitial = ?, csFinal = ?, csSavings = ? WHERE csID = ?");
 							$sql_update->bind_param("ssdddi", $inpCause, $inpSteps, $inpInitial, $inpFinal, $totSavings, $recordID);
 							$sql_update->execute() or die(mysqli_error($con));
+
+							$txtEvent = "Updated the information of cost savings record #" . $recordID;
+							logEvent($con, $accID, $txtEvent);
 	
 							$msgDisplay = successAlert("Successfully updated the record.");
 							header('refresh: 1');
@@ -129,5 +130,4 @@
 		{
 			header('location: error.php');
 		}
-	}
 ?>

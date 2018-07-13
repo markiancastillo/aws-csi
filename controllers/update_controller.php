@@ -3,7 +3,7 @@
 	include 'includes/header.php';
 
 	# Validate the record being requested:
-	# If the id doesnt exist, show an error
+	# If the record id doesnt exist, show an error
 	if(isset($_GET['rid']))
 	{
 		$requestedID = $_GET['rid'];
@@ -38,6 +38,7 @@
 				$selType = $row['typeID'];
 			}
 
+			# Change the display format for the date
 			$displayDate = new DateTime(date('Y-m-d', strtotime($csDate)));
 	
 			# SQL query for the journey teams dropdown list
