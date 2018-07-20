@@ -2,6 +2,8 @@
 	$pageTitle = "Cost Savings Initiatives";
 	include_once 'includes/header.php';
 
+	$userID = getUserID($con, $accID);
+
 	# Date to display as the default value in the add record form
 	$dateToday = new DateTime(date("Y-m-d"));
 
@@ -104,6 +106,21 @@
 			    </div>
 			</div>";*/
 	}
+
+	# Get the default values for the dropdowns
+    $sql_default = $con->prepare("SELECT envID, teamID, techID FROM users WHERE userID = ?");
+    $sql_default->bind_param("i", $userID);
+    $sql_default->execute();
+
+    $result_default = $sql_default->get_result();
+
+    while ($row = mysqli_fetch_array($result_default)) 
+    {
+    	# Get the values...
+    	$def_envID = $row['envID'];
+    	$def_teamID = $row['teamID'];
+    	$def_techID = $row['techID'];
+    }
 
 	# Insert the input into the database
 	if(isset($_POST['btnAdd']))

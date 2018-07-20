@@ -70,7 +70,7 @@
                                 <label for="inpTeam">Journey Team</label>
                                 <select class="form-control" name="inpTeam" id="inpTeam" required="true">
                                     <option selected="true" disabled="true">Choose one...</option>
-                                    <?php echo listTeams($con); ?>
+                                    <?php echo listTeams($con, $def_teamID); ?>
                                 </select>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                 <label for="inpEnv">Environment</label>
                                 <select class="form-control" name="inpEnv" id="inpEnv" required="true">
                                     <option selected="true" disabled="true">Choose one...</option>
-                                    <?php echo listEnvironments($con); ?>
+                                    <?php echo listEnvironments($con, $def_envID); ?>
                                 </select>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                 <label for="inpTech">Cloud/DevOps Technology</label>
                                 <select class="form-control" name="inpTech" id="inpTech" required="true">
                                     <option selected="true" disabled="true">Choose one...</option>
-                                    <?php echo listTech($con); ?>
+                                    <?php echo listTech($con, $def_techID); ?>
                                 </select>
                             </div>
                         </div>

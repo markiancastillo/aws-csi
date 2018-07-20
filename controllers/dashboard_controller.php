@@ -1,5 +1,6 @@
 <?php
 	$pageTitle = "Dashboard";
+	$metaTitle = "Cost Savings Dashboard";
 
 	# if 'viewonly' is set in the url, 
 	# it loads the page with the same css and js but without the header/navbar

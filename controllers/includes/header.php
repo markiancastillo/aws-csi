@@ -102,6 +102,12 @@
                         <span class="nav-link-text">Cost Savings Initiatives</span>
                     </a>
                 </li>
+                <li class="nav-item <?php echo $pageTitle === 'Manage Access' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Manage Access">
+                    <a class="nav-link" href="manage.php">
+                        <i class="fas fa-fw fa-clipboard-list"></i>
+                        <span class="nav-link-text">Manage Access</span>
+                    </a>
+                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Manage Data" <?php echo $accessLevel == 1 || $accessLevel == 2 ? '' : 'style="display: none;"'; ?>>
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAddData" data-parent="#navAccordion">
                         <i class="fas fa-fw fa-folder-open"></i>

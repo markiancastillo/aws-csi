@@ -9,12 +9,27 @@
         $dateToday = new DateTime(date("Y-m-d"));
         $msgDisplay = "";
         $accID = $_SESSION['accID'];
+        
+        #Get the user ID using the session ID
+        $userID = getUserID($con, $accID);
+
+        # Get the default values for the dropdowns
+        $sql_default = $con->prepare("SELECT envID, teamID, techID FROM users WHERE userID = ?");
+        $sql_default->bind_param("i", $userID);
+        $sql_default->execute();
+    
+        $result_default = $sql_default->get_result();
+    
+        while ($row = mysqli_fetch_array($result_default)) 
+        {
+            # Get the values...
+            $def_envID = $row['envID'];
+            $def_teamID = $row['teamID'];
+            $def_techID = $row['techID'];
+        }
     
         if(isset($_POST['btnAdd']))
-        {
-            #Get the user ID using the session ID
-            $userID = getUserID($con, $accID);
-    
+        {   
             # Retrieve the input data from the form
             $inpTeam = mysqli_real_escape_string($con, $_POST['inpTeam']);
             $inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);

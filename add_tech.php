@@ -35,9 +35,9 @@
 	    <div class="modal-content">
 	        <div class="modal-header">
 	            <h5 class="modal-title" id="addModalLabel">New AWS/DevOps Technology</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <form class="form-horizontal" method="POST">
               	<div class="modal-body">

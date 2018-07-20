@@ -1,6 +1,11 @@
 <?php
 	$msgDisplay = "";
 
+	function test()
+	{
+		echo 'hello';
+	}
+
 	# Used by the view.php and index.php's modal for adding a new record
 	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID)
 	{
@@ -45,7 +50,7 @@
 			header('location: error.php');
 		}
 
-		return $accessPage;
+		#return $accessPage;
 	}
 
 	# Used to display an error alert box
@@ -136,8 +141,9 @@
 	}
 
 	# Gets the list of environments for the dropdown
-	function listEnvironments($con)
+	function listEnvironments($con, $def_envID)
 	{
+		# Default value for the environment dropdown
 		$sql_env = "SELECT envID, envName FROM environments";
 		$result_env = $con->query($sql_env) or die(mysqli_error($con));
 	
@@ -147,16 +153,19 @@
 			$envID = htmlspecialchars($rowv['envID']);
 			$envName = htmlspecialchars($rowv['envName']);
 	
-			$list_env .= "<option value='$envID'>$envName</option>";
+			if($envID == $def_envID) { $selected = "selected='true'"; } else { $selected = ""; }
+	
+			$list_env .= "<option value='$envID' $selected>$envName</option>";
 		}
 
 		return $list_env;
 	}
 
 	# Gets the list of journey teams for the dropdown
-	function listTeams($con)
-	{
-		$sql_teams = "SELECT teamID, teamName FROM journeyteams";
+	function listTeams($con, $def_teamID)
+	{    
+	    # Default value for the team dropdown
+	    $sql_teams = "SELECT teamID, teamName FROM journeyteams";
 		$result_teams = $con->query($sql_teams) or die(mysqli_error($con));
 	
 		$list_teams = "";
@@ -165,15 +174,18 @@
 			$teamID = htmlspecialchars($rowt['teamID']);
 			$teamName = htmlspecialchars($rowt['teamName']);
 	
-			$list_teams .= "<option value='$teamID'>$teamName</option>";
+			if($teamID == $def_teamID) { $selected = "selected='true'"; } else { $selected = ""; }
+	
+			$list_teams .= "<option value='$teamID' $selected>$teamName</option>";
 		}
 
-	    return $list_teams;
+		return $list_teams;
 	}
 
 	# Gets the list of aws/devops technologies for the dropdown
-	function listTech($con)
+	function listTech($con, $def_techID)
 	{
+		# Default value for the tech dropdown
 		$sql_tech = "SELECT techID, techName FROM technologies";
 		$result_tech = $con->query($sql_tech) or die(mysqli_error($con));
 	
@@ -183,7 +195,9 @@
 			$techID = htmlspecialchars($rowh['techID']);
 			$techName = htmlspecialchars($rowh['techName']);
 	
-			$list_tech .= "<option value='$techID'>$techName</option>";
+			if($techID == $def_techID) { $selected = "selected='true'"; } else { $selected = ""; }
+	
+			$list_tech .= "<option value='$techID' $selected>$techName</option>";
 		}
 
 		return $list_tech;

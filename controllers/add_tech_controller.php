@@ -23,7 +23,17 @@
 
 			$list_tech .= "
 				<tr>
-					<td>$techName <a href='edit_tech.php?id=$techID' class='float-right'><span class='fa fa-edit fa-fw'></span></a></td>
+					<td>$techName 
+						<a href='edit_tech.php?id=$techID' class='float-right'>
+							<span class='fa fa-edit fa-fw'></span>
+						</a>
+						<a href='' class='float-right'>
+							<span class='fa fa-sign-in-alt fa-fw fa-rotate-90'></span>
+						</a>
+						<a href='' class='float-right'>
+							<span class='fa fa-sign-out-alt fa-fw fa-rotate-270'></span>
+						</a>
+					</td>
 				</tr>";
 		}
 	}

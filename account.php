@@ -24,27 +24,30 @@
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
 								<label for="inpTeam">Journey Team</label>
-								<select class="form-control" name="inpTeam" id="inpTeam" required="true">
+								<select class="form-control" name="inpTeam" id="inpTeam">
 									<option selected="true" disabled="true">Choose one...</option>
-									<?php echo listTeams($con); ?>
+									<option value="0" <?php echo $def_teamID == 0 ? "selected = 'true'" : ""; ?>>None</option>
+									<?php echo listTeams($con, $def_teamID); ?>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <label for="inpEnv">Environment</label>
-                                <select class="form-control" name="inpEnv" id="inpEnv" required="true">
+                                <select class="form-control" name="inpEnv" id="inpEnv">
                                     <option selected="true" disabled="true">Choose one...</option>
-                                    <?php echo listEnvironments($con); ?>
+                                    <option value="0" <?php echo $def_envID == 0 ? "selected = 'true'" : ""; ?>>None</option>
+                                    <?php echo listEnvironments($con, $def_envID); ?>
                                 </select>
                             </div>
                         </div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
 		            		    <label for="inpTech">Cloud/DevOps Technology</label>
-		            		    <select class="form-control" name="inpTech" id="inpTech" required="true">
+		            		    <select class="form-control" name="inpTech" id="inpTech">
 		            		        <option selected="true" disabled="true">Choose one...</option>
-		            		        <?php echo listTech($con); ?>
+		            		        <option value="0" <?php echo $def_techID == 0 ? "selected = 'true'" : ""; ?>>None</option>
+		            		        <?php echo listTech($con, $def_techID); ?>
 		            		    </select>
 		            		</div>
 						</div>
@@ -60,6 +63,7 @@
 				</form>
 			</div>
 		</div>
+		<?php echo $msgDisplay; ?>
 	</div>
 	<div class="tab-pane" id="recents" role="tabpanel" aria-labelledby="recents-tab">
 		<div class="table table-responsive table-hover">
