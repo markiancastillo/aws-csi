@@ -19,6 +19,7 @@
 	}
 	else
 	{
+		# Display the result in a table format
 		while($row = mysqli_fetch_array($result_list))
 		{
 			$envID = $row['envID'];
@@ -37,14 +38,17 @@
 
 	if(isset($_POST['btnAdd']))
 	{
+		# Get the input from the form
 		$inpName = inpcheck($_POST['inpName']);
 
+		# Validate that the input is not empty
 		if(empty($inpName))
 		{
 			$msgDisplay = errorAlert("Please make sure that your input is valid and try again.");
 		}
 		else
 		{
+			# convert the input value to uppercase for validation
 			$tName = strtoupper($inpName);
 
 			# Validate that the record being added doesnt already exist

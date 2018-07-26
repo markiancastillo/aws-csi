@@ -38,6 +38,7 @@
 		}
 		else 
 		{
+			# Convert to uppercase for validation
 			$tName = strtoupper($inpName);
 
 			# Validate duplication of records

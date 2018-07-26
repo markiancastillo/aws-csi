@@ -33,6 +33,7 @@
 
     if(isset($_SESSION['accID']))
     {
+    	# Bind the session ID to a variable 
     	$accID = $_SESSION['accID'];
 	
 	    # SQL query for displaying the current user's name

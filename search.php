@@ -41,6 +41,7 @@
 		</div>
 	</div>
 </div>
+<?php include 'controllers/includes/footer.php'; ?>
 <script type="text/javascript">
 	//for the page-level data-table
     $(document).ready(function() {

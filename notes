@@ -1,0 +1,17 @@
+LIMITATIONS
+- Bar chart display is limited to displaying the records for the current year only, starting from January of the current year.
+- Cost Savings Initiatives table's fit-to-screen design uses CSS that is compatible with modern browsers only (Firefox v19.0+, Chrome v20.0+, IE 9.0+, Safari 6.0+).
+- The user that inputs the reocrd is automatically set the the record's owner.
+- Tracking protection (i.e. Firefox's tracking protection in incognito mode) and other blockers prevent the Slack and FB share buttons from displaying on the page. 
+
+ASSUMPTIONS
+- The Dashboard's filtering of data is done per team.
+- Inputting of data for cost savings includes a complete set of data (i.e. there is data for an initial and final cost).
+
+ADDITIONAL NOTES
+- Picture uploading replaced by initial and final cost input
+- Pagination in the table view disabled
+- the screenshot link is a potential security breach becauserecords are viewable via the url
+- currently using PHP's password_hash() function for encryption of password
+
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2018 at 06:07 AM
+-- Generation Time: Jul 26, 2018 at 09:16 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 5.6.35
 
@@ -25,6 +25,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `access`
+--
+
+CREATE TABLE `access` (
+  `accessID` int(11) NOT NULL,
+  `accessRole` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `access`
+--
+
+INSERT INTO `access` (`accessID`, `accessRole`) VALUES
+(1, 'Administrator'),
+(2, 'User (Elevated)'),
+(3, 'User');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `accounts`
 --
 
@@ -32,6 +52,7 @@ CREATE TABLE `accounts` (
   `accountID` int(11) NOT NULL,
   `accountUN` varchar(150) NOT NULL,
   `accountPW` varchar(300) NOT NULL,
+  `accountAccess` tinyint(4) NOT NULL COMMENT '1-administrator; 2-elevated user; 3-user',
   `accountStatus` tinyint(5) NOT NULL COMMENT '1-active; 2-pending; 0-inactive',
   `userID` int(11) NOT NULL COMMENT 'Specifies who owns the account'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -40,25 +61,26 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`accountID`, `accountUN`, `accountPW`, `accountStatus`, `userID`) VALUES
-(1, 'admin@mail.com', '12345', 1, 1),
-(2, 'example@example.com', '$2y$10$FtCpvMlFiQyMvzEThycOoeZd0PBdXr/e8aErCupdF/rUoPwbAS5xi', 2, 2),
-(3, 'antonio@mail.com', '$2y$10$unzGJA.WK.NPcxSB.CPYnOHPOxfJ6jQ0Jib4hIqclExW/DiJ1Setq', 2, 3),
-(4, 'mail@example.com', '$2y$10$lmPiSB5lTY6epDEG1kQM6OuD1a.z6oGk1x5Y/I7dxYGW6UlAskEO.', 1, 4),
-(5, 'screenshotlayerapi@mail.com', '$2y$10$tM2fqOHQ/BemNqvTLzaleO2iX.w9x.U7ZhxZgAp4HghB0YjeLI9Oi', 1, 5),
-(6, '$2y$10$VmrvYkcpawgGgrf0AQBklu6XtOiIpzGHhZeFhGUImyTWIm5MN3Z8m', '$2y$10$yMnaeWMlwpV0m3tmW/V30.S3VONujFqSS7XmN.q9393yBHOs6vhcy', 1, 6),
-(7, 'john.doe@mail.com', '$2y$10$ktJr/gALDk1iN/znj593duLJTTwXclq1uiuACe3/RdiE.ZQTCAjn6', 1, 7),
-(8, '$2y$10$wnuF9xxVItfzndaGxZ3kBu2malbmzl2Y3iagJXzC/3ubxxNdMXEye', '$2y$10$4pArefxAmzAtTGN6oYwMUObSyb4Rfldqi9OSEFF1.fIxN7toyctYC', 1, 8),
-(9, '$2y$10$yNUAN4AVUY0iC0oiUPErMOyCOveNuvjeyfClblEocoLbCnR7SdOsS', '$2y$10$hgP6dVBvE6ywFkGpGkE/k.YhbLNvaEenudub1/Ic1thbCt.5qWh/G', 1, 9),
-(10, '$2y$10$cYp/UA5Uvp9inoJIW/tZo.wx0SDKKX5KP.T7zSBiOHmNm3/3qioye', '$2y$10$g9T2KD.VDok.Uw58KEWEL.TSIaWj0jFu6c4uZoj8AxJmvcSv6ceha', 1, 10),
-(11, '$2y$10$oB0Csioz9dxhSqtDvCpIP.4nLUXCYVbNrasg8V1svATLKJTGViXbm', '$2y$10$jrQ5WHRS4kLjoyX5kaGiQObiGfG7u96OAGSSBslC7YDgx6fWs8BD6', 1, 11),
-(12, '$2y$10$gQ6b4uwBYm.Y84SQLWAtdeJEeHJDhSQKnIhzvpZxSVdJuhZy5LIPm', '$2y$10$VT04BvlZ6I282c1yxctPM.30OTGi/a9qPdhOX/oKIto2Z/XQyxIPC', 1, 12),
-(13, '$2y$10$.GStvL2.Cg94NxLJOyJ3He3Kg7kLLKlvUqqG/jXxq20adlCV/xxB6', '$2y$10$Jr.wfHuZtDbgJvpfTaoVkO3MAQrbDfDaQg04S.3EcrOE7UCfXhG8S', 1, 13),
-(14, '$2y$10$cLqhYkJTlnR1eOKzh355A.6.sF4pNUKZyeLRTW1SBaz07PkQN/R0a', '$2y$10$R8Z6O6RoKlJqRWZFHt1m7elA3giTuhpyI6It1onpo.wnQmyQBvLKa', 1, 14),
-(15, '$2y$10$gU8b2u3HT1WuQHxC3hf61uyUJBePIBKT1SVpPM.Lzr0scsCmNCjka', '$2y$10$68Rsk8tcV1qperAtf6sv1.OwOkM6sMca1WKmS3yFKTDHFPfbqKpgC', 1, 15),
-(16, '$2y$10$p0boFG74U8mFL64wys0m1.KK/INTPpEWwe4220gYc90Bc/ojApN.S', '$2y$10$IqxrYax1GDY1OpOieZmDy..QaYXHtkfUBglLJ8d0VwF815P0p.auC', 1, 16),
-(17, '$2y$10$1tAMLxyr/MPpJUFmQZC9yOqt6Ip0b3kdlglUbYpUUpYI6sc8ct2lq', '$2y$10$xL/BZNMilYNu9dRfPW2lleSY8TkwLGjspo3ZKMMpmA7N6OUNmwEq.', 1, 17),
-(18, '$2y$10$jYcPMX0TcB7ygrAoom4UYOrEh2.tIYZq2XcYn.alcx15yvBnOoAIq', '$2y$10$MQvmY8ZwEQ6s75tKp3YlcO/8FXZuUAdRzsXNDpYkq6AsDgM7uam3O', 1, 18);
+INSERT INTO `accounts` (`accountID`, `accountUN`, `accountPW`, `accountAccess`, `accountStatus`, `userID`) VALUES
+(1, 'admin@mail.com', '12345', 3, 1, 1),
+(2, 'example@example.com', '$2y$10$FtCpvMlFiQyMvzEThycOoeZd0PBdXr/e8aErCupdF/rUoPwbAS5xi', 3, 2, 2),
+(3, 'antonio@mail.com', '$2y$10$unzGJA.WK.NPcxSB.CPYnOHPOxfJ6jQ0Jib4hIqclExW/DiJ1Setq', 3, 1, 3),
+(4, 'mail@example.com', '$2y$10$lmPiSB5lTY6epDEG1kQM6OuD1a.z6oGk1x5Y/I7dxYGW6UlAskEO.', 3, 1, 4),
+(5, 'screenshotlayerapi@mail.com', '$2y$10$tM2fqOHQ/BemNqvTLzaleO2iX.w9x.U7ZhxZgAp4HghB0YjeLI9Oi', 3, 1, 5),
+(6, '$2y$10$VmrvYkcpawgGgrf0AQBklu6XtOiIpzGHhZeFhGUImyTWIm5MN3Z8m', '$2y$10$yMnaeWMlwpV0m3tmW/V30.S3VONujFqSS7XmN.q9393yBHOs6vhcy', 3, 1, 6),
+(7, 'john.doe@mail.com', '$2y$10$ktJr/gALDk1iN/znj593duLJTTwXclq1uiuACe3/RdiE.ZQTCAjn6', 3, 1, 7),
+(8, '$2y$10$wnuF9xxVItfzndaGxZ3kBu2malbmzl2Y3iagJXzC/3ubxxNdMXEye', '$2y$10$4pArefxAmzAtTGN6oYwMUObSyb4Rfldqi9OSEFF1.fIxN7toyctYC', 3, 1, 8),
+(9, '$2y$10$yNUAN4AVUY0iC0oiUPErMOyCOveNuvjeyfClblEocoLbCnR7SdOsS', '$2y$10$hgP6dVBvE6ywFkGpGkE/k.YhbLNvaEenudub1/Ic1thbCt.5qWh/G', 1, 1, 9),
+(10, '$2y$10$cYp/UA5Uvp9inoJIW/tZo.wx0SDKKX5KP.T7zSBiOHmNm3/3qioye', '$2y$10$g9T2KD.VDok.Uw58KEWEL.TSIaWj0jFu6c4uZoj8AxJmvcSv6ceha', 3, 0, 10),
+(11, '$2y$10$oB0Csioz9dxhSqtDvCpIP.4nLUXCYVbNrasg8V1svATLKJTGViXbm', '$2y$10$jrQ5WHRS4kLjoyX5kaGiQObiGfG7u96OAGSSBslC7YDgx6fWs8BD6', 3, 1, 11),
+(12, '$2y$10$gQ6b4uwBYm.Y84SQLWAtdeJEeHJDhSQKnIhzvpZxSVdJuhZy5LIPm', '$2y$10$VT04BvlZ6I282c1yxctPM.30OTGi/a9qPdhOX/oKIto2Z/XQyxIPC', 3, 1, 12),
+(13, '$2y$10$.GStvL2.Cg94NxLJOyJ3He3Kg7kLLKlvUqqG/jXxq20adlCV/xxB6', '$2y$10$Jr.wfHuZtDbgJvpfTaoVkO3MAQrbDfDaQg04S.3EcrOE7UCfXhG8S', 3, 1, 13),
+(14, '$2y$10$cLqhYkJTlnR1eOKzh355A.6.sF4pNUKZyeLRTW1SBaz07PkQN/R0a', '$2y$10$R8Z6O6RoKlJqRWZFHt1m7elA3giTuhpyI6It1onpo.wnQmyQBvLKa', 3, 1, 14),
+(15, '$2y$10$gU8b2u3HT1WuQHxC3hf61uyUJBePIBKT1SVpPM.Lzr0scsCmNCjka', '$2y$10$68Rsk8tcV1qperAtf6sv1.OwOkM6sMca1WKmS3yFKTDHFPfbqKpgC', 3, 1, 15),
+(16, '$2y$10$p0boFG74U8mFL64wys0m1.KK/INTPpEWwe4220gYc90Bc/ojApN.S', '$2y$10$IqxrYax1GDY1OpOieZmDy..QaYXHtkfUBglLJ8d0VwF815P0p.auC', 3, 1, 16),
+(17, '$2y$10$1tAMLxyr/MPpJUFmQZC9yOqt6Ip0b3kdlglUbYpUUpYI6sc8ct2lq', '$2y$10$xL/BZNMilYNu9dRfPW2lleSY8TkwLGjspo3ZKMMpmA7N6OUNmwEq.', 3, 1, 17),
+(18, '$2y$10$jYcPMX0TcB7ygrAoom4UYOrEh2.tIYZq2XcYn.alcx15yvBnOoAIq', '$2y$10$MQvmY8ZwEQ6s75tKp3YlcO/8FXZuUAdRzsXNDpYkq6AsDgM7uam3O', 3, 1, 18),
+(19, '$2y$10$QtRZstRn4Ab6BH/6oz1xTOivP6ONpNpcvthwekWplt0E0p/jAbJzC', '$2y$10$ccIfzpwDewJH9Wrza36QM.hQbZOMnH/GogF/hmDdVn04hQxIbLmwy', 3, 1, 19);
 
 -- --------------------------------------------------------
 
@@ -186,8 +208,12 @@ INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, 
 (284, 'lorem ipsum', 'lorem ipsum', '2018-06-26', '20.00', '100.00', '80.00', 4, 2, 1, 1, 1),
 (285, 'lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra augue eu lobortis mattis. Cras vel mi faucibus, gravida est a, facilisis sem.', '2018-07-05', '20.00', '100.00', '80.00', 3, 1, 1, 3, 9),
 (286, 'test edit of data', 'test edit of data', '2018-07-08', '70.00', '250.00', '180.00', 4, 1, 1, 4, 9),
-(287, 'test add of data', 'test add of data', '2018-07-09', '60.00', '230.00', '170.00', 5, 2, 1, 3, 9),
-(288, 'test input 2', 'test input 2', '2018-07-09', '20.00', '120.00', '100.00', 5, 2, 1, 1, 9);
+(287, 'test add of data', 'test add of ', '2018-07-09', '60.00', '230.00', '170.00', 5, 2, 1, 3, 9),
+(288, 'test input 2', 'test input 2', '2018-07-09', '20.00', '120.00', '100.00', 5, 2, 1, 1, 9),
+(289, 'sample input with default values', 'sample input with default values', '2018-07-16', '130.00', '650.00', '520.00', 5, 2, 2, 4, 9),
+(290, 'test input 2 with default values', 'test input 2 with default values', '2018-07-16', '50.00', '440.00', '390.00', 3, 2, 1, 4, 9),
+(291, 'sample input from the index page', 'sample input from the index page', '2018-07-16', '40.00', '190.00', '150.00', 3, 1, 3, 3, 14),
+(292, 'test input with 0 value final cost', 'test input with 0 value final cost', '2018-07-18', '120.00', '120.00', '0.00', 6, 2, 1, 2, 9);
 
 -- --------------------------------------------------------
 
@@ -265,7 +291,53 @@ INSERT INTO `logs` (`logID`, `logDate`, `logUser`, `logEvent`) VALUES
 (13, '2018-07-09 11:37:20', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-09, with a total savings of $60'),
 (14, '2018-07-09 11:39:52', 'Mark Castillo', 'Updated the information of record #286'),
 (15, '2018-07-09 11:56:43', 'Mark Castillo', 'Updated the information of cost savings record #285'),
-(16, '2018-07-09 12:00:51', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-09, with a total savings of $20');
+(16, '2018-07-09 12:00:51', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-09, with a total savings of $20'),
+(17, '2018-07-10 08:05:38', 'Ashton Foreman', 'Logged in into the system'),
+(18, '2018-07-10 08:35:12', 'Mark Castillo', 'Updated the information of cost savings record #287'),
+(19, '2018-07-10 15:25:50', 'Ashton Foreman', 'Logged in into the system'),
+(20, '2018-07-11 06:50:18', 'Mark Castillo', 'Logged in into the system'),
+(21, '2018-07-11 07:06:00', 'Mark Castillo', 'Logged out of the system'),
+(22, '2018-07-11 07:09:11', 'Henry Moose', 'Logged in into the system'),
+(23, '2018-07-11 07:09:20', 'Henry Moose', 'Logged out of the system'),
+(24, '2018-07-11 07:09:20', ' ', 'Logged out of the system'),
+(25, '2018-07-11 07:09:28', 'Mark Castillo', 'Logged in into the system'),
+(26, '2018-07-11 08:57:29', 'Ashton Foreman', 'Logged in into the system'),
+(27, '2018-07-11 13:53:35', 'Ashton Foreman', 'Logged out of the system'),
+(28, '2018-07-11 13:53:35', ' ', 'Logged out of the system'),
+(29, '2018-07-11 13:53:54', 'Ashton Foreman', 'Logged in into the system'),
+(30, '2018-07-11 13:54:13', 'Ashton Foreman', 'Logged out of the system'),
+(31, '2018-07-11 13:54:24', 'Ashton Foreman', 'Logged in into the system'),
+(32, '2018-07-11 13:54:30', 'Ashton Foreman', 'Logged out of the system'),
+(33, '2018-07-16 11:33:49', 'Ashton Foreman', 'Logged in into the system'),
+(34, '2018-07-16 15:08:16', 'Mark Castillo', 'Updated their account information.'),
+(35, '2018-07-16 15:10:25', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-16, with a total savings of $130'),
+(36, '2018-07-16 15:10:45', 'Mark Castillo', 'Updated their account information.'),
+(37, '2018-07-16 15:11:36', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-16, with a total savings of $50'),
+(38, '2018-07-16 15:21:09', 'Ashton Foreman', 'Added a new cost savings entry dated 2018-07-16, with a total savings of $40'),
+(39, '2018-07-16 15:22:25', 'Ashton Foreman', 'Updated their account information.'),
+(40, '2018-07-18 14:25:47', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-18, with a total savings of $120'),
+(41, '2018-07-23 18:11:34', 'Mark Castillo', 'Logged in into the system'),
+(42, '2018-07-25 07:58:30', 'Ashton Foreman', 'Logged in into the system'),
+(43, '2018-07-25 13:42:06', 'Ashton Foreman', 'Logged in into the system'),
+(44, '2018-07-25 14:59:05', 'Mark Castillo', 'Changed the access level of Ashton Foreman from 3 to 2'),
+(45, '2018-07-26 09:37:56', 'Mark Castillo', 'Archived Antonio Akyatpanaog\'s account (account ID #3)'),
+(46, '2018-07-26 09:59:02', 'Mark Castillo', 'Archived Darrell Brady\'s account (account ID #16)'),
+(47, '2018-07-26 10:28:13', 'Mark Castillo', ''),
+(48, '2018-07-26 10:32:39', 'Mark Castillo', 'Archived Darrell Brady\'s account (account ID #16)'),
+(49, '2018-07-26 10:47:42', 'Ashton Foreman', 'Logged in into the system'),
+(50, '2018-07-26 11:01:22', 'Mark Castillo', 'Logged out of the system'),
+(51, '2018-07-26 11:01:30', 'Mark Castillo', 'Logged in into the system'),
+(52, '2018-07-26 11:09:58', 'Mark Castillo', 'Changed the access level of Ashton Foreman from 2 to 3'),
+(53, '2018-07-26 11:14:19', 'Ashton Foreman', 'Logged out of the system'),
+(54, '2018-07-26 11:19:44', 'Mark Castillo', 'Logged out of the system'),
+(55, '2018-07-26 11:19:51', 'Mark Castillo', 'Logged in into the system'),
+(56, '2018-07-26 11:22:12', 'Mark Castillo', 'Logged out of the system'),
+(57, '2018-07-26 11:22:18', 'Mark Castillo', 'Logged in into the system'),
+(58, '2018-07-26 11:22:35', 'Mark Castillo', ''),
+(59, '2018-07-26 11:22:44', 'Mark Castillo', 'Logged out of the system'),
+(60, '2018-07-26 11:23:05', 'Mark Castillo', 'Logged in into the system'),
+(61, '2018-07-26 11:24:40', 'Mark Castillo', 'Archived Antonio Akyatpanaog\'s account (account ID #10)'),
+(62, '2018-07-26 11:24:53', 'Mark Castillo', '');
 
 -- --------------------------------------------------------
 
@@ -316,36 +388,46 @@ INSERT INTO `technologies` (`techID`, `techName`) VALUES
 CREATE TABLE `users` (
   `userID` int(11) NOT NULL,
   `userFN` varchar(100) NOT NULL,
-  `userLN` varchar(100) NOT NULL
+  `userLN` varchar(100) NOT NULL,
+  `envID` int(11) DEFAULT NULL,
+  `teamID` int(11) DEFAULT NULL,
+  `techID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `userFN`, `userLN`) VALUES
-(1, 'Mark', 'Castillo'),
-(2, 'Mark', 'Castillo'),
-(3, 'Antonio', 'Akyatpanaog'),
-(4, 'Mark Ian', 'Castillo'),
-(5, 'Screenshot', 'API'),
-(6, 'Jane', 'Doe'),
-(7, 'John', 'Doe'),
-(8, 'Lorem', 'Ipsum'),
-(9, 'Mark', 'Castillo'),
-(10, 'Antonio', 'Akyatpanaog'),
-(11, 'Cameron', 'Leblanc'),
-(12, 'Rebecca', 'Winters'),
-(13, 'Maliha', 'Crowther'),
-(14, 'Ashton', 'Foreman'),
-(15, 'Tahlia', 'Jeffery'),
-(16, 'Darrell', 'Brady'),
-(17, 'Devan', 'Moses'),
-(18, 'Nela', 'Hopper');
+INSERT INTO `users` (`userID`, `userFN`, `userLN`, `envID`, `teamID`, `techID`) VALUES
+(1, 'Mark', 'Castillo', NULL, NULL, NULL),
+(2, 'Mark', 'Castillo', NULL, NULL, NULL),
+(3, 'Antonio', 'Akyatpanaog', NULL, NULL, NULL),
+(4, 'Mark Ian', 'Castillo', NULL, NULL, NULL),
+(5, 'Screenshot', 'API', NULL, NULL, NULL),
+(6, 'Jane', 'Doe', NULL, NULL, NULL),
+(7, 'John', 'Doe', NULL, NULL, NULL),
+(8, 'Lorem', 'Ipsum', NULL, NULL, NULL),
+(9, 'Mark', 'Castillo', 1, 3, 2),
+(10, 'Antonio', 'Akyatpanaog', NULL, NULL, NULL),
+(11, 'Cameron', 'Leblanc', NULL, NULL, NULL),
+(12, 'Rebecca', 'Winters', NULL, NULL, NULL),
+(13, 'Maliha', 'Crowther', NULL, NULL, NULL),
+(14, 'Ashton', 'Foreman', 1, 4, 2),
+(15, 'Tahlia', 'Jeffery', NULL, NULL, NULL),
+(16, 'Darrell', 'Brady', NULL, NULL, NULL),
+(17, 'Devan', 'Moses', NULL, NULL, NULL),
+(18, 'Nela', 'Hopper', NULL, NULL, NULL),
+(19, 'Henry', 'Moose', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `access`
+--
+ALTER TABLE `access`
+  ADD PRIMARY KEY (`accessID`);
 
 --
 -- Indexes for table `accounts`
@@ -405,16 +487,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `access`
+--
+ALTER TABLE `access`
+  MODIFY `accessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `costsavings`
 --
 ALTER TABLE `costsavings`
-  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `environments`
@@ -432,7 +520,7 @@ ALTER TABLE `journeyteams`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `savingtypes`
@@ -450,7 +538,7 @@ ALTER TABLE `technologies`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables

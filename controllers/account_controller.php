@@ -21,6 +21,7 @@
 
 	$result_recent = $sql_recent->get_result();
 
+    # Display the results in a table format
 	$list_records = "";
 	while($row = mysqli_fetch_array($result_recent))
 	{

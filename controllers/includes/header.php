@@ -17,8 +17,13 @@
 
     <meta property="og:url" content="<?php echo $current_uri; ?>">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php echo $metaTitle; ?>">
-    <meta property="og:description" content="<?php echo $metaDescription; ?>">
+    <!--<meta property="og:title" content="<?php #echo $metaTitle; ?>">-->
+    <!--<meta property="og:description" content="<?php #echo $metaDescription; ?>">-->
+
+    <!-- Replaced the title and description with static values for testing with the FB Sharing -->
+    <meta property="og:title" content="AWS Cost Savings Knowledge Base">
+    <meta property="og:description" content="View analytical data from the cost savings entries.">
+
     <meta property="og:image" content="https://i.imgur.com/fgOWFZ4.png">
     
     <meta name="description" content="">
@@ -102,12 +107,6 @@
                         <span class="nav-link-text">Cost Savings Initiatives</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo $pageTitle === 'Manage Access' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Manage Access">
-                    <a class="nav-link" href="manage.php">
-                        <i class="fas fa-fw fa-clipboard-list"></i>
-                        <span class="nav-link-text">Manage Access</span>
-                    </a>
-                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Manage Data" <?php echo $accessLevel == 1 || $accessLevel == 2 ? '' : 'style="display: none;"'; ?>>
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAddData" data-parent="#navAccordion">
                         <i class="fas fa-fw fa-folder-open"></i>
@@ -119,6 +118,12 @@
                         <li class="<?php echo $pageTitle === 'Environments' ? 'active' : ''; ?>"><a href="add_env.php">Environments</a></li>
                         <li class="<?php echo $pageTitle === 'Journey Teams' ? 'active' : ''; ?>"><a href="add_jt.php">Journey Teams</a></li>
                     </ul>
+                </li>
+                <li class="nav-item <?php echo $pageTitle === 'Manage Access' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Manage Access" <?php echo $accessLevel == 1 ? '' : 'style="display: none;"'; ?>>
+                    <a class="nav-link" href="manage.php">
+                        <i class="fas fa-fw fa-clipboard-list"></i>
+                        <span class="nav-link-text">Manage Access</span>
+                    </a>
                 </li>
                 <li class="nav-item <?php echo $pageTitle === 'Audit Logs' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Audit Logs" <?php echo $accessLevel == 1 ? '' : 'style="display: none;"'; ?>>
                     <a class="nav-link" href="logs.php">

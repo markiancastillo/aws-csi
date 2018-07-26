@@ -65,7 +65,7 @@
 				else if($accountStatus == 2)
 				{
 					# Account status is pending...
-					$msgDisplay = warningAlert("Please check your email and verify your account before logging in.");
+					$msgDisplay = warningAlert("Your account currently does not have access.");
 				}
 				else if($accountStatus == 0)
 				{

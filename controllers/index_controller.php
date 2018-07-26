@@ -6,8 +6,12 @@
 
     if(isset($_SESSION['accID']))
     {
-        $dateToday = new DateTime(date("Y-m-d"));
         $msgDisplay = "";
+        
+        # Change the format of the datetime input and set default to the date today
+        $dateToday = new DateTime(date("Y-m-d"));
+        
+        # Bind the session ID to a variable
         $accID = $_SESSION['accID'];
         
         #Get the user ID using the session ID

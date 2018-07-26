@@ -2,6 +2,11 @@
 	$pageTitle = "Dashboard";
 	$metaTitle = "Cost Savings Dashboard";
 
+	# This is used by Slack as a default title for the share text
+	$metaTitle = "Cost Savings Knowledge Base - Dashboard";
+	# This is used by Facebook as its default title in the share card/link
+	$metaDescription = "View analytical data from the cost savings entries.";
+
 	# if 'viewonly' is set in the url, 
 	# it loads the page with the same css and js but without the header/navbar
 	if(isset($_GET['viewonly']))

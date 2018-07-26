@@ -17,6 +17,7 @@
 	$list_logs = "";
 	while($row = mysqli_fetch_array($result_logs))
 	{
+		# Change the output format for the date
 		$logDate = date('m/d/Y H:i:s', strtotime($row['logDate']));
 		$logUser = $row['logUser'];
 		$logEvent = $row['logEvent'];

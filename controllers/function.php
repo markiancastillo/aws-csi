@@ -53,6 +53,27 @@
 		#return $accessPage;
 	}
 
+	# Used to compare password inputs for verification
+	# Currently used in the access management page (user.php)
+	function confirmPassword($con, $accID, $inpPassword)
+	{
+		# Get the password stored in the database
+		$sql_pass = $con->prepare("SELECT accountPW FROM accounts WHERE accountID = ?");
+		$sql_pass->bind_param("i", $accID);
+		$sql_pass->execute();
+
+		$result_pass = $sql_pass->get_result();
+
+		while($row = mysqli_fetch_array($result_pass))
+		{
+			$accountPW = $row['accountPW'];
+		}
+
+		# Verify that the input and stored values are the same
+		# password_verify(input, hash); returns bool
+		return password_verify($inpPassword, $accountPW);
+	}
+
 	# Used to display an error alert box
 	function errorAlert($msgText)
 	{
@@ -140,6 +161,26 @@
 		return $userName;
 	}
 
+	# Get the list of access types and its default
+	function listAccess($con, $def_access)
+	{
+		$sql_access = "SELECT accessID, accessRole FROM access";
+		$result_access = $con->query($sql_access) or die(mysqli_error($con));
+
+		$list_access = "";
+		while($row = mysqli_fetch_array($result_access))
+		{
+			$accessID = $row['accessID'];
+			$accessRole = htmlspecialchars($row['accessRole']);
+
+			if($accessID == $def_access) { $selected = "selected='true'"; } else { $selected = ""; }
+
+			$list_access .= "<option value='$accessID' $selected>$accessRole</option>";
+		}
+		
+		return $list_access;
+	}
+
 	# Gets the list of environments for the dropdown
 	function listEnvironments($con, $def_envID)
 	{
@@ -159,6 +200,28 @@
 		}
 
 		return $list_env;
+	}
+
+	#Gets the list of status (roles) related to a user's account
+	function listStatus($con, $def_status)
+	{
+		switch ($def_status) 
+		{
+			case 0:
+				$statusText = "Inactive/Archived";
+				break;
+			case 1: 
+				$statusText = "Active";
+				break;
+			case 2:
+				$statusText = "Pending";
+				break;
+			default:
+				$statusText = "Undetermined";
+				break;
+		}
+
+		return $statusText;
 	}
 
 	# Gets the list of journey teams for the dropdown

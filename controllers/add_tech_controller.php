@@ -16,6 +16,7 @@
 	}
 	else
 	{
+		# Display results in a table format
 		while($row = mysqli_fetch_array($result_list))
 		{
 			$techID = $row['techID'];
@@ -26,12 +27,6 @@
 					<td>$techName 
 						<a href='edit_tech.php?id=$techID' class='float-right'>
 							<span class='fa fa-edit fa-fw'></span>
-						</a>
-						<a href='' class='float-right'>
-							<span class='fa fa-sign-in-alt fa-fw fa-rotate-90'></span>
-						</a>
-						<a href='' class='float-right'>
-							<span class='fa fa-sign-out-alt fa-fw fa-rotate-270'></span>
 						</a>
 					</td>
 				</tr>";
@@ -48,7 +43,10 @@
 		}
 		else
 		{
+			# Convert the input into  uppercase for validation
 			$tName = strtoupper($inpName);
+
+			# Validate that the input is not a duplicate
 			$sql_validate = "SELECT techName FROM technologies WHERE UPPER(techName) = '$tName'";
 			$result_validate = $con->query($sql_validate) or die(mysqli_error($con));
 

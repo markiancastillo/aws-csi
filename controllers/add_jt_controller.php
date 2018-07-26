@@ -17,6 +17,7 @@
 	}
 	else 
 	{
+		# Display the records in a table format
 		while($teams = mysqli_fetch_array($result_list))
 		{
 			$teamID = $teams['teamID'];
@@ -40,6 +41,7 @@
 		}
 		else
 		{
+			# Convert the input into upper string for validation
 			$tName = strtoupper($inpName);
 			
 			# Validate that the input is not a duplicate
