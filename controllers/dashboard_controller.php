@@ -52,6 +52,14 @@
 	$teamArray = array();
 	$tsavingsArray = array();
 
+# SQL - for the doughnut chart (breakdown by team - by project)
+	$sql_proj = "SELECT p.projectName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c 
+				 INNER JOIN projects p ON c.projectID = p.projectID 
+				 WHERE MONTH(c.csDate) = MONTH(CURRENT_DATE())";
+
+	$projArray = array();
+	$psavingsArray = array();
+
 # SQL - for doughnut chart (breakdown by environment)
 	$sql_env = "SELECT v.envName, SUM(c.csSavings) AS 'totSavings' FROM costsavings c
 				INNER JOIN environments v ON c.envID = v.envID
@@ -257,6 +265,24 @@
 			# These variables will be passed to the js of the pie chart as their data set
 			$tsavings_list = '[' . implode(', ', $tsavingsArray) . '],';	# Output: [val1, val2, ...],
 			$teams_list = '["' . implode('", "', $teamArray) . '"],';		# Output: ['team1', 'team2', ...],
+
+		# Filtered breakdown by projects (will replace the team pie chart when the filter is set)
+			$sql_proj_filtered = $sql_proj . " AND c.teamID = $valFilter GROUP BY c.teamID";
+			$result_proj = $con->query($sql_proj_filtered) or die(mysqli_error($con));
+
+			while($row = mysqli_fetch_array($result_proj))
+			{
+				$projArray[] = $row['projectName'];
+				$psavingsArray[] = $row['totSavings'];
+			}
+
+			# Variables to be passed to the output
+			# ** Will replace the team pie chart on filter
+			$tsavings_list = '[' . implode(', ', $psavingsArray) . '],';
+			$teams_list = '["' . implode('", "', $projArray) . '"],';
+
+			#$pieDisplay = "Breakdown by Project - Team " . $labelTeam;
+			$pieDisplay = "Breakdown by Project";
 
 		# Filtered breakdown by environment
 			$sql_env_filtered = $sql_env . " AND c.teamID = $valFilter GROUP BY c.envID";
