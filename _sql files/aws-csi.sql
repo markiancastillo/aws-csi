@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2018 at 09:16 AM
+-- Generation Time: Jul 31, 2018 at 05:28 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 5.6.35
 
@@ -100,6 +100,7 @@ CREATE TABLE `costsavings` (
   `techID` int(11) NOT NULL COMMENT 'FK that connects data from technologies',
   `envID` int(11) NOT NULL COMMENT 'FK that connects data from environments',
   `typeID` int(11) NOT NULL COMMENT 'FK that connects data from savingtypes',
+  `projectID` int(11) DEFAULT NULL COMMENT 'FK that connects data from projects',
   `userID` int(11) NOT NULL COMMENT 'FK that connects the users table; determines ownership of the record'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -107,113 +108,123 @@ CREATE TABLE `costsavings` (
 -- Dumping data for table `costsavings`
 --
 
-INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, `csInitial`, `csFinal`, `teamID`, `techID`, `envID`, `typeID`, `userID`) VALUES
-(1, 'lorem', 'ipsum', '2018-07-03', '20.00', '120.00', '100.00', 5, 2, 3, 3, 9),
-(2, 'test input 2', 'test input 2', '2018-07-03', '50.00', '250.00', '200.00', 5, 2, 1, 3, 9),
-(3, 'test ', 'test', '2018-07-03', '80.00', '200.00', '120.00', 2, 1, 2, 2, 9),
-(4, 'hello', 'world', '2018-06-29', '150.00', '1200.00', '1050.00', 4, 2, 1, 2, 9),
-(5, 'test', 'test', '2018-06-26', '20.00', '100.00', '80.00', 4, 1, 2, 4, 9),
-(192, 'lorem ipsum', 'lorem ipsum', '2018-01-01', '80.00', '200.00', '120.00', 1, 1, 1, 1, 5),
-(193, 'lorem ipsum', 'lorem ipsum', '2018-01-04', '100.00', '200.00', '100.00', 4, 2, 2, 2, 2),
-(194, 'lorem ipsum', 'lorem ipsum', '2018-01-07', '120.00', '200.00', '80.00', 4, 2, 1, 3, 3),
-(195, 'lorem ipsum', 'lorem ipsum', '2018-01-08', '70.00', '200.00', '130.00', 1, 2, 1, 2, 1),
-(196, 'lorem ipsum', 'lorem ipsum', '2018-01-12', '50.00', '170.00', '120.00', 3, 1, 2, 2, 1),
-(197, 'lorem ipsum', 'lorem ipsum', '2018-01-13', '50.00', '200.00', '150.00', 2, 1, 3, 1, 4),
-(198, 'lorem ipsum', 'lorem ipsum', '2018-01-13', '100.00', '220.00', '120.00', 2, 1, 1, 1, 6),
-(199, 'lorem ipsum', 'lorem ipsum', '2018-01-14', '100.00', '300.00', '200.00', 2, 1, 1, 1, 2),
-(200, 'lorem ipsum', 'lorem ipsum', '2018-01-16', '120.00', '200.00', '80.00', 4, 1, 2, 2, 1),
-(201, 'lorem ipsum', 'lorem ipsum', '2018-01-18', '80.00', '200.00', '120.00', 3, 1, 2, 3, 2),
-(202, 'lorem ipsum', 'lorem ipsum', '2018-01-20', '60.00', '200.00', '140.00', 1, 2, 3, 4, 4),
-(203, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '100.00', '300.00', '200.00', 4, 1, 3, 2, 7),
-(204, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '20.00', '100.00', '80.00', 1, 1, 1, 1, 8),
-(205, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '50.00', '100.00', '50.00', 5, 2, 2, 1, 6),
-(206, 'lorem ipsum', 'lorem ipsum', '2018-01-22', '60.00', '200.00', '120.00', 1, 2, 1, 2, 3),
-(207, 'lorem ipsum', 'lorem ipsum', '2018-01-26', '80.00', '200.00', '120.00', 3, 1, 1, 3, 4),
-(208, 'lorem ipsum', 'lorem ipsum', '2018-01-27', '80.00', '200.00', '120.00', 2, 2, 1, 1, 7),
-(209, 'lorem ipsum', 'lorem ipsum', '2018-01-27', '120.00', '400.00', '280.00', 4, 2, 2, 1, 2),
-(210, 'lorem ipsum', 'lorem ipsum', '2018-02-03', '80.00', '200.00', '120.00', 1, 2, 2, 1, 7),
-(211, 'lorem ipsum', 'lorem ipsum', '2018-02-05', '100.00', '200.00', '100.00', 4, 2, 1, 2, 1),
-(212, 'lorem ipsum', 'lorem ipsum', '2018-02-07', '120.00', '200.00', '80.00', 4, 2, 1, 3, 1),
-(213, 'lorem ipsum', 'lorem ipsum', '2018-02-11', '70.00', '200.00', '130.00', 2, 2, 2, 2, 3),
-(214, 'lorem ipsum', 'lorem ipsum', '2018-02-12', '80.00', '200.00', '120.00', 3, 2, 2, 2, 4),
-(215, 'lorem ipsum', 'lorem ipsum', '2018-02-12', '80.00', '200.00', '120.00', 2, 1, 1, 1, 8),
-(216, 'lorem ipsum', 'lorem ipsum', '2018-02-13', '100.00', '220.00', '120.00', 2, 2, 1, 1, 2),
-(217, 'lorem ipsum', 'lorem ipsum', '2018-02-14', '120.00', '300.00', '180.00', 2, 1, 3, 1, 2),
-(218, 'lorem ipsum', 'lorem ipsum', '2018-02-16', '120.00', '200.00', '80.00', 4, 1, 2, 2, 1),
-(219, 'lorem ipsum', 'lorem ipsum', '2018-02-18', '80.00', '200.00', '120.00', 3, 1, 2, 3, 2),
-(220, 'lorem ipsum', 'lorem ipsum', '2018-02-19', '60.00', '200.00', '140.00', 2, 2, 3, 4, 9),
-(221, 'lorem ipsum', 'lorem ipsum', '2018-02-22', '100.00', '300.00', '200.00', 4, 1, 2, 2, 6),
-(222, 'lorem ipsum', 'lorem ipsum', '2018-02-22', '120.00', '200.00', '80.00', 2, 2, 3, 1, 4),
-(223, 'lorem ipsum', 'lorem ipsum', '2018-02-23', '50.00', '100.00', '50.00', 5, 2, 2, 2, 9),
-(224, 'lorem ipsum', 'lorem ipsum', '2018-02-24', '60.00', '200.00', '140.00', 2, 1, 1, 2, 4),
-(225, 'lorem ipsum', 'lorem ipsum', '2018-02-25', '100.00', '210.00', '110.00', 3, 1, 1, 3, 2),
-(226, 'lorem ipsum', 'lorem ipsum', '2018-02-26', '210.00', '160.00', '50.00', 2, 2, 1, 1, 1),
-(227, 'lorem ipsum', 'lorem ipsum', '2018-02-26', '120.00', '400.00', '280.00', 4, 1, 1, 2, 2),
-(228, 'lorem ipsum', 'lorem ipsum', '2018-03-02', '80.00', '200.00', '120.00', 2, 1, 2, 1, 4),
-(229, 'lorem ipsum', 'lorem ipsum', '2018-03-03', '100.00', '200.00', '100.00', 4, 1, 1, 2, 2),
-(230, 'lorem ipsum', 'lorem ipsum', '2018-03-03', '120.00', '200.00', '80.00', 4, 2, 2, 3, 1),
-(231, 'lorem ipsum', 'lorem ipsum', '2018-03-04', '70.00', '200.00', '130.00', 2, 2, 1, 1, 1),
-(232, 'lorem ipsum', 'lorem ipsum', '2018-03-05', '50.00', '200.00', '150.00', 3, 2, 2, 3, 2),
-(233, 'lorem ipsum', 'lorem ipsum', '2018-03-07', '100.00', '200.00', '100.00', 2, 1, 2, 1, 3),
-(234, 'lorem ipsum', 'lorem ipsum', '2018-03-11', '100.00', '220.00', '120.00', 2, 2, 2, 1, 3),
-(235, 'lorem ipsum', 'lorem ipsum', '2018-03-12', '120.00', '300.00', '180.00', 2, 2, 3, 1, 4),
-(236, 'lorem ipsum', 'lorem ipsum', '2018-03-13', '120.00', '200.00', '80.00', 4, 2, 2, 2, 5),
-(237, 'lorem ipsum', 'lorem ipsum', '2018-03-16', '80.00', '200.00', '120.00', 2, 1, 2, 3, 6),
-(238, 'lorem ipsum', 'lorem ipsum', '2018-03-17', '60.00', '200.00', '140.00', 1, 2, 3, 4, 1),
-(239, 'lorem ipsum', 'lorem ipsum', '2018-03-18', '110.00', '300.00', '190.00', 4, 2, 2, 2, 2),
-(240, 'lorem ipsum', 'lorem ipsum', '2018-03-20', '20.00', '200.00', '180.00', 2, 1, 3, 1, 3),
-(241, 'lorem ipsum', 'lorem ipsum', '2018-03-21', '150.00', '200.00', '50.00', 5, 2, 2, 2, 2),
-(242, 'lorem ipsum', 'lorem ipsum', '2018-03-21', '160.00', '200.00', '40.00', 2, 1, 1, 2, 5),
-(243, 'lorem ipsum', 'lorem ipsum', '2018-03-22', '100.00', '210.00', '110.00', 1, 2, 2, 3, 1),
-(244, 'lorem ipsum', 'lorem ipsum', '2018-03-24', '210.00', '160.00', '50.00', 2, 1, 1, 1, 2),
-(245, 'lorem ipsum', 'lorem ipsum', '2018-03-25', '120.00', '200.00', '80.00', 4, 2, 1, 2, 3),
-(246, 'lorem ipsum', 'lorem ipsum', '2018-03-26', '120.00', '400.00', '280.00', 2, 2, 1, 2, 3),
-(247, 'lorem ipsum', 'lorem ipsum', '2018-03-27', '20.00', '100.00', '80.00', 4, 1, 1, 2, 5),
-(248, 'lorem ipsum', 'lorem ipsum', '2018-04-15', '150.00', '300.00', '150.00', 1, 2, 2, 3, 2),
-(249, 'lorem ipsum', 'lorem ipsum', '2018-04-17', '100.00', '200.00', '100.00', 1, 1, 2, 1, 2),
-(250, 'lorem ipsum', 'lorem ipsum', '2018-04-21', '100.00', '220.00', '120.00', 2, 2, 2, 1, 1),
-(251, 'lorem ipsum', 'lorem ipsum', '2018-04-22', '120.00', '300.00', '180.00', 2, 1, 2, 1, 2),
-(252, 'lorem ipsum', 'lorem ipsum', '2018-04-23', '120.00', '200.00', '80.00', 4, 1, 2, 2, 1),
-(253, 'lorem ipsum', 'lorem ipsum', '2018-04-26', '80.00', '200.00', '120.00', 2, 1, 2, 3, 1),
-(254, 'lorem ipsum', 'lorem ipsum', '2018-04-27', '60.00', '200.00', '140.00', 1, 2, 3, 4, 3),
-(255, 'lorem ipsum', 'lorem ipsum', '2018-04-28', '110.00', '300.00', '190.00', 4, 1, 1, 2, 4),
-(256, 'lorem ipsum', 'lorem ipsum', '2018-04-28', '20.00', '200.00', '180.00', 2, 1, 1, 1, 1),
-(257, 'lorem ipsum', 'lorem ipsum', '2018-05-01', '80.00', '200.00', '120.00', 1, 2, 2, 1, 2),
-(258, 'lorem ipsum', 'lorem ipsum', '2018-05-02', '100.00', '200.00', '100.00', 4, 2, 1, 2, 3),
-(259, 'lorem ipsum', 'lorem ipsum', '2018-05-05', '80.00', '200.00', '120.00', 4, 2, 1, 3, 2),
-(260, 'lorem ipsum', 'lorem ipsum', '2018-05-06', '70.00', '200.00', '130.00', 2, 2, 2, 2, 4),
-(261, 'lorem ipsum', 'lorem ipsum', '2018-05-07', '80.00', '200.00', '120.00', 3, 2, 2, 2, 1),
-(262, 'lorem ipsum', 'lorem ipsum', '2018-05-08', '80.00', '200.00', '120.00', 2, 1, 3, 1, 7),
-(263, 'lorem ipsum', 'lorem ipsum', '2018-05-11', '120.00', '220.00', '100.00', 2, 2, 1, 1, 6),
-(264, 'lorem ipsum', 'lorem ipsum', '2018-05-11', '120.00', '300.00', '180.00', 2, 1, 3, 1, 2),
-(265, 'lorem ipsum', 'lorem ipsum', '2018-05-16', '20.00', '200.00', '180.00', 4, 1, 2, 2, 2),
-(266, 'lorem ipsum', 'lorem ipsum', '2018-05-17', '80.00', '200.00', '120.00', 3, 1, 2, 3, 3),
-(267, 'lorem ipsum', 'lorem ipsum', '2018-05-18', '160.00', '200.00', '40.00', 2, 2, 3, 4, 1),
-(268, 'lorem ipsum', 'lorem ipsum', '2018-05-19', '100.00', '200.00', '100.00', 4, 1, 2, 2, 1),
-(269, 'lorem ipsum', 'lorem ipsum', '2018-05-22', '120.00', '200.00', '80.00', 2, 2, 3, 1, 2),
-(270, 'lorem ipsum', 'lorem ipsum', '2018-05-22', '50.00', '100.00', '50.00', 5, 2, 2, 2, 3),
-(271, 'lorem ipsum', 'lorem ipsum', '2018-05-23', '60.00', '200.00', '140.00', 2, 1, 1, 2, 5),
-(272, 'lorem ipsum', 'lorem ipsum', '2018-05-24', '80.00', '100.00', '80.00', 3, 2, 1, 3, 3),
-(273, 'lorem ipsum', 'lorem ipsum', '2018-05-27', '40.00', '160.00', '120.00', 2, 2, 1, 1, 1),
-(274, 'lorem ipsum', 'lorem ipsum', '2018-05-27', '120.00', '400.00', '280.00', 4, 1, 1, 2, 2),
-(275, 'lorem ipsum', 'lorem ipsum', '2018-06-05', '20.00', '200.00', '180.00', 2, 1, 2, 2, 2),
-(276, 'lorem ipsum', 'lorem ipsum', '2018-06-08', '80.00', '200.00', '120.00', 3, 2, 2, 3, 3),
-(277, 'lorem ipsum', 'lorem ipsum', '2018-06-08', '60.00', '100.00', '40.00', 2, 2, 2, 4, 1),
-(278, 'lorem ipsum', 'lorem ipsum', '2018-06-13', '100.00', '200.00', '100.00', 2, 1, 2, 2, 2),
-(279, 'lorem ipsum', 'lorem ipsum', '2018-06-14', '120.00', '200.00', '80.00', 2, 2, 3, 1, 3),
-(280, 'lorem ipsum', 'lorem ipsum', '2018-06-14', '50.00', '100.00', '50.00', 1, 2, 2, 2, 5),
-(281, 'lorem ipsum', 'lorem ipsum', '2018-06-16', '60.00', '200.00', '140.00', 2, 1, 1, 2, 2),
-(282, 'lorem ipsum', 'lorem ipsum', '2018-06-21', '100.00', '200.00', '100.00', 3, 2, 1, 3, 3),
-(283, 'lorem ipsum', 'lorem ipsum', '2018-06-25', '40.00', '260.00', '220.00', 2, 2, 1, 1, 3),
-(284, 'lorem ipsum', 'lorem ipsum', '2018-06-26', '20.00', '100.00', '80.00', 4, 2, 1, 1, 1),
-(285, 'lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra augue eu lobortis mattis. Cras vel mi faucibus, gravida est a, facilisis sem.', '2018-07-05', '20.00', '100.00', '80.00', 3, 1, 1, 3, 9),
-(286, 'test edit of data', 'test edit of data', '2018-07-08', '70.00', '250.00', '180.00', 4, 1, 1, 4, 9),
-(287, 'test add of data', 'test add of ', '2018-07-09', '60.00', '230.00', '170.00', 5, 2, 1, 3, 9),
-(288, 'test input 2', 'test input 2', '2018-07-09', '20.00', '120.00', '100.00', 5, 2, 1, 1, 9),
-(289, 'sample input with default values', 'sample input with default values', '2018-07-16', '130.00', '650.00', '520.00', 5, 2, 2, 4, 9),
-(290, 'test input 2 with default values', 'test input 2 with default values', '2018-07-16', '50.00', '440.00', '390.00', 3, 2, 1, 4, 9),
-(291, 'sample input from the index page', 'sample input from the index page', '2018-07-16', '40.00', '190.00', '150.00', 3, 1, 3, 3, 14),
-(292, 'test input with 0 value final cost', 'test input with 0 value final cost', '2018-07-18', '120.00', '120.00', '0.00', 6, 2, 1, 2, 9);
+INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, `csInitial`, `csFinal`, `teamID`, `techID`, `envID`, `typeID`, `projectID`, `userID`) VALUES
+(1, 'lorem', 'ipsum', '2018-07-03', '20.00', '120.00', '100.00', 5, 2, 3, 3, 0, 9),
+(2, 'test input 2', 'test input 2', '2018-07-03', '50.00', '250.00', '200.00', 5, 2, 1, 3, 0, 9),
+(3, 'test ', 'test', '2018-07-03', '80.00', '200.00', '120.00', 2, 1, 2, 2, 0, 9),
+(4, 'hello', 'world', '2018-06-29', '150.00', '1200.00', '1050.00', 4, 2, 1, 2, 0, 9),
+(5, 'test', 'test', '2018-06-26', '20.00', '100.00', '80.00', 4, 1, 2, 4, 0, 9),
+(192, 'lorem ipsum', 'lorem ipsum', '2018-01-01', '80.00', '200.00', '120.00', 1, 1, 1, 1, 0, 5),
+(193, 'lorem ipsum', 'lorem ipsum', '2018-01-04', '100.00', '200.00', '100.00', 4, 2, 2, 2, 0, 2),
+(194, 'lorem ipsum', 'lorem ipsum', '2018-01-07', '120.00', '200.00', '80.00', 4, 2, 1, 3, 0, 3),
+(195, 'lorem ipsum', 'lorem ipsum', '2018-01-08', '70.00', '200.00', '130.00', 1, 2, 1, 2, 0, 1),
+(196, 'lorem ipsum', 'lorem ipsum', '2018-01-12', '50.00', '170.00', '120.00', 3, 1, 2, 2, 0, 1),
+(197, 'lorem ipsum', 'lorem ipsum', '2018-01-13', '50.00', '200.00', '150.00', 2, 1, 3, 1, 0, 4),
+(198, 'lorem ipsum', 'lorem ipsum', '2018-01-13', '100.00', '220.00', '120.00', 2, 1, 1, 1, 0, 6),
+(199, 'lorem ipsum', 'lorem ipsum', '2018-01-14', '100.00', '300.00', '200.00', 2, 1, 1, 1, 0, 2),
+(200, 'lorem ipsum', 'lorem ipsum', '2018-01-16', '120.00', '200.00', '80.00', 4, 1, 2, 2, 0, 1),
+(201, 'lorem ipsum', 'lorem ipsum', '2018-01-18', '80.00', '200.00', '120.00', 3, 1, 2, 3, 0, 2),
+(202, 'lorem ipsum', 'lorem ipsum', '2018-01-20', '60.00', '200.00', '140.00', 1, 2, 3, 4, 0, 4),
+(203, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '100.00', '300.00', '200.00', 4, 1, 3, 2, 0, 7),
+(204, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '20.00', '100.00', '80.00', 1, 1, 1, 1, 0, 8),
+(205, 'lorem ipsum', 'lorem ipsum', '2018-01-21', '50.00', '100.00', '50.00', 5, 2, 2, 1, 0, 6),
+(206, 'lorem ipsum', 'lorem ipsum', '2018-01-22', '60.00', '200.00', '120.00', 1, 2, 1, 2, 0, 3),
+(207, 'lorem ipsum', 'lorem ipsum', '2018-01-26', '80.00', '200.00', '120.00', 3, 1, 1, 3, 0, 4),
+(208, 'lorem ipsum', 'lorem ipsum', '2018-01-27', '80.00', '200.00', '120.00', 2, 2, 1, 1, 0, 7),
+(209, 'lorem ipsum', 'lorem ipsum', '2018-01-27', '120.00', '400.00', '280.00', 4, 2, 2, 1, 0, 2),
+(210, 'lorem ipsum', 'lorem ipsum', '2018-02-03', '80.00', '200.00', '120.00', 1, 2, 2, 1, 0, 7),
+(211, 'lorem ipsum', 'lorem ipsum', '2018-02-05', '100.00', '200.00', '100.00', 4, 2, 1, 2, 0, 1),
+(212, 'lorem ipsum', 'lorem ipsum', '2018-02-07', '120.00', '200.00', '80.00', 4, 2, 1, 3, 0, 1),
+(213, 'lorem ipsum', 'lorem ipsum', '2018-02-11', '70.00', '200.00', '130.00', 2, 2, 2, 2, 0, 3),
+(214, 'lorem ipsum', 'lorem ipsum', '2018-02-12', '80.00', '200.00', '120.00', 3, 2, 2, 2, 0, 4),
+(215, 'lorem ipsum', 'lorem ipsum', '2018-02-12', '80.00', '200.00', '120.00', 2, 1, 1, 1, 0, 8),
+(216, 'lorem ipsum', 'lorem ipsum', '2018-02-13', '100.00', '220.00', '120.00', 2, 2, 1, 1, 0, 2),
+(217, 'lorem ipsum', 'lorem ipsum', '2018-02-14', '120.00', '300.00', '180.00', 2, 1, 3, 1, 0, 2),
+(218, 'lorem ipsum', 'lorem ipsum', '2018-02-16', '120.00', '200.00', '80.00', 4, 1, 2, 2, 0, 1),
+(219, 'lorem ipsum', 'lorem ipsum', '2018-02-18', '80.00', '200.00', '120.00', 3, 1, 2, 3, 0, 2),
+(220, 'lorem ipsum', 'lorem ipsum', '2018-02-19', '60.00', '200.00', '140.00', 2, 2, 3, 4, 0, 9),
+(221, 'lorem ipsum', 'lorem ipsum', '2018-02-22', '100.00', '300.00', '200.00', 4, 1, 2, 2, 0, 6),
+(222, 'lorem ipsum', 'lorem ipsum', '2018-02-22', '120.00', '200.00', '80.00', 2, 2, 3, 1, 0, 4),
+(223, 'lorem ipsum', 'lorem ipsum', '2018-02-23', '50.00', '100.00', '50.00', 5, 2, 2, 2, 0, 9),
+(224, 'lorem ipsum', 'lorem ipsum', '2018-02-24', '60.00', '200.00', '140.00', 2, 1, 1, 2, 0, 4),
+(225, 'lorem ipsum', 'lorem ipsum', '2018-02-25', '100.00', '210.00', '110.00', 3, 1, 1, 3, 0, 2),
+(226, 'lorem ipsum', 'lorem ipsum', '2018-02-26', '210.00', '160.00', '50.00', 2, 2, 1, 1, 0, 1),
+(227, 'lorem ipsum', 'lorem ipsum', '2018-02-26', '120.00', '400.00', '280.00', 4, 1, 1, 2, 0, 2),
+(228, 'lorem ipsum', 'lorem ipsum', '2018-03-02', '80.00', '200.00', '120.00', 2, 1, 2, 1, 0, 4),
+(229, 'lorem ipsum', 'lorem ipsum', '2018-03-03', '100.00', '200.00', '100.00', 4, 1, 1, 2, 0, 2),
+(230, 'lorem ipsum', 'lorem ipsum', '2018-03-03', '120.00', '200.00', '80.00', 4, 2, 2, 3, 0, 1),
+(231, 'lorem ipsum', 'lorem ipsum', '2018-03-04', '70.00', '200.00', '130.00', 2, 2, 1, 1, 0, 1),
+(232, 'lorem ipsum', 'lorem ipsum', '2018-03-05', '50.00', '200.00', '150.00', 3, 2, 2, 3, 0, 2),
+(233, 'lorem ipsum', 'lorem ipsum', '2018-03-07', '100.00', '200.00', '100.00', 2, 1, 2, 1, 0, 3),
+(234, 'lorem ipsum', 'lorem ipsum', '2018-03-11', '100.00', '220.00', '120.00', 2, 2, 2, 1, 0, 3),
+(235, 'lorem ipsum', 'lorem ipsum', '2018-03-12', '120.00', '300.00', '180.00', 2, 2, 3, 1, 0, 4),
+(236, 'lorem ipsum', 'lorem ipsum', '2018-03-13', '120.00', '200.00', '80.00', 4, 2, 2, 2, 0, 5),
+(237, 'lorem ipsum', 'lorem ipsum', '2018-03-16', '80.00', '200.00', '120.00', 2, 1, 2, 3, 0, 6),
+(238, 'lorem ipsum', 'lorem ipsum', '2018-03-17', '60.00', '200.00', '140.00', 1, 2, 3, 4, 0, 1),
+(239, 'lorem ipsum', 'lorem ipsum', '2018-03-18', '110.00', '300.00', '190.00', 4, 2, 2, 2, 0, 2),
+(240, 'lorem ipsum', 'lorem ipsum', '2018-03-20', '20.00', '200.00', '180.00', 2, 1, 3, 1, 0, 3),
+(241, 'lorem ipsum', 'lorem ipsum', '2018-03-21', '150.00', '200.00', '50.00', 5, 2, 2, 2, 0, 2),
+(242, 'lorem ipsum', 'lorem ipsum', '2018-03-21', '160.00', '200.00', '40.00', 2, 1, 1, 2, 0, 5),
+(243, 'lorem ipsum', 'lorem ipsum', '2018-03-22', '100.00', '210.00', '110.00', 1, 2, 2, 3, 0, 1),
+(244, 'lorem ipsum', 'lorem ipsum', '2018-03-24', '210.00', '160.00', '50.00', 2, 1, 1, 1, 0, 2),
+(245, 'lorem ipsum', 'lorem ipsum', '2018-03-25', '120.00', '200.00', '80.00', 4, 2, 1, 2, 0, 3),
+(246, 'lorem ipsum', 'lorem ipsum', '2018-03-26', '120.00', '400.00', '280.00', 2, 2, 1, 2, 0, 3),
+(247, 'lorem ipsum', 'lorem ipsum', '2018-03-27', '20.00', '100.00', '80.00', 4, 1, 1, 2, 0, 5),
+(248, 'lorem ipsum', 'lorem ipsum', '2018-04-15', '150.00', '300.00', '150.00', 1, 2, 2, 3, 0, 2),
+(249, 'lorem ipsum', 'lorem ipsum', '2018-04-17', '100.00', '200.00', '100.00', 1, 1, 2, 1, 0, 2),
+(250, 'lorem ipsum', 'lorem ipsum', '2018-04-21', '100.00', '220.00', '120.00', 2, 2, 2, 1, 0, 1),
+(251, 'lorem ipsum', 'lorem ipsum', '2018-04-22', '120.00', '300.00', '180.00', 2, 1, 2, 1, 0, 2),
+(252, 'lorem ipsum', 'lorem ipsum', '2018-04-23', '120.00', '200.00', '80.00', 4, 1, 2, 2, 0, 1),
+(253, 'lorem ipsum', 'lorem ipsum', '2018-04-26', '80.00', '200.00', '120.00', 2, 1, 2, 3, 0, 1),
+(254, 'lorem ipsum', 'lorem ipsum', '2018-04-27', '60.00', '200.00', '140.00', 1, 2, 3, 4, 0, 3),
+(255, 'lorem ipsum', 'lorem ipsum', '2018-04-28', '110.00', '300.00', '190.00', 4, 1, 1, 2, 0, 4),
+(256, 'lorem ipsum', 'lorem ipsum', '2018-04-28', '20.00', '200.00', '180.00', 2, 1, 1, 1, 0, 1),
+(257, 'lorem ipsum', 'lorem ipsum', '2018-05-01', '80.00', '200.00', '120.00', 1, 2, 2, 1, 0, 2),
+(258, 'lorem ipsum', 'lorem ipsum', '2018-05-02', '100.00', '200.00', '100.00', 4, 2, 1, 2, 0, 3),
+(259, 'lorem ipsum', 'lorem ipsum', '2018-05-05', '80.00', '200.00', '120.00', 4, 2, 1, 3, 0, 2),
+(260, 'lorem ipsum', 'lorem ipsum', '2018-05-06', '70.00', '200.00', '130.00', 2, 2, 2, 2, 0, 4),
+(261, 'lorem ipsum', 'lorem ipsum', '2018-05-07', '80.00', '200.00', '120.00', 3, 2, 2, 2, 0, 1),
+(262, 'lorem ipsum', 'lorem ipsum', '2018-05-08', '80.00', '200.00', '120.00', 2, 1, 3, 1, 0, 7),
+(263, 'lorem ipsum', 'lorem ipsum', '2018-05-11', '120.00', '220.00', '100.00', 2, 2, 1, 1, 0, 6),
+(264, 'lorem ipsum', 'lorem ipsum', '2018-05-11', '120.00', '300.00', '180.00', 2, 1, 3, 1, 0, 2),
+(265, 'lorem ipsum', 'lorem ipsum', '2018-05-16', '20.00', '200.00', '180.00', 4, 1, 2, 2, 0, 2),
+(266, 'lorem ipsum', 'lorem ipsum', '2018-05-17', '80.00', '200.00', '120.00', 3, 1, 2, 3, 4, 3),
+(267, 'lorem ipsum', 'lorem ipsum', '2018-05-18', '160.00', '200.00', '40.00', 2, 2, 3, 4, 0, 1),
+(268, 'lorem ipsum', 'lorem ipsum', '2018-05-19', '100.00', '200.00', '100.00', 4, 1, 2, 2, 0, 1),
+(269, 'lorem ipsum', 'lorem ipsum', '2018-05-22', '120.00', '200.00', '80.00', 2, 2, 3, 1, 0, 2),
+(270, 'lorem ipsum', 'lorem ipsum', '2018-05-22', '50.00', '100.00', '50.00', 5, 2, 2, 2, 0, 3),
+(271, 'lorem ipsum', 'lorem ipsum', '2018-05-23', '60.00', '200.00', '140.00', 2, 1, 1, 2, 0, 5),
+(272, 'lorem ipsum', 'lorem ipsum', '2018-05-24', '80.00', '100.00', '80.00', 3, 2, 1, 3, 4, 3),
+(273, 'lorem ipsum', 'lorem ipsum', '2018-05-27', '40.00', '160.00', '120.00', 2, 2, 1, 1, 0, 1),
+(274, 'lorem ipsum', 'lorem ipsum', '2018-05-27', '120.00', '400.00', '280.00', 4, 1, 1, 2, 0, 2),
+(275, 'lorem ipsum', 'lorem ipsum', '2018-06-05', '20.00', '200.00', '180.00', 2, 1, 2, 2, 0, 2),
+(276, 'lorem ipsum', 'lorem ipsum', '2018-06-08', '80.00', '200.00', '120.00', 3, 2, 2, 3, 1, 3),
+(277, 'lorem ipsum', 'lorem ipsum', '2018-06-08', '60.00', '100.00', '40.00', 2, 2, 2, 4, 0, 1),
+(278, 'lorem ipsum', 'lorem ipsum', '2018-06-13', '100.00', '200.00', '100.00', 2, 1, 2, 2, 0, 2),
+(279, 'lorem ipsum', 'lorem ipsum', '2018-06-14', '120.00', '200.00', '80.00', 2, 2, 3, 1, 0, 3),
+(280, 'lorem ipsum', 'lorem ipsum', '2018-06-14', '50.00', '100.00', '50.00', 1, 2, 2, 2, 0, 5),
+(281, 'lorem ipsum', 'lorem ipsum', '2018-06-16', '60.00', '200.00', '140.00', 2, 1, 1, 2, 0, 2),
+(282, 'lorem ipsum', 'lorem ipsum', '2018-06-21', '100.00', '200.00', '100.00', 3, 2, 1, 3, 4, 3),
+(283, 'lorem ipsum', 'lorem ipsum', '2018-06-25', '40.00', '260.00', '220.00', 2, 2, 1, 1, 0, 3),
+(284, 'lorem ipsum', 'lorem ipsum', '2018-06-26', '20.00', '100.00', '80.00', 4, 2, 1, 1, 0, 1),
+(285, 'lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra augue eu lobortis mattis. Cras vel mi faucibus, gravida est a, facilisis sem.', '2018-07-05', '20.00', '100.00', '80.00', 3, 1, 1, 3, 4, 9),
+(286, 'test edit of data', 'test edit of data', '2018-07-08', '70.00', '250.00', '180.00', 4, 1, 1, 4, 0, 9),
+(287, 'test add of data', 'test add of ', '2018-07-09', '60.00', '230.00', '170.00', 5, 2, 1, 3, 0, 9),
+(288, 'test input 2', 'test input 2', '2018-07-09', '20.00', '120.00', '100.00', 5, 2, 1, 1, 0, 9),
+(289, 'sample input with default values', 'sample input with default values', '2018-07-16', '130.00', '650.00', '520.00', 5, 2, 2, 4, 3, 9),
+(290, 'test input 2 with default values', 'test input 2 with default values', '2018-07-16', '50.00', '440.00', '390.00', 3, 2, 1, 4, 1, 9),
+(291, 'sample input from the index page', 'sample input from the index page', '2018-07-16', '40.00', '190.00', '150.00', 3, 1, 3, 3, 1, 14),
+(292, 'test input with 0 value final cost', 'test input with 0 value final cost', '2018-07-18', '120.00', '120.00', '0.00', 6, 2, 1, 2, 2, 9),
+(293, 'wwwwwwwwwwwwww', 'wwwwwwwwwwwwwww', '2018-07-30', '40.00', '200.00', '160.00', 3, 2, 1, 3, 4, 9),
+(294, 'qqqqqqqqq', 'qqqqwwwwwq', '2018-07-30', '35.00', '200.00', '165.00', 5, 2, 3, 1, 3, 9),
+(295, 'test input for project dropdown 2', 'test input for dropdown 2', '2018-07-30', '70.00', '250.00', '180.00', 6, 1, 3, 4, 1, 9),
+(296, 'test input - project with logs', 'test input - project with logs', '2018-07-30', '90.00', '300.00', '210.00', 1, 2, 1, 4, 5, 9),
+(297, 'test input - projects with logs', 'test input - projects with logs', '2018-07-30', '90.00', '300.00', '210.00', 1, 2, 1, 4, 5, 9),
+(298, 'pppppppppppppp', 'pppppppppppppp', '2018-07-30', '80.00', '100.00', '20.00', 3, 2, 1, 3, 3, 9),
+(299, 'test for proj input with logs', 'test for proj input with logs', '2018-07-30', '90.00', '300.00', '210.00', 1, 2, 1, 4, 3, 9),
+(300, 'test add for view page', 'test add for view page', '2018-07-30', '130.00', '800.00', '670.00', 2, 2, 1, 3, 1, 9),
+(301, 'test input 2 for view', 'test input 2 for view', '2018-07-30', '60.00', '200.00', '140.00', 6, 1, 2, 4, 5, 9),
+(302, 'test input 3 for view', 'test input 3 for view', '2018-07-30', '30.00', '200.00', '170.00', 4, 2, 1, 3, 4, 9);
 
 -- --------------------------------------------------------
 
@@ -337,7 +348,47 @@ INSERT INTO `logs` (`logID`, `logDate`, `logUser`, `logEvent`) VALUES
 (59, '2018-07-26 11:22:44', 'Mark Castillo', 'Logged out of the system'),
 (60, '2018-07-26 11:23:05', 'Mark Castillo', 'Logged in into the system'),
 (61, '2018-07-26 11:24:40', 'Mark Castillo', 'Archived Antonio Akyatpanaog\'s account (account ID #10)'),
-(62, '2018-07-26 11:24:53', 'Mark Castillo', '');
+(62, '2018-07-26 11:24:53', 'Mark Castillo', ''),
+(63, '2018-07-27 14:06:18', 'Ashton Foreman', 'Logged in into the system'),
+(64, '2018-07-30 09:55:50', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-30, with a total savings of $40'),
+(65, '2018-07-30 13:31:39', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-30, with a total savings of $35'),
+(66, '2018-07-30 13:35:04', 'Mark Castillo', 'Updated their account information.'),
+(67, '2018-07-30 13:50:08', 'Mark Castillo', 'Added a new cost savings entry dated 2018-07-30, with a total savings of $70'),
+(68, '2018-07-30 14:13:36', 'Mark Castillo', 'Added a new cost savings entry for the project , with a total savings of $90'),
+(69, '2018-07-30 14:14:38', 'Mark Castillo', 'Added a new cost savings entry for the project , with a total savings of $90'),
+(70, '2018-07-30 14:15:21', 'Mark Castillo', 'Added a new cost savings entry for the project , with a total savings of $80'),
+(71, '2018-07-30 14:16:22', 'Mark Castillo', 'Added a new cost savings entry for the project Project 3, with a total savings of $90'),
+(72, '2018-07-30 14:27:29', 'Mark Castillo', 'Added a new cost savings entry for the project Project 1, with a total savings of $130'),
+(73, '2018-07-30 14:28:33', 'Mark Castillo', 'Added a new cost savings entry for the project Project 5, with a total savings of $60'),
+(74, '2018-07-30 14:29:12', 'Mark Castillo', 'Added a new cost savings entry for the project Project 4, with a total savings of $30'),
+(75, '2018-07-30 14:50:42', 'Mark Castillo', 'Added a new project: Project ABC'),
+(76, '2018-07-30 14:52:07', 'Mark Castillo', 'Added a new project: Project ABC'),
+(77, '2018-07-31 11:07:33', 'Mark Castillo', 'Updated record #3 of projects from \'Project 3\' to \'Project 3 Test\'');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `projects`
+--
+
+CREATE TABLE `projects` (
+  `projectID` int(11) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
+  `projectDescription` varchar(300) NOT NULL,
+  `projectStatus` tinyint(4) NOT NULL COMMENT '1-active; 2-something..; etc.'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`projectID`, `projectName`, `projectDescription`, `projectStatus`) VALUES
+(1, 'Project 1', 'Hello World', 1),
+(2, 'Project 2', 'hesoyam', 1),
+(3, 'Project 3 Test', 'Test update for project information', 1),
+(4, 'Project 4', '12345', 1),
+(5, 'Project 5', '54321', 1),
+(6, 'Project ABC', 'This is a test input using the add form', 0);
 
 -- --------------------------------------------------------
 
@@ -407,7 +458,7 @@ INSERT INTO `users` (`userID`, `userFN`, `userLN`, `envID`, `teamID`, `techID`) 
 (6, 'Jane', 'Doe', NULL, NULL, NULL),
 (7, 'John', 'Doe', NULL, NULL, NULL),
 (8, 'Lorem', 'Ipsum', NULL, NULL, NULL),
-(9, 'Mark', 'Castillo', 1, 3, 2),
+(9, 'Mark', 'Castillo', 1, 0, 2),
 (10, 'Antonio', 'Akyatpanaog', NULL, NULL, NULL),
 (11, 'Cameron', 'Leblanc', NULL, NULL, NULL),
 (12, 'Rebecca', 'Winters', NULL, NULL, NULL),
@@ -444,7 +495,7 @@ ALTER TABLE `costsavings`
   ADD KEY `teamID` (`teamID`),
   ADD KEY `costsavings_ibfk_3` (`techID`),
   ADD KEY `costsavings_ibfk_4` (`typeID`),
-  ADD KEY `userID` (`userID`);
+  ADD KEY `costsavings_ibfk_5` (`userID`);
 
 --
 -- Indexes for table `environments`
@@ -463,6 +514,12 @@ ALTER TABLE `journeyteams`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`logID`);
+
+--
+-- Indexes for table `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`projectID`);
 
 --
 -- Indexes for table `savingtypes`
@@ -502,7 +559,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `costsavings`
 --
 ALTER TABLE `costsavings`
-  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
+  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- AUTO_INCREMENT for table `environments`
@@ -520,7 +577,13 @@ ALTER TABLE `journeyteams`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
+--
+-- AUTO_INCREMENT for table `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `savingtypes`
@@ -552,7 +615,7 @@ ALTER TABLE `costsavings`
   ADD CONSTRAINT `costsavings_ibfk_2` FOREIGN KEY (`teamID`) REFERENCES `journeyteams` (`teamID`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `costsavings_ibfk_3` FOREIGN KEY (`techID`) REFERENCES `technologies` (`techID`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `costsavings_ibfk_4` FOREIGN KEY (`typeID`) REFERENCES `savingtypes` (`typeID`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `costsavings_ibfk_5` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+  ADD CONSTRAINT `costsavings_ibfk_5` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
