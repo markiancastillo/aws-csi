@@ -117,6 +117,7 @@
                         <li class="<?php echo $pageTitle === 'Cost Savings Types' ? 'active' : ''; ?>"><a href="add_type.php">Cost Savings Types</a></li>
                         <li class="<?php echo $pageTitle === 'Environments' ? 'active' : ''; ?>"><a href="add_env.php">Environments</a></li>
                         <li class="<?php echo $pageTitle === 'Journey Teams' ? 'active' : ''; ?>"><a href="add_jt.php">Journey Teams</a></li>
+                        <li class="<?php echo $pageTitle === 'Projects' ? 'active' : ''; ?>"><a href="add_proj.php">Projects</a></li>
                     </ul>
                 </li>
                 <li class="nav-item <?php echo $pageTitle === 'Manage Access' ? 'active' : ''; ?>" data-toggle="tooltip" data-placement="right" title="Manage Access" <?php echo $accessLevel == 1 ? '' : 'style="display: none;"'; ?>>

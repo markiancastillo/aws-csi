@@ -7,10 +7,10 @@
 	}
 
 	# Used by the view.php and index.php's modal for adding a new record
-	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID)
+	function addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $inpProj, $userID)
 	{
-		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt_insert->bind_param("sssdddiiiii", $inpCause, $inpSteps, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType, $userID);
+		$stmt_insert = $con->prepare("INSERT INTO costsavings (csCause, csSteps, csDate, csSavings, csInitial, csFinal, teamID, techID, envID, typeID, projectID, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt_insert->bind_param("sssdddiiiiii", $inpCause, $inpSteps, $inpDate, $totSavings, $inpInitial, $inpFinal, $inpTeam, $inpTech, $inpEnv, $inpType, $inpProj, $userID);
 		$stmt_insert->execute() or die(mysqli_error($con));
 
 		$msgDisplay = successAlert("Successfully inserted a new record.");
@@ -125,6 +125,23 @@
 		return $arrowIcon;
 	}
 
+	function getProjectName($con, $inpProj)
+	{
+		# Get the project name for the audit text
+		$sql_projName = $con->prepare("SELECT projectName FROM projects WHERE projectID = ?");
+		$sql_projName->bind_param("i", $inpProj);
+		$sql_projName->execute();
+
+		$result_projName = $sql_projName->get_result();
+
+		while($row = mysqli_fetch_array($result_projName))
+		{
+			$projName = $row['projectName'];
+		}
+
+		return $projName;
+	}
+
 	# 
 	function getUserID($con, $accID)
 	{
@@ -200,6 +217,23 @@
 		}
 
 		return $list_env;
+	}
+
+	function listProjects($con)
+	{
+		$sql_proj = "SELECT projectID, projectName FROM projects";
+		$result_proj = $con->query($sql_proj) or die(mysqli_error($con));
+
+		$list_proj = "";
+		while($row = mysqli_fetch_array($result_proj))
+		{
+			$projectID = ($row['projectID']);
+			$projectName = htmlspecialchars($row['projectName']);
+
+			$list_proj .= "<option value='$projectID'>$projectName</option>";
+		}
+
+		return $list_proj;
 	}
 
 	#Gets the list of status (roles) related to a user's account

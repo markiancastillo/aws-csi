@@ -39,6 +39,7 @@
             $inpEnv = mysqli_real_escape_string($con, $_POST['inpEnv']);
             $inpTech = mysqli_real_escape_string($con, $_POST['inpTech']);
             $inpType = mysqli_real_escape_string($con, $_POST['inpType']);
+            $inpProj = mysqli_real_escape_string($con, $_POST['inpProj']);
             # Rremove the commas from the money input
             $inpInitial = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpInitial']));
             $inpFinal = str_replace(",", "", mysqli_real_escape_string($con, $_POST['inpFinal']));
@@ -49,9 +50,11 @@
             #$inpName = mysqli_real_escape_string($con, $_POST['inpName']); -- will be automatically added via session ID
             $inpDate = mysqli_real_escape_string($con, $_POST['inpDate']);
     
-            addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $userID);
+            addRecord($con, $inpTeam, $inpEnv, $inpTech, $inpType, $inpInitial, $inpFinal, $totSavings, $inpCause, $inpSteps, $inpDate, $inpProj, $userID);
 
-            $txtEvent = "Added a new cost savings entry dated " . $inpDate . ", with a total savings of $" . $totSavings;
+            $projName = getProjectName($con, $inpProj);
+
+            $txtEvent = "Added a new cost savings entry for the project " . $projName . ", with a total savings of $" . $totSavings;
             logEvent($con, $accID, $txtEvent);
 
             $msgDisplay = successAlert("Successfully added a new record!");

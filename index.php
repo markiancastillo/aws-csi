@@ -118,12 +118,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="inpType">Cost Savings Type</label>
                                 <select class="form-control" name="inpType" id="inpType" required="true">
                                     <option selected="true" disabled="true">Choose one...</option>
                                     <?php echo listTypes($con); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="inpProj">Project Group</label>
+                                <select class="form-control" name="inpProj" id="inpProj" required="true">
+                                    <option selected="true" disabled="true">Choose one...</option>
+                                    <?php echo listProjects($con); ?>
                                 </select>
                             </div>
                         </div>

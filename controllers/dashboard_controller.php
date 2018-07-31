@@ -267,7 +267,7 @@
 			$teams_list = '["' . implode('", "', $teamArray) . '"],';		# Output: ['team1', 'team2', ...],
 
 		# Filtered breakdown by projects (will replace the team pie chart when the filter is set)
-			$sql_proj_filtered = $sql_proj . " AND c.teamID = $valFilter GROUP BY c.teamID";
+			$sql_proj_filtered = $sql_proj . " AND c.teamID = $valFilter GROUP BY c.projectID";
 			$result_proj = $con->query($sql_proj_filtered) or die(mysqli_error($con));
 
 			while($row = mysqli_fetch_array($result_proj))
