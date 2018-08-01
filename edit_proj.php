@@ -21,7 +21,7 @@
 				</div>
 				<div class="card-footer">
 					<button class="btn btn-primary float-right" id="btnSave" name="btnSave">Save Changes</button>
-					<a href="add_env.php" class="btn btn-secondary"><i class="fa fa-angle-left fa-fw"></i> Back to List</a>
+					<a href="add_proj.php" class="btn btn-secondary"><i class="fa fa-angle-left fa-fw"></i> Back to List</a>
 				</div>
 			</form>
 		</div>

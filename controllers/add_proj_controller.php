@@ -65,7 +65,8 @@
 			}
 			else
 			{
-				$stmt_insert = $con->prepare("INSERT INTO projects (projectName, projectDescription) VALUES (?, ?)");
+				# Insert the record with default status set to '1' for an 'Active' status
+				$stmt_insert = $con->prepare("INSERT INTO projects (projectName, projectDescription, projectStatus) VALUES (?, ?, 1)");
 				$stmt_insert->bind_param("ss", $inpName, $inpDesc);
 				$stmt_insert->execute();
 

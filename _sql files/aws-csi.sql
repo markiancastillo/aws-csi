@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2018 at 05:28 AM
+-- Generation Time: Aug 01, 2018 at 08:14 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 5.6.35
 
@@ -224,7 +224,9 @@ INSERT INTO `costsavings` (`csID`, `csCause`, `csSteps`, `csDate`, `csSavings`, 
 (299, 'test for proj input with logs', 'test for proj input with logs', '2018-07-30', '90.00', '300.00', '210.00', 1, 2, 1, 4, 3, 9),
 (300, 'test add for view page', 'test add for view page', '2018-07-30', '130.00', '800.00', '670.00', 2, 2, 1, 3, 1, 9),
 (301, 'test input 2 for view', 'test input 2 for view', '2018-07-30', '60.00', '200.00', '140.00', 6, 1, 2, 4, 5, 9),
-(302, 'test input 3 for view', 'test input 3 for view', '2018-07-30', '30.00', '200.00', '170.00', 4, 2, 1, 3, 4, 9);
+(302, 'test input 3 for view', 'test input 3 for view', '2018-07-30', '30.00', '200.00', '170.00', 4, 2, 1, 3, 4, 9),
+(303, '1234567890', '1234567890', '2018-08-01', '50.00', '500.00', '450.00', 1, 2, 2, 2, 6, 9),
+(304, 'qwwwwe', 'qqqqqqqqwwwwe', '2018-08-01', '50.00', '150.00', '100.00', 4, 2, 1, 3, 4, 14);
 
 -- --------------------------------------------------------
 
@@ -363,7 +365,15 @@ INSERT INTO `logs` (`logID`, `logDate`, `logUser`, `logEvent`) VALUES
 (74, '2018-07-30 14:29:12', 'Mark Castillo', 'Added a new cost savings entry for the project Project 4, with a total savings of $30'),
 (75, '2018-07-30 14:50:42', 'Mark Castillo', 'Added a new project: Project ABC'),
 (76, '2018-07-30 14:52:07', 'Mark Castillo', 'Added a new project: Project ABC'),
-(77, '2018-07-31 11:07:33', 'Mark Castillo', 'Updated record #3 of projects from \'Project 3\' to \'Project 3 Test\'');
+(77, '2018-07-31 11:07:33', 'Mark Castillo', 'Updated record #3 of projects from \'Project 3\' to \'Project 3 Test\''),
+(78, '2018-08-01 13:56:44', 'Mark Castillo', 'Added a new project: Project 6'),
+(79, '2018-08-01 14:04:32', 'Mark Castillo', 'Added a new cost savings entry for the project Project ABC, with a total savings of $50'),
+(80, '2018-08-01 14:05:40', 'Mark Castillo', 'Logged out of the system'),
+(81, '2018-08-01 14:05:49', 'Ashton Foreman', 'Logged in into the system'),
+(82, '2018-08-01 14:06:29', 'Ashton Foreman', 'Added a new cost savings entry for the project Project 4, with a total savings of $50'),
+(83, '2018-08-01 14:06:48', 'Ashton Foreman', 'Logged out of the system'),
+(84, '2018-08-01 14:06:56', 'Mark Castillo', 'Logged in into the system'),
+(85, '2018-08-01 14:08:32', 'Mark Castillo', 'Updated record #1 of projects from \'Project 1\' to \'Project 1\'');
 
 -- --------------------------------------------------------
 
@@ -383,12 +393,13 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`projectID`, `projectName`, `projectDescription`, `projectStatus`) VALUES
-(1, 'Project 1', 'Hello World', 1),
+(1, 'Project 1', 'Hello World 123', 1),
 (2, 'Project 2', 'hesoyam', 1),
 (3, 'Project 3 Test', 'Test update for project information', 1),
 (4, 'Project 4', '12345', 1),
 (5, 'Project 5', '54321', 1),
-(6, 'Project ABC', 'This is a test input using the add form', 0);
+(6, 'Project ABC', 'This is a test input using the add form', 1),
+(7, 'Project 6', 'Testing for the project status default on adding a new record', 1);
 
 -- --------------------------------------------------------
 
@@ -559,7 +570,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `costsavings`
 --
 ALTER TABLE `costsavings`
-  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
+  MODIFY `csID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
 
 --
 -- AUTO_INCREMENT for table `environments`
@@ -577,13 +588,13 @@ ALTER TABLE `journeyteams`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `savingtypes`
